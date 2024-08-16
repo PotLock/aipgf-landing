@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useCallback } from "react";
 import { Button } from "@mui/material";
 import Button1 from "./button1";
+import Link from "next/link";
 
 export type FrameComponent1Type = {
   className?: string;
@@ -31,29 +32,34 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
               <b>Funding AGI</b>
             </h1>
             <div className="self-stretch flex flex-row items-center justify-start py-[0rem] pl-[0rem] pr-[21.125rem] gap-[0.75rem] mq450:pr-[1.25rem] mq450:box-border mq825:flex-wrap mq825:pr-[10.563rem] mq825:box-border">
-              <Button
-                className="h-[4.25rem] flex-1 shadow-[0px_0px_0px_2px_#0057ff_inset] min-w-[4.375rem] cursor-pointer"
-                variant="contained"
-                sx={{
-                  textTransform: "none",
-                  color: "#fff",
-                  fontSize: "20",
-                  background: "#0057ff",
-                  borderRadius: "41px",
-                  "&:hover": { background: "#0057ff" },
-                  height: 68,
-                }}
-                onClick={onButtonClick1}
-              >
-                Get Funded
-              </Button>
-              <Button1
-                button="Learn More"
-                onButtonClick3={onButtonClick}
-                propHeight="4.25rem"
-                propWidth="9.75rem"
-                buttonFlex="unset"
-              />
+              <Link target="_blank" href={"https://forum.aipgf.com/"}>
+                <Button
+                  className="h-[4.25rem] font-bold text-[20px] shadow-[0px_0px_0px_2px_#0057ff_inset] min-w-[4.375rem] cursor-pointer"
+                  variant="contained"
+                  sx={{
+                    textTransform: "none",
+                    color: "#fff",
+                    fontSize: "20",
+                    background: "#0057ff",
+                    borderRadius: "41px",
+                    "&:hover": { background: "#0057ff" },
+                    height: 68,
+                    width: 177,
+                  }}
+                  onClick={onButtonClick1}
+                >
+                  Get Funded
+                </Button>
+              </Link>
+              <Link target="_blank" href={"https://aipgf.com/about"}>
+                <Button1
+                  button="Learn More"
+                  onButtonClick3={onButtonClick}
+                  propHeight="4.25rem"
+                  propWidth="9.75rem"
+                  buttonFlex="unset"
+                />
+              </Link>
             </div>
           </div>
         </div>
@@ -85,7 +91,7 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
                 <Button1
                   button="Attach files"
                   propHeight="2.313rem"
-                  propWidth="6.25rem"
+                  propWidth="7.25rem"
                   buttonFlex="unset"
                 />
               </div>

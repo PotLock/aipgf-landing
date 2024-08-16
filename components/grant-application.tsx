@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import Button1 from "./button1";
 import ProposalSteps from "./proposal-steps";
+import { useState } from "react";
+import Link from "next/link";
 
 export type GrantApplicationType = {
   className?: string;
@@ -9,6 +11,8 @@ export type GrantApplicationType = {
 const GrantApplication: NextPage<GrantApplicationType> = ({
   className = "",
 }) => {
+  const [active, setActive] = useState(1);
+
   return (
     <section
       className={`self-stretch flex flex-row items-start justify-start pt-[0rem] px-[5rem] pb-[1.062rem] box-border max-w-full text-left text-[2.5rem] text-grays-black font-p mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
@@ -24,12 +28,14 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
                 Building at the intersection of funding, Web3, and AI? Apply for
                 a grant through our on-chain portal to build open source today!
               </h3>
-              <Button1
-                button="Apply Now"
-                propHeight="4.25rem"
-                propWidth="9.75rem"
-                buttonFlex="unset"
-              />
+              <Link target="_blank" href={"https://aipgf.com/about"}>
+                <Button1
+                  button="Apply Now"
+                  propHeight="4.25rem"
+                  propWidth="9.75rem"
+                  buttonFlex="unset"
+                />
+              </Link>
             </div>
           </div>
         </div>
@@ -69,9 +75,10 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
                 </div>
               </div>
               <img
-                className="h-[2rem] w-[2rem] relative"
+                className="h-[2rem] w-[2rem] relative cursor-pointer"
                 loading="lazy"
                 alt=""
+                role="button"
                 src="/minus.svg"
               />
             </div>

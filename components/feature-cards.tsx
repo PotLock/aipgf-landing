@@ -26,22 +26,12 @@ const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
               Proactive Grants Program
             </h1>
             <Button
-              className="w-[9.663rem] h-[2.594rem] cursor-pointer"
+              className="cursor-pointer"
               endIcon={
                 <img width="18.4px" height="18.4px" src="/arrowupright-2.svg" />
               }
               disableElevation
               variant="outlined"
-              sx={{
-                textTransform: "none",
-                color: "#1c1c1e",
-                fontSize: "16.1",
-                borderColor: "#dadadd",
-                borderRadius: "48.42px",
-                "&:hover": { borderColor: "#dadadd" },
-                width: 154.6,
-                height: 41.5,
-              }}
               onClick={onButtonClick}
             >
               Get Funded

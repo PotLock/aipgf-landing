@@ -24,7 +24,7 @@ const CompanyLogo: NextPage<CompanyLogoType> = ({ className = "" }) => {
 
   return (
     <div
-      className={`self-stretch flex flex-col items-center justify-center py-[3.5rem] px-[3.75rem] gap-[2rem] text-center text-[1.25rem] text-gray-900 font-p mq825:gap-[1rem] mq825:pl-[1.875rem] mq825:pr-[1.875rem] mq825:box-border ${className}`}
+      className={`self-stretch mt-24 flex flex-col items-center justify-center py-[3.5rem] px-[3.75rem] gap-[2rem] text-center text-[1.25rem] text-gray-900 font-p mq825:gap-[1rem] mq825:pl-[1.875rem] mq825:pr-[1.875rem] mq825:box-border ${className}`}
     >
       <h2 className="m-0 self-stretch relative text-inherit tracking-[-0.01em] leading-[1.75rem] font-bold font-[inherit] mq450:text-[1rem] mq450:leading-[1.375rem]">
         Building with the Best
