@@ -55,24 +55,44 @@ const NavBar: NextPage<NavBarType> = ({ className = "" }) => {
           </div>
         </div>
         <nav className="m-0 w-[21.938rem] flex flex-row items-start justify-start gap-[1.312rem] max-w-full text-left text-[0.963rem] text-communityintercomcom-black-pearl font-aipgf-manrope-semibold-1356 mq450:hidden">
-          <a className="[text-decoration:none] relative leading-[2rem] text-[inherit] inline-block min-w-[4.438rem]">
+          <a
+            target="_blank"
+            href="https://gov.aipgf.com/bos.forum.potlock.near/widget/app?page=proposals"
+            className="[text-decoration:none] cursor-pointer relative leading-[2rem] text-[inherit] inline-block min-w-[4.438rem]"
+          >
             Proposals
           </a>
           <nav className="m-0 flex-1 flex flex-row items-start justify-between gap-[1.25rem] text-left text-[0.963rem] text-communityintercomcom-black-pearl font-aipgf-manrope-semibold-1356">
             <div className="flex flex-col items-start justify-start py-[0rem] pl-[0rem] pr-[0.25rem]">
-              <a className="[text-decoration:none] relative leading-[2rem] text-[inherit] inline-block min-w-[2.188rem]">
+              <a
+                href="https://gov.aipgf.com/bos.forum.potlock.near/widget/app?page=rfps"
+                target="_blank"
+                className="[text-decoration:none] cursor-pointer relative leading-[2rem] text-[inherit] inline-block min-w-[2.188rem]"
+              >
                 RFPs
               </a>
             </div>
-            <a className="[text-decoration:none] relative leading-[2rem] text-[inherit] inline-block min-w-[3.75rem]">
+            <a
+              href="https://gov.aipgf.com"
+              target="_blank"
+              className="[text-decoration:none] cursor-pointer relative leading-[2rem] text-[inherit] inline-block min-w-[3.75rem]"
+            >
               Projects
             </a>
             <div className="flex flex-col items-start justify-start py-[0rem] pl-[0rem] pr-[0.625rem]">
-              <a className="[text-decoration:none] relative leading-[2rem] text-[inherit] inline-block min-w-[2.75rem]">
+              <a
+                target="_blank"
+                href="https://potlock.notion.site/a246c8d932ff46f69b49dcd4144e1188?v=6110401a3e1e49a1a59fb3b359e07a4e&pvs=74"
+                className="[text-decoration:none] cursor-pointer relative leading-[2rem] text-[inherit] inline-block min-w-[2.75rem]"
+              >
                 About
               </a>
             </div>
-            <a className="[text-decoration:none] relative leading-[2rem] text-[inherit] inline-block min-w-[2.438rem]">
+            <a
+              target="_blank"
+              href="https://potlock.notion.site/Ai-PGF-Ideas-19544cbfa45949c082811e3bff206455"
+              className="[text-decoration:none] cursor-pointer relative leading-[2rem] text-[inherit] inline-block min-w-[2.438rem]"
+            >
               Ideas
             </a>
           </nav>

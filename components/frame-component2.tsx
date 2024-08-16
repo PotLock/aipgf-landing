@@ -28,7 +28,7 @@ const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
             <Button
               className="w-[6.1rem] h-[2.594rem] cursor-pointer"
               endIcon={
-                <img width="18.4px" height="18.4px" src="/arrowupright.svg" />
+                <img width="18.4px" height="18.4px" src="/arrowupright-3.svg" />
               }
               disableElevation
               variant="outlined"
@@ -106,7 +106,7 @@ const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
                   <img
                     width="18.4px"
                     height="18.4px"
-                    src="/arrowupright-1.svg"
+                    src="/arrowupright-3.svg"
                   />
                 }
                 disableElevation
