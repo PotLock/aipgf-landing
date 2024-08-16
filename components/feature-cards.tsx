@@ -21,8 +21,8 @@ const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
     >
       <div className="flex-1 flex flex-row flex-wrap items-start justify-start gap-[1.5rem] max-w-full">
         <div className="flex-1 rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start pt-[4.437rem] pb-[4.062rem] pl-[2rem] pr-[1.75rem] relative gap-[1.375rem] min-w-[25.5rem] max-w-full mq825:flex-wrap mq825:min-w-full">
-          <div className="flex-1 flex flex-col items-start justify-start gap-[3.812rem] min-w-[11.875rem] mq450:gap-[1.875rem]">
-            <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] mq450:text-[1.438rem] mq825:text-[1.875rem]">
+          <div className="flex-1 flex flex-col items-start justify-start gap-[3.812rem] min-w-[11.875rem] sm:gap-[1.875rem]">
+            <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] sm:text-[1.438rem] mq825:text-[1.875rem]">
               Proactive Grants Program
             </h1>
             <Button
@@ -59,7 +59,7 @@ const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
                 </div>
                 <div className="self-stretch h-[0.113rem] relative bg-aipgf-shark1 shrink-0" />
               </div>
-              <div className="self-stretch flex flex-row items-start justify-end py-[0rem] pl-[3.437rem] pr-[3.375rem] mq450:pl-[1.25rem] mq450:pr-[1.25rem] mq450:box-border">
+              <div className="self-stretch flex flex-row items-start justify-end py-[0rem] pl-[3.437rem] pr-[3.375rem] sm:pl-[1.25rem] sm:pr-[1.25rem] sm:box-border">
                 <div className="h-[7.763rem] flex-1 relative">
                   <div className="absolute h-full top-[0rem] bottom-[0rem] left-[calc(50%_-_70.85px)] w-[7.763rem] overflow-hidden">
                     <div className="absolute top-[0rem] left-[0rem] w-full h-full">
@@ -113,8 +113,8 @@ const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
         </div>
         <div className="flex-1 rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-end justify-start pt-[2.625rem] px-[2rem] pb-[2.75rem] min-w-[25.5rem] max-w-full [row-gap:20px] mq825:flex-wrap mq825:min-w-full">
           <div className="h-[12.425rem] w-[18.25rem] flex flex-col items-start justify-start min-w-[18.25rem] mq825:flex-1">
-            <div className="self-stretch flex flex-col items-start justify-start gap-[3.812rem] mq450:gap-[1.875rem]">
-              <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] mq450:text-[1.438rem] mq825:text-[1.875rem]">
+            <div className="self-stretch flex flex-col items-start justify-start gap-[3.812rem] sm:gap-[1.875rem]">
+              <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] sm:text-[1.438rem] mq825:text-[1.875rem]">
                 Funding AGI
               </h1>
               <div
@@ -137,7 +137,7 @@ const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
           <div className="w-[15.563rem] overflow-hidden shrink-0 flex flex-col items-start justify-start pt-[1.512rem] pb-[5rem] pl-[1.25rem] pr-[1rem] box-border relative min-w-[15.563rem] min-h-[15.563rem] mq825:flex-1">
             <div className="w-[0.538rem] h-[0.538rem] absolute !m-[0] right-[7.394rem] bottom-[1.25rem] rounded-[50%] bg-gainsboro border-grays-black border-[0px] border-solid box-border" />
             <div className="self-stretch flex flex-col items-start justify-start gap-[0.375rem]">
-              <div className="self-stretch flex flex-row items-start justify-between gap-[1.25rem] mq450:flex-wrap">
+              <div className="self-stretch flex flex-row items-start justify-between gap-[1.25rem] sm:flex-wrap">
                 <div className="h-[5.463rem] w-[4.469rem] relative">
                   <img
                     className="absolute top-[0rem] left-[0rem] w-full h-full"

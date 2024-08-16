@@ -69,7 +69,7 @@ const ProposalSteps: NextPage<ProposalStepsType> = ({
       className={`self-stretch border-aipgf-geyser border-[1px] border-solid box-border flex flex-row items-end justify-between pt-[1.062rem] pb-[1.312rem] pl-[1.937rem] pr-[1.812rem] max-w-full gap-[1.25rem] text-left text-[3.75rem] text-aipgf-shark1 font-p lg:flex-wrap ${className}`}
     >
       <div
-        className="w-[52.825rem] flex flex-row items-start justify-start gap-[3.512rem] max-w-full mq450:gap-[1.75rem] mq825:flex-wrap"
+        className="w-[52.825rem] flex flex-row items-start justify-start gap-[3.512rem] max-w-full sm:gap-[1.75rem] mq825:flex-wrap"
         style={proposalStepsContainerStyle}
       >
         <div
@@ -77,7 +77,7 @@ const ProposalSteps: NextPage<ProposalStepsType> = ({
           style={draftStepStyle}
         >
           <div
-            className="relative font-medium inline-block min-w-[4.688rem] mq450:text-[2.25rem] mq825:text-[3rem]"
+            className="relative font-medium inline-block min-w-[4.688rem] sm:text-[2.25rem] mq825:text-[3rem]"
             style={emptyDraftStyle}
           >
             {emptyDraft}
@@ -87,7 +87,7 @@ const ProposalSteps: NextPage<ProposalStepsType> = ({
           className="flex-1 flex flex-col items-start justify-start gap-[0.587rem] min-w-[29rem] max-w-full text-[2.25rem] text-grays-black mq825:min-w-full"
           style={draftContentStyle}
         >
-          <h1 className="m-0 relative text-inherit tracking-[-0.02em] leading-[3rem] font-normal font-[inherit] mq450:text-[1.375rem] mq450:leading-[1.813rem] mq825:text-[1.813rem] mq825:leading-[2.375rem]">
+          <h1 className="m-0 relative text-inherit tracking-[-0.02em] leading-[3rem] font-normal font-[inherit] sm:text-[1.375rem] sm:leading-[1.813rem] mq825:text-[1.813rem] mq825:leading-[2.375rem]">
             {draftProposal}
           </h1>
           <div

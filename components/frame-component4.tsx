@@ -19,7 +19,7 @@ const FrameComponent4: NextPage<FrameComponent4Type> = ({ className = "" }) => {
       <div className="flex-1 flex flex-col items-start justify-start gap-[2rem] max-w-full mq825:gap-[1rem]">
         <div className="self-stretch rounded-4xs border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-[0.687rem] px-[0.937rem] gap-[2.5rem] max-w-full mq825:gap-[1.25rem] mq1425:flex-wrap">
           <div className="w-[23.813rem] flex flex-col items-start justify-start pt-[0.625rem] px-[0rem] pb-[0rem] box-border max-w-full">
-            <div className="self-stretch relative tracking-[-1px] leading-[3rem] font-medium mq450:text-[1.75rem] mq450:leading-[1.813rem] mq825:text-[2.313rem] mq825:leading-[2.375rem]">
+            <div className="self-stretch relative tracking-[-1px] leading-[3rem] font-medium sm:text-[1.75rem] sm:leading-[1.813rem] mq825:text-[2.313rem] mq825:leading-[2.375rem]">
               Funding Agents
             </div>
           </div>
@@ -70,7 +70,7 @@ const FrameComponent4: NextPage<FrameComponent4Type> = ({ className = "" }) => {
                   src="/copy-giving@2x.png"
                 />
                 <div className="self-stretch flex flex-col items-start justify-start gap-[1.25rem]">
-                  <h1 className="m-0 self-stretch relative text-inherit tracking-[-0.02em] leading-[2rem] font-bold font-[inherit] mq450:text-[1.313rem] mq450:leading-[1.625rem]">
+                  <h1 className="m-0 self-stretch relative text-inherit tracking-[-0.02em] leading-[2rem] font-bold font-[inherit] sm:text-[1.313rem] sm:leading-[1.625rem]">
                     CopyGiving
                   </h1>
                   <div className="self-stretch relative text-[0.869rem] leading-[1.25rem] font-inter text-aipgf-nevada whitespace-pre-wrap">{`Loreum Ipsum Dolor  Loreum Ipsum Dolor  Loreum Ipsum Dolor  Loreum Ipsum Dolor  Loreum Ipsum Dolor  Loreum Ipsum Dolor  `}</div>
@@ -95,7 +95,7 @@ const FrameComponent4: NextPage<FrameComponent4Type> = ({ className = "" }) => {
                   <span className="font-light">2 hours ago</span>
                 </span>
               </div>
-              <div className="absolute top-[1.475rem] left-[0rem] rounded-t-none rounded-b-3xs w-full flex flex-row items-start justify-start py-[1.35rem] pl-[1.312rem] pr-[13.062rem] box-border gap-[0.5rem] min-h-[2.813rem] z-[2] text-center text-[0.75rem] mq450:pr-[1.25rem] mq450:box-border">
+              <div className="absolute top-[1.475rem] left-[0rem] rounded-t-none rounded-b-3xs w-full flex flex-row items-start justify-start py-[1.35rem] pl-[1.312rem] pr-[13.062rem] box-border gap-[0.5rem] min-h-[2.813rem] z-[2] text-center text-[0.75rem] sm:pr-[1.25rem] sm:box-border">
                 <div className="flex-1 rounded-lg bg-aipgf-iron-50 flex flex-row items-center justify-start py-[0.093rem] px-[0rem]">
                   <div className="flex-1 flex flex-col items-start justify-center py-[0.031rem] px-[0.375rem]">
                     <div className="self-stretch h-[1.438rem] relative flex items-center justify-center shrink-0">
