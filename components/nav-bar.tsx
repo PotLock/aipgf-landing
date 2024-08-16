@@ -54,7 +54,7 @@ const NavBar: NextPage<NavBarType> = ({ className = "" }) => {
             </div>
           </div>
         </div>
-        <nav className="m-0 w-[21.938rem] flex flex-row items-start justify-start gap-[1.312rem] max-w-full text-left text-[0.963rem] text-communityintercomcom-black-pearl font-aipgf-manrope-semibold-1356 mq450:hidden">
+        <nav className="m-0 w-[21.938rem] flex flex-row items-start justify-start gap-[1.312rem] max-w-full text-left text-[0.963rem] text-communityintercomcom-black-pearl font-aipgf-manrope-semibold-1356 sm:hidden">
           <a
             target="_blank"
             href="https://gov.aipgf.com/bos.forum.potlock.near/widget/app?page=proposals"

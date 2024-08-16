@@ -13,7 +13,7 @@ import Footer from "../components/footer";
 
 const Homepage: NextPage = () => {
   return (
-    <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] mq450:gap-[1rem] mq825:gap-[2.063rem]">
+    <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem]">
       <NavBar />
       <main className="self-stretch flex flex-col items-start justify-start gap-[2.937rem] max-w-full mq825:gap-[1.438rem]">
         <FrameComponent1 />
@@ -21,7 +21,7 @@ const Homepage: NextPage = () => {
           <CompanyLogo />
           <div className="self-stretch flex flex-row items-start justify-start py-[0rem] px-[5rem] box-border max-w-full mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border">
             <div className="flex-1 rounded-4xs border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start py-[1.312rem] px-[1rem] gap-[2.5rem] max-w-full lg:flex-wrap lg:justify-center mq825:gap-[1.25rem]">
-              <h1 className="m-0 relative text-inherit tracking-[-1px] leading-[3rem] font-medium font-[inherit] mq450:text-[1.5rem] mq450:leading-[1.813rem] mq825:text-[2rem] mq825:leading-[2.375rem]">
+              <h1 className="m-0 relative text-inherit tracking-[-1px] leading-[3rem] font-medium font-[inherit] sm:text-[1.5rem] sm:leading-[1.813rem] mq825:text-[2rem] mq825:leading-[2.375rem]">
                 What is AI-PGF
               </h1>
               <div className="w-[40.313rem] flex flex-col items-start justify-start pt-[0.062rem] px-[0rem] pb-[0rem] box-border max-w-full text-[1.125rem]">

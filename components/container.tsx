@@ -70,7 +70,7 @@ const Container: NextPage<ContainerType> = ({
         style={question03Style}
       >
         <h1
-          className="m-0 relative text-inherit tracking-[-0.2px] leading-[1.688rem] font-medium font-[inherit] mq450:text-[1.188rem] mq450:leading-[1.313rem]"
+          className="m-0 relative text-inherit tracking-[-0.2px] leading-[1.688rem] font-medium font-[inherit] sm:text-[1.188rem] sm:leading-[1.313rem]"
           style={doINeedStyle}
         >
           {doINeedToBuildOnNEAR}
@@ -81,13 +81,13 @@ const Container: NextPage<ContainerType> = ({
         className="self-stretch border-aipgf-geyser border-[1px] border-solid box-border flex flex-row items-start justify-between pt-[1.437rem] pb-[1.375rem] pl-[1.937rem] pr-[0.562rem] gap-[1.25rem] max-w-full mq825:flex-wrap"
         style={question5Style}
       >
-        <h1 className="m-0 relative text-inherit tracking-[-0.2px] leading-[1.688rem] font-medium font-[inherit] inline-block max-w-full mq450:text-[1.188rem] mq450:leading-[1.313rem]">
+        <h1 className="m-0 relative text-inherit tracking-[-0.2px] leading-[1.688rem] font-medium font-[inherit] inline-block max-w-full sm:text-[1.188rem] sm:leading-[1.313rem]">
           {canISubmitAnExistingProduct}
         </h1>
         <img className="h-[2rem] w-[2rem] relative" alt="" src="/plus-4.svg" />
       </div>
       <div className="self-stretch border-aipgf-geyser border-[1px] border-solid box-border flex flex-row items-start justify-between pt-[1.437rem] pb-[1.375rem] pl-[1.937rem] pr-[0.562rem] gap-[1.25rem] max-w-full mq825:flex-wrap">
-        <h1 className="m-0 relative text-inherit tracking-[-0.2px] leading-[1.688rem] font-medium font-[inherit] inline-block max-w-full mq450:text-[1.188rem] mq450:leading-[1.313rem]">
+        <h1 className="m-0 relative text-inherit tracking-[-0.2px] leading-[1.688rem] font-medium font-[inherit] inline-block max-w-full sm:text-[1.188rem] sm:leading-[1.313rem]">
           {whatIfImJustBuildingOpenSour}
         </h1>
         <img className="h-[2rem] w-[2rem] relative" alt="" src="/plus-4.svg" />

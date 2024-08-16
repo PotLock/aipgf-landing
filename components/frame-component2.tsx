@@ -21,8 +21,8 @@ const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
     >
       <div className="flex-1 flex flex-row items-start justify-start gap-[1.5rem] max-w-full mq1425:flex-wrap">
         <div className="flex-[0.9894] rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-end justify-start pt-[3rem] px-[2rem] pb-[2.687rem] gap-[1.437rem] min-w-[25.5rem] max-w-full mq825:flex-wrap mq825:min-w-full mq1425:flex-1">
-          <div className="w-[18.313rem] flex flex-col items-start justify-start gap-[3.812rem] min-w-[18.313rem] mq450:gap-[1.875rem] mq825:flex-1">
-            <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] mq450:text-[1.438rem] mq825:text-[1.875rem]">
+          <div className="w-[18.313rem] flex flex-col items-start justify-start gap-[3.812rem] min-w-[18.313rem] sm:gap-[1.875rem] mq825:flex-1">
+            <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] sm:text-[1.438rem] mq825:text-[1.875rem]">
               Funding Innovation Community
             </h1>
             <Button
@@ -96,8 +96,8 @@ const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
         </div>
         <div className="flex-1 rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start pt-[2.625rem] pb-[3rem] pl-[2rem] pr-[1.625rem] min-w-[25.5rem] max-w-full [row-gap:20px] mq825:flex-wrap mq825:min-w-full mq1425:flex-1">
           <div className="flex-1 flex flex-col items-start justify-start pt-[0.387rem] px-[0rem] pb-[0rem] box-border min-w-[11.875rem]">
-            <div className="self-stretch flex flex-col items-start justify-start gap-[3.812rem] mq450:gap-[1.875rem]">
-              <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] mq450:text-[1.438rem] mq825:text-[1.875rem]">
+            <div className="self-stretch flex flex-col items-start justify-start gap-[3.812rem] sm:gap-[1.875rem]">
+              <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] sm:text-[1.438rem] mq825:text-[1.875rem]">
                 Grant Agent Portal + Playground
               </h1>
               <Button
@@ -127,7 +127,7 @@ const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
               </Button>
             </div>
           </div>
-          <div className="flex-1 flex flex-col items-end justify-end pt-[7.25rem] px-[0rem] pb-[0rem] box-border relative min-w-[11.688rem] ml-[-0.775rem] text-center text-[0.506rem] text-grays-black mq450:ml-0">
+          <div className="flex-1 flex flex-col items-end justify-end pt-[7.25rem] px-[0rem] pb-[0rem] box-border relative min-w-[11.688rem] ml-[-0.775rem] text-center text-[0.506rem] text-grays-black sm:ml-0">
             <div className="w-[11.731rem] !m-[0] absolute bottom-[2.056rem] left-[0.275rem] rounded-[8.06px] border-grays-black border-[1.3px] border-solid box-border overflow-hidden flex flex-col items-end justify-start pt-[0.25rem] pb-[0.025rem] pl-[0rem] pr-[0.062rem] gap-[0.1rem]">
               <div className="self-stretch flex flex-row items-start justify-start py-[0rem] px-[0.437rem]">
                 <div className="flex flex-row items-center justify-start gap-[0.081rem]">

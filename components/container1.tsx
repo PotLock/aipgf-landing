@@ -15,7 +15,7 @@ const Container1: NextPage<Container1Type> = ({ className = "" }) => {
     <div
       className={`self-stretch bg-aipgf-science-blue flex flex-row items-start justify-start py-[0rem] px-[5rem] box-border max-w-full text-center text-[1.5rem] text-aipgf-white font-p mq825:gap-[1rem] mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
     >
-      <div className="flex-1 rounded-2xl flex flex-col items-center justify-start py-[2rem] px-[0rem] box-border gap-[2rem] max-w-full mq450:gap-[1rem]">
+      <div className="flex-1 rounded-2xl flex flex-col items-center justify-start py-[2rem] px-[0rem] box-border gap-[2rem] max-w-full sm:gap-[1rem]">
         <div className="w-[48rem] flex flex-row items-start justify-center py-[0rem] px-[1.25rem] box-border max-w-full">
           <div className="h-[3.5rem] w-[7.5rem] relative">
             <img
@@ -36,7 +36,7 @@ const Container1: NextPage<Container1Type> = ({ className = "" }) => {
           </div>
         </div>
         <div className="w-[48rem] flex flex-col items-start justify-start gap-[0.5rem] max-w-full">
-          <h1 className="m-0 self-stretch relative text-inherit leading-[1.875rem] font-bold font-[inherit] mq450:text-[1.188rem] mq450:leading-[1.5rem]">
+          <h1 className="m-0 self-stretch relative text-inherit leading-[1.875rem] font-bold font-[inherit] sm:text-[1.188rem] sm:leading-[1.5rem]">
             Still have questions?
           </h1>
           <h3 className="m-0 self-stretch relative text-[1.125rem] leading-[1.75rem] font-normal font-[inherit] text-transparent !bg-clip-text [background:linear-gradient(#f6f8fa,_#f6f8fa),_linear-gradient(#f6f8fa,_#f6f8fa),_#f6f8fa] [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">

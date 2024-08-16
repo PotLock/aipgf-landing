@@ -28,8 +28,8 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
         <div className="flex-1 flex flex-col items-start justify-start gap-[2rem] max-w-full mq825:gap-[1rem]">
           <div className="self-stretch rounded-4xs border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-between py-[0.687rem] pl-[0.937rem] pr-[1.062rem] max-w-full gap-[1.25rem] mq1425:flex-wrap">
             <div className="w-[55.844rem] flex flex-col items-start justify-start pt-[0.625rem] px-[0rem] pb-[0rem] box-border max-w-full">
-              <div className="self-stretch flex flex-row items-start justify-start gap-[2.5rem] max-w-full lg:flex-wrap mq450:gap-[1.25rem]">
-                <div className="w-[17.094rem] relative tracking-[-1px] leading-[3rem] font-medium flex items-center shrink-0 mq450:text-[1.75rem] mq450:leading-[1.813rem] mq825:text-[2.313rem] mq825:leading-[2.375rem]">
+              <div className="self-stretch flex flex-row items-start justify-start gap-[2.5rem] max-w-full lg:flex-wrap sm:gap-[1.25rem]">
+                <div className="w-[17.094rem] relative tracking-[-1px] leading-[3rem] font-medium flex items-center shrink-0 sm:text-[1.75rem] sm:leading-[1.813rem] mq825:text-[2.313rem] mq825:leading-[2.375rem]">
                   Active RFPs
                 </div>
                 <div className="flex-1 flex flex-col items-start justify-start pt-[0.062rem] px-[0rem] pb-[0rem] box-border min-w-[23.563rem] max-w-full text-[1.125rem] mq825:min-w-full">
@@ -61,8 +61,8 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                 </div>
                 <div className="self-stretch flex flex-row items-start justify-start py-[0rem] px-[1rem] box-border max-w-full font-p">
                   <div className="flex-1 flex flex-col items-start justify-start gap-[1.343rem] max-w-full">
-                    <div className="self-stretch overflow-hidden flex flex-row items-start justify-start gap-[3.687rem] mq450:flex-wrap mq450:gap-[1.813rem]">
-                      <h2 className="m-0 flex-1 relative text-inherit leading-[1.563rem] font-bold font-[inherit] inline-block min-w-[9.563rem] mq450:text-[1.125rem] mq450:leading-[1.25rem]">{`Lorem ipsum dolor sit amet consectetur. `}</h2>
+                    <div className="self-stretch overflow-hidden flex flex-row items-start justify-start gap-[3.687rem] sm:flex-wrap sm:gap-[1.813rem]">
+                      <h2 className="m-0 flex-1 relative text-inherit leading-[1.563rem] font-bold font-[inherit] inline-block min-w-[9.563rem] sm:text-[1.125rem] sm:leading-[1.25rem]">{`Lorem ipsum dolor sit amet consectetur. `}</h2>
                       <Tag
                         propBackgroundColor="#b7b7b7"
                         propWidth="5.125rem"
@@ -79,7 +79,7 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                   </div>
                 </div>
                 <div className="flex flex-row items-start justify-start py-[0rem] px-[1rem] box-border max-w-full text-center text-[0.875rem] text-grays-black">
-                  <div className="flex flex-row items-start justify-start py-[0rem] pl-[0rem] pr-[10rem] box-border gap-[1.25rem] max-w-full mq450:flex-wrap mq450:pr-[1.25rem] mq450:box-border">
+                  <div className="flex flex-row items-start justify-start py-[0rem] pl-[0rem] pr-[10rem] box-border gap-[1.25rem] max-w-full sm:flex-wrap sm:pr-[1.25rem] sm:box-border">
                     <div className="flex flex-row items-center justify-start gap-[0.5rem]">
                       <div className="flex flex-col items-start justify-center py-[0.093rem] px-[0rem]">
                         <img
@@ -113,7 +113,7 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                   </div>
                 </div>
                 <div className="self-stretch bg-aipgf-aqua-haze flex flex-row items-start justify-start pt-[0.687rem] px-[1rem] pb-[0.625rem] box-border max-w-full z-[1] text-[0.75rem] text-gray-100">
-                  <div className="flex-1 flex flex-row items-start justify-start gap-[0.5rem] max-w-full mq450:flex-wrap">
+                  <div className="flex-1 flex flex-row items-start justify-start gap-[0.5rem] max-w-full sm:flex-wrap">
                     <div className="flex flex-col items-start justify-start pt-[0.375rem] px-[0rem] pb-[0rem]">
                       <div className="relative leading-[0.938rem] font-light inline-block min-w-[7.063rem]">
                         Submission Deadline
@@ -152,8 +152,8 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                 </div>
                 <div className="self-stretch flex flex-row items-start justify-start py-[0rem] pl-[0.937rem] pr-[1rem] box-border max-w-full font-p">
                   <div className="flex-1 flex flex-col items-start justify-start gap-[1.343rem] max-w-full">
-                    <div className="self-stretch overflow-hidden flex flex-row items-start justify-between gap-[1.25rem] mq450:flex-wrap">
-                      <h2 className="m-0 w-[14.75rem] relative text-inherit leading-[1.563rem] font-bold font-[inherit] flex items-center shrink-0 mq450:text-[1.125rem] mq450:leading-[1.25rem]">{`Lorem ipsum dolor sit amet consectetur. `}</h2>
+                    <div className="self-stretch overflow-hidden flex flex-row items-start justify-between gap-[1.25rem] sm:flex-wrap">
+                      <h2 className="m-0 w-[14.75rem] relative text-inherit leading-[1.563rem] font-bold font-[inherit] flex items-center shrink-0 sm:text-[1.125rem] sm:leading-[1.25rem]">{`Lorem ipsum dolor sit amet consectetur. `}</h2>
                       <div className="w-[3.938rem] rounded-3xl bg-aipgf-manhattan flex flex-row items-start justify-start py-[0.312rem] px-[0.5rem] box-border gap-[0.187rem] text-center text-[0.75rem] font-aipgf-manrope-semibold-1356">
                         <div className="flex flex-col items-start justify-start relative">
                           <img
@@ -174,7 +174,7 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                   </div>
                 </div>
                 <div className="flex flex-row items-start justify-start py-[0rem] px-[0.937rem] box-border max-w-full text-center text-[0.875rem] text-grays-black">
-                  <div className="flex flex-row items-start justify-start py-[0rem] pl-[0rem] pr-[10rem] box-border gap-[1.25rem] max-w-full mq450:flex-wrap mq450:pr-[1.25rem] mq450:box-border">
+                  <div className="flex flex-row items-start justify-start py-[0rem] pl-[0rem] pr-[10rem] box-border gap-[1.25rem] max-w-full sm:flex-wrap sm:pr-[1.25rem] sm:box-border">
                     <div className="flex flex-row items-center justify-start gap-[0.5rem]">
                       <div className="flex flex-col items-start justify-center py-[0.093rem] px-[0rem]">
                         <img
@@ -207,8 +207,8 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                     </div>
                   </div>
                 </div>
-                <div className="self-stretch bg-aipgf-aqua-haze flex flex-row items-start justify-start pt-[0.687rem] px-[1rem] pb-[0.625rem] box-border gap-[5.75rem] max-w-full z-[1] text-[0.75rem] text-gray-100 mq450:gap-[1.438rem] mq825:flex-wrap mq825:gap-[2.875rem]">
-                  <div className="w-[23.313rem] flex flex-row items-start justify-start gap-[0.5rem] shrink-0 max-w-full mq450:flex-wrap">
+                <div className="self-stretch bg-aipgf-aqua-haze flex flex-row items-start justify-start pt-[0.687rem] px-[1rem] pb-[0.625rem] box-border gap-[5.75rem] max-w-full z-[1] text-[0.75rem] text-gray-100 sm:gap-[1.438rem] mq825:flex-wrap mq825:gap-[2.875rem]">
+                  <div className="w-[23.313rem] flex flex-row items-start justify-start gap-[0.5rem] shrink-0 max-w-full sm:flex-wrap">
                     <div className="flex flex-col items-start justify-start pt-[0.375rem] px-[0rem] pb-[0rem]">
                       <div className="relative leading-[0.938rem] font-light inline-block min-w-[7.063rem]">
                         Submission Deadline
@@ -259,8 +259,8 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                 </div>
                 <div className="self-stretch flex flex-row items-start justify-end py-[0rem] pl-[1.062rem] pr-[0.937rem] box-border max-w-full">
                   <div className="flex-1 flex flex-col items-start justify-start gap-[1.343rem] max-w-full">
-                    <div className="self-stretch overflow-hidden flex flex-row items-start justify-between gap-[1.25rem] mq450:flex-wrap">
-                      <h2 className="m-0 w-[14.75rem] relative text-inherit leading-[1.563rem] font-bold font-[inherit] flex items-center shrink-0 mq450:text-[1.125rem] mq450:leading-[1.25rem]">{`Lorem ipsum dolor sit amet consectetur. `}</h2>
+                    <div className="self-stretch overflow-hidden flex flex-row items-start justify-between gap-[1.25rem] sm:flex-wrap">
+                      <h2 className="m-0 w-[14.75rem] relative text-inherit leading-[1.563rem] font-bold font-[inherit] flex items-center shrink-0 sm:text-[1.125rem] sm:leading-[1.25rem]">{`Lorem ipsum dolor sit amet consectetur. `}</h2>
                       <div className="w-[3.938rem] rounded-3xl bg-aipgf-manhattan flex flex-row items-start justify-start py-[0.312rem] px-[0.5rem] box-border gap-[0.187rem] text-center text-[0.75rem] font-aipgf-manrope-semibold-1356">
                         <div className="flex flex-col items-start justify-start relative">
                           <img
@@ -279,7 +279,7 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                       <div className="self-stretch h-[3.063rem] overflow-hidden shrink-0 flex flex-row items-start justify-start py-[0rem] pl-[0rem] pr-[1.625rem] box-border max-w-full">
                         <div className="flex-1 relative leading-[1.5rem] font-light [display:-webkit-inline-box] items-center overflow-hidden text-ellipsis [-webkit-line-clamp:2] [-webkit-box-orient:vertical] max-w-full">{`Lorem ipsum dolor sit amet consectetur. Neque quam mattis in non condimentum. Mauris morbi volutpat ac vitae curabitur purus enim pellentesque. `}</div>
                       </div>
-                      <div className="flex flex-row items-start justify-start py-[0rem] pl-[0rem] pr-[10rem] box-border gap-[1.25rem] max-w-full text-center text-[0.875rem] text-grays-black mq450:flex-wrap mq450:pr-[1.25rem] mq450:box-border">
+                      <div className="flex flex-row items-start justify-start py-[0rem] pl-[0rem] pr-[10rem] box-border gap-[1.25rem] max-w-full text-center text-[0.875rem] text-grays-black sm:flex-wrap sm:pr-[1.25rem] sm:box-border">
                         <div className="flex flex-row items-center justify-start gap-[0.5rem]">
                           <div className="flex flex-col items-start justify-center py-[0.093rem] px-[0rem]">
                             <img
@@ -315,8 +315,8 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                   </div>
                 </div>
                 <div className="self-stretch bg-aipgf-aqua-haze flex flex-row items-start justify-start pt-[0.718rem] px-[1rem] pb-[0.656rem] box-border max-w-full z-[1] text-[0.75rem] text-gray-100 font-aipgf-manrope-semibold-1356">
-                  <div className="w-[23.25rem] flex flex-row items-center justify-start py-[0rem] px-[0rem] box-border gap-[5.75rem] max-w-full mq450:gap-[1.438rem] mq825:flex-wrap mq825:gap-[2.875rem]">
-                    <div className="w-[23.313rem] flex flex-row items-center justify-between max-w-full gap-[1.25rem] shrink-0 mq450:flex-wrap">
+                  <div className="w-[23.25rem] flex flex-row items-center justify-start py-[0rem] px-[0rem] box-border gap-[5.75rem] max-w-full sm:gap-[1.438rem] mq825:flex-wrap mq825:gap-[2.875rem]">
+                    <div className="w-[23.313rem] flex flex-row items-center justify-between max-w-full gap-[1.25rem] shrink-0 sm:flex-wrap">
                       <div className="flex flex-row items-start justify-start gap-[0.25rem]">
                         <div className="flex flex-row items-center justify-start py-[0rem] pl-[0rem] pr-[0.25rem]">
                           <div className="relative leading-[0.938rem] font-light inline-block min-w-[7.063rem]">

@@ -24,8 +24,8 @@ module.exports = {
         "aipgf-manhattan": "#f2ce8f",
         "aipgf-red-ribbon": "#e0023d",
         gray: {
-          "100": "#878a8e",
-          "200": "#222",
+          100: "#878a8e",
+          200: "#222",
         },
         black: "#151515",
         "aipgf-nobel": "#b7b7b7",
@@ -112,7 +112,7 @@ module.exports = {
       mq825: {
         raw: "screen and (max-width: 825px)",
       },
-      mq450: {
+      sm: {
         raw: "screen and (max-width: 450px)",
       },
     },
