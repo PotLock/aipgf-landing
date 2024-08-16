@@ -1,0 +1,829 @@
+.proactiveGrantsProgram {
+  margin: 0;
+  align-self: stretch;
+  position: relative;
+  font-size: inherit;
+  font-weight: 500;
+  font-family: inherit;
+}
+.button {
+  width: 9.663rem;
+  height: 2.594rem;
+  cursor: pointer;
+}
+.proactiveGrantsProgramParent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-42xl);
+  min-width: 11.875rem;
+}
+.frameChild {
+  height: 0.675rem;
+  width: 0.675rem;
+  position: relative;
+  border-radius: 50%;
+  background-color: var(--aipgf-shark1);
+}
+.ellipseParent,
+.frameWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.ellipseParent {
+  align-items: center;
+  gap: var(--gap-11xs-8);
+  flex-shrink: 0;
+}
+.frameWrapper {
+  align-items: flex-start;
+  padding: 0 var(--padding-4xs);
+}
+.rectangleDiv {
+  align-self: stretch;
+  height: 0.113rem;
+  position: relative;
+  background-color: var(--aipgf-shark1);
+  flex-shrink: 0;
+}
+.frameGroup {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-9xs);
+}
+.vectorIcon {
+  position: absolute;
+  width: calc(100% - 14.9px);
+  top: 0.431rem;
+  right: 0.488rem;
+  left: 0.444rem;
+  max-width: 100%;
+  overflow: hidden;
+  height: 6.456rem;
+}
+.vectorIcon1 {
+  z-index: 1;
+}
+.vectorIcon1,
+.vectorParent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.vectorIcon2,
+.vectorIcon3 {
+  width: 1.794rem;
+  height: 1.694rem;
+  position: relative;
+}
+.vectorIcon3 {
+  height: 0.956rem;
+  z-index: 1;
+  margin-top: -0.1rem;
+}
+.vectorGroup,
+.vectorWrapper {
+  position: absolute;
+  top: 4.475rem;
+  left: 2.888rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 2;
+}
+.vectorWrapper {
+  top: 5.375rem;
+  left: 4.975rem;
+}
+.claritycoinBagLine {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 70.85px);
+  width: 7.763rem;
+  overflow: hidden;
+}
+.vectorIcon5 {
+  width: 1.794rem;
+  height: 1.231rem;
+  position: relative;
+}
+.vectorContainer {
+  position: absolute;
+  top: 5.775rem;
+  left: 7.069rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  z-index: 3;
+}
+.claritycoinBagLineParent {
+  height: 7.763rem;
+  flex: 1;
+  position: relative;
+}
+.frameContainer {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0 var(--padding-35xl) 0 var(--padding-36xl);
+}
+.brainIcon,
+.frameParent {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.frameParent {
+  align-self: stretch;
+  border-radius: 10.77px;
+  background-color: var(--aipgf-white);
+  border: 1.8px solid var(--grays-black);
+  overflow: hidden;
+  align-items: flex-end;
+  padding: var(--padding-7xs) 0 var(--padding-2xs);
+  gap: var(--gap-3xs-9);
+}
+.brainIcon {
+  width: 15.713rem;
+  align-items: flex-start;
+  padding: var(--padding-2xs-5) 0 0;
+  box-sizing: border-box;
+  min-width: 15.713rem;
+}
+.sealcheckIcon {
+  height: 2.938rem;
+  width: 2.938rem;
+  position: absolute;
+  margin: 0 !important;
+  right: 16rem;
+  bottom: 7rem;
+  z-index: 1;
+}
+.featureCard {
+  flex: 1;
+  border-radius: var(--br-6xl);
+  background-color: var(--aipgf-white);
+  border: 1px solid var(--aipgf-geyser);
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-52xl) var(--padding-9xl) var(--padding-46xl)
+    var(--padding-13xl);
+  position: relative;
+  gap: var(--gap-3xl);
+  min-width: 25.5rem;
+  max-width: 100%;
+}
+.build {
+  position: relative;
+  line-height: 143%;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 2.438rem;
+}
+.arrowuprightIcon {
+  width: 1.15rem;
+  height: 1.15rem;
+  position: relative;
+}
+.arrowuprightWrapper {
+  flex-direction: column;
+  padding: var(--padding-10xs-3) 0 0;
+}
+.arrowuprightWrapper,
+.button1,
+.featureCardInner,
+.fundingAgiParent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.button1 {
+  border-radius: 48.42px;
+  border: 1.2px solid var(--neutral-neutral-200);
+  flex-direction: row;
+  padding: var(--padding-5xs) var(--padding-mid) var(--padding-5xs)
+    var(--padding-lg);
+  gap: var(--gap-3xs-3);
+  cursor: pointer;
+  font-size: var(--font-size-base-1);
+  color: var(--base-base-black);
+  font-family: var(--font-inter);
+}
+.featureCardInner,
+.fundingAgiParent {
+  flex-direction: column;
+}
+.fundingAgiParent {
+  align-self: stretch;
+  gap: var(--gap-42xl);
+}
+.featureCardInner {
+  height: 12.425rem;
+  width: 18.25rem;
+  min-width: 18.25rem;
+}
+.brainChild {
+  width: 0.538rem;
+  height: 0.538rem;
+  position: absolute;
+  margin: 0 !important;
+  right: 7.394rem;
+  bottom: 1.25rem;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-100);
+  border: 0 solid var(--grays-black);
+  box-sizing: border-box;
+}
+.vectorIcon7 {
+  align-self: stretch;
+  width: 0.431rem;
+  position: relative;
+  max-height: 100%;
+  min-height: 1.563rem;
+}
+.ellipseDiv,
+.frameChild1 {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-100);
+  border: 0 solid var(--grays-black);
+  box-sizing: border-box;
+  width: 0.538rem;
+  height: 0.538rem;
+}
+.ellipseDiv {
+  top: 5.481rem;
+  left: 0;
+}
+.frameChild1 {
+  top: 6.088rem;
+  left: 0.025rem;
+}
+.frameChild2,
+.frameChild3 {
+  position: absolute;
+  top: 5.675rem;
+  left: 0.469rem;
+  background-color: var(--grays-black);
+  width: 2.606rem;
+  height: 0.138rem;
+  z-index: 1;
+}
+.frameChild3 {
+  top: 6.281rem;
+  left: 0.5rem;
+  width: 2.644rem;
+}
+.vectorIcon10,
+.vectorIcon11 {
+  position: absolute;
+  top: 7.694rem;
+  left: 9.069rem;
+  width: 1.931rem;
+  height: 0.144rem;
+}
+.vectorIcon11 {
+  top: 8.55rem;
+  left: 8.613rem;
+  width: 2.394rem;
+  height: 0.244rem;
+}
+.frameChild4,
+.frameChild5 {
+  position: absolute;
+  top: 8.438rem;
+  left: 11.169rem;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-100);
+  border: 0 solid var(--grays-black);
+  box-sizing: border-box;
+  width: 0.538rem;
+  height: 0.538rem;
+}
+.frameChild5 {
+  top: 7.469rem;
+  left: 11.144rem;
+}
+.vectorIcon12 {
+  position: absolute;
+  top: 8.338rem;
+  left: 5.869rem;
+  width: 0.163rem;
+  height: 3.55rem;
+}
+.frameChild6,
+.frameIcon {
+  position: absolute;
+  width: 4.463rem;
+  height: 2.781rem;
+}
+.frameIcon {
+  top: 8.738rem;
+  left: 7.094rem;
+  z-index: 1;
+}
+.frameChild6 {
+  top: 8.675rem;
+  left: 0.35rem;
+  object-fit: contain;
+}
+.vectorIcon13,
+.vectorIcon14,
+.vectorIcon15,
+.vectorIcon16 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+.vectorIcon14,
+.vectorIcon15,
+.vectorIcon16 {
+  z-index: 3;
+}
+.vectorIcon15,
+.vectorIcon16 {
+  z-index: 4;
+}
+.vectorIcon16 {
+  z-index: 5;
+}
+.vectorIcon17 {
+  width: 1.631rem;
+  height: 0.131rem;
+  position: relative;
+}
+.vectorIcon18,
+.vectorIcon19,
+.vectorIcon20 {
+  width: 1.638rem;
+  height: 0.131rem;
+  position: relative;
+}
+.vectorIcon19,
+.vectorIcon20 {
+  height: 0.138rem;
+}
+.vectorIcon20 {
+  width: 1.644rem;
+  height: 0.131rem;
+}
+.vectorParent5 {
+  position: absolute;
+  top: 0.088rem;
+  left: 0.363rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-12xs-7);
+  z-index: 6;
+}
+.vectorParent3,
+.vectorParent4 {
+  position: absolute;
+  top: 0.15rem;
+  left: 0.238rem;
+  width: 2.419rem;
+  height: 1.069rem;
+}
+.vectorParent3 {
+  top: 4.844rem;
+  left: 3.894rem;
+  width: 2.675rem;
+  height: 1.425rem;
+}
+.vectorIcon22 {
+  position: absolute;
+  top: 0;
+  left: 2.075rem;
+  width: 0.556rem;
+  height: 0.825rem;
+  z-index: 4;
+}
+.vectorIcon23 {
+  position: absolute;
+  top: 2.038rem;
+  left: 2.644rem;
+  width: 0.619rem;
+  height: 0.25rem;
+  z-index: 6;
+}
+.vectorParent6 {
+  position: absolute;
+  height: calc(100% - 6.4px);
+  top: 0.138rem;
+  bottom: 0.263rem;
+  left: 0.313rem;
+  width: 3.463rem;
+}
+.vectorIcon24,
+.vectorIcon25 {
+  position: absolute;
+  top: 3.55rem;
+  left: 1.488rem;
+  width: 0.413rem;
+  height: 0.419rem;
+  z-index: 4;
+}
+.vectorIcon25 {
+  top: 3.213rem;
+  left: 1.875rem;
+  width: 1.088rem;
+  height: 1.225rem;
+  z-index: 5;
+}
+.vectorIcon26,
+.vectorIcon27 {
+  position: absolute;
+  top: 3.644rem;
+  left: 2.1rem;
+  width: 0.644rem;
+  height: 0.65rem;
+  z-index: 6;
+}
+.vectorIcon27 {
+  top: 1.869rem;
+  left: 0.638rem;
+  width: 0.525rem;
+  height: 0.525rem;
+  z-index: 8;
+}
+.vectorIcon28 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 8;
+}
+.vectorIcon29 {
+  position: absolute;
+  top: 0.156rem;
+  left: 0.144rem;
+  width: 1rem;
+  height: 0.994rem;
+  z-index: 9;
+}
+.vectorParent7,
+.vectorParent8 {
+  position: absolute;
+  top: 0.538rem;
+  left: 0.725rem;
+  width: 1.288rem;
+  height: 1.288rem;
+}
+.vectorParent7 {
+  top: 0.138rem;
+  left: 3.831rem;
+  width: 3.363rem;
+  height: 4.638rem;
+}
+.vectorIcon30,
+.vectorIcon31 {
+  position: absolute;
+  top: 4.444rem;
+  left: 1.169rem;
+  width: 0.9rem;
+  height: 0.35rem;
+  z-index: 4;
+}
+.vectorIcon31 {
+  top: 2.044rem;
+  left: 2.213rem;
+  width: 0.638rem;
+  height: 0.663rem;
+  z-index: 8;
+}
+.vectorParent9 {
+  position: absolute;
+  height: calc(100% - 17.1px);
+  top: 0.5rem;
+  bottom: 0.569rem;
+  left: 0.131rem;
+  width: 3.356rem;
+}
+.vectorParent2 {
+  position: absolute;
+  top: 2.213rem;
+  left: 1.444rem;
+  width: 7.338rem;
+  height: 6.375rem;
+}
+.vectorParent1 {
+  position: absolute;
+  top: 0;
+  left: 0.85rem;
+  width: 8.869rem;
+  height: 11.281rem;
+}
+.ellipseGroup {
+  height: 11.888rem;
+  width: 11.706rem;
+  position: absolute;
+  margin: 0 !important;
+  right: -9.256rem;
+  bottom: -9.187rem;
+}
+.frameDiv {
+  position: absolute;
+  top: 1.481rem;
+  left: 1.394rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-9xs-3);
+  z-index: 1;
+}
+.dataPoints {
+  height: 5.463rem;
+  width: 4.469rem;
+  position: relative;
+}
+.vectorIcon32 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.vectorIcon33 {
+  align-self: stretch;
+  width: 0.431rem;
+  position: relative;
+  max-height: 100%;
+  transform: rotate(-180deg);
+  min-height: 1.563rem;
+}
+.dataElements,
+.vectorParent11 {
+  display: flex;
+  flex-direction: row;
+}
+.vectorParent11 {
+  position: absolute;
+  top: 3.031rem;
+  left: 3.069rem;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-9xs-3);
+  transform: rotate(180deg);
+  transform-origin: 0 0;
+  z-index: 1;
+}
+.dataElements {
+  align-self: stretch;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gap-xl);
+}
+.vectorIcon36 {
+  height: 0.363rem;
+  width: 0.369rem;
+  position: relative;
+}
+.frameChild9,
+.vectorIcon37 {
+  height: 0.169rem;
+  width: 1.581rem;
+  position: relative;
+}
+.frameChild9 {
+  height: 0.538rem;
+  width: 0.538rem;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-100);
+  border: 0 solid var(--grays-black);
+  box-sizing: border-box;
+}
+.vectorParent12 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  z-index: 4;
+}
+.vectorIcon38 {
+  height: 0.169rem;
+  width: 1.575rem;
+  position: relative;
+}
+.frameParent2,
+.vectorParent13 {
+  display: flex;
+  justify-content: flex-start;
+}
+.vectorParent13 {
+  flex-direction: row;
+  align-items: center;
+  padding: 0 var(--padding-11xs) 0 0;
+  flex-shrink: 0;
+  z-index: 4;
+}
+.frameParent2 {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-11xs-7);
+}
+.frameChild11 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background-color: var(--color-gainsboro-100);
+  border: 0 solid var(--grays-black);
+  box-sizing: border-box;
+  width: 0.538rem;
+  height: 0.538rem;
+}
+.frameChild12 {
+  position: absolute;
+  top: 0.2rem;
+  left: 0.475rem;
+  background-color: var(--grays-black);
+  width: 2.65rem;
+  height: 0.138rem;
+  z-index: 1;
+}
+.ellipseContainer {
+  width: 3.231rem;
+  height: 0.538rem;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 8;
+}
+.frameChild14 {
+  position: absolute;
+  top: 0.194rem;
+  left: 0.463rem;
+  background-color: var(--grays-black);
+  width: 3.519rem;
+  height: 0.138rem;
+  z-index: 1;
+}
+.ellipseParent1 {
+  align-self: stretch;
+  height: 0.538rem;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 6;
+}
+.frameParent3 {
+  width: 3.981rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-8xs-4);
+}
+.frameParent1,
+.frameParent3,
+.frameWrapper1 {
+  display: flex;
+  justify-content: flex-start;
+}
+.frameWrapper1 {
+  align-self: stretch;
+  flex-direction: row;
+  align-items: flex-start;
+}
+.frameParent1 {
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--gap-2xs-5);
+}
+.brain,
+.dataVisualization,
+.dataVisualizationInner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.dataVisualizationInner {
+  align-self: stretch;
+  flex-direction: row;
+  padding: 0 var(--padding-xs) 0 var(--padding-2xs);
+}
+.brain,
+.dataVisualization {
+  flex-direction: column;
+}
+.dataVisualization {
+  align-self: stretch;
+  gap: var(--gap-7xs);
+}
+.brain {
+  width: 15.563rem;
+  overflow: hidden;
+  flex-shrink: 0;
+  padding: var(--padding-5xl-2) var(--padding-base) var(--padding-61xl)
+    var(--padding-xl);
+  box-sizing: border-box;
+  position: relative;
+  min-width: 15.563rem;
+  min-height: 15.563rem;
+}
+.featureCard1,
+.featureCardItems,
+.featureCards {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.featureCard1 {
+  flex: 1;
+  border-radius: var(--br-6xl);
+  background-color: var(--aipgf-white);
+  border: 1px solid var(--aipgf-geyser);
+  box-sizing: border-box;
+  overflow: hidden;
+  align-items: flex-end;
+  padding: var(--padding-23xl) var(--padding-13xl) var(--padding-25xl);
+  min-width: 25.5rem;
+  row-gap: 20px;
+}
+.featureCardItems,
+.featureCards {
+  align-items: flex-start;
+}
+.featureCardItems {
+  flex: 1;
+  flex-wrap: wrap;
+  gap: var(--gap-5xl);
+}
+.featureCards {
+  align-self: stretch;
+  padding: 0 var(--padding-61xl);
+  box-sizing: border-box;
+  text-align: left;
+  font-size: var(--font-size-19xl);
+  color: var(--aipgf-shark1);
+  font-family: var(--p);
+}
+@media screen and (max-width: 825px) {
+  .proactiveGrantsProgram {
+    font-size: var(--font-size-11xl);
+  }
+  .brainIcon {
+    flex: 1;
+  }
+  .featureCard {
+    flex-wrap: wrap;
+    min-width: 100%;
+  }
+  .brain,
+  .featureCardInner {
+    flex: 1;
+  }
+  .featureCard1 {
+    flex-wrap: wrap;
+    min-width: 100%;
+  }
+  .featureCards {
+    padding-left: var(--padding-21xl);
+    padding-right: var(--padding-21xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .proactiveGrantsProgram {
+    font-size: var(--font-size-4xl);
+  }
+  .proactiveGrantsProgramParent {
+    gap: var(--gap-11xl);
+  }
+  .frameContainer {
+    padding-left: var(--padding-xl);
+    padding-right: var(--padding-xl);
+    box-sizing: border-box;
+  }
+  .fundingAgiParent {
+    gap: var(--gap-11xl);
+  }
+  .dataElements {
+    flex-wrap: wrap;
+  }
+}

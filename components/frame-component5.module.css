@@ -1,0 +1,138 @@
+.frequentlyAskedQuestions {
+  position: relative;
+  letter-spacing: -1px;
+  line-height: 3rem;
+  font-weight: 500;
+}
+.headingSubheading {
+  align-self: stretch;
+  border-radius: var(--br-4xs);
+  border: 1px solid var(--aipgf-geyser);
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: var(--padding-2xl) var(--padding-base);
+}
+.whatIfIm {
+  margin: 0;
+  align-self: stretch;
+  position: relative;
+  font-size: inherit;
+  letter-spacing: -0.2px;
+  font-weight: 500;
+  font-family: inherit;
+}
+.weAreOnly {
+  width: 28.938rem;
+  position: relative;
+  font-size: var(--font-size-base);
+  line-height: 1.5rem;
+  font-family: var(--font-pt-serif);
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+}
+.whatIfImBuildingClosedSoParent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--gap-4xl);
+  min-width: 22.688rem;
+  max-width: 100%;
+}
+.minusIcon {
+  height: 2rem;
+  width: 2rem;
+  position: relative;
+}
+.question01,
+.question01Parent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.question01 {
+  align-self: stretch;
+  background-color: var(--aipgf-science-blue);
+  flex-direction: row;
+  padding: var(--padding-5xl) var(--padding-6xs) var(--padding-2xl)
+    var(--padding-13xl);
+  box-sizing: border-box;
+  gap: var(--gap-2xs);
+}
+.question01Parent {
+  flex: 1;
+  flex-direction: column;
+  min-width: 26rem;
+}
+.frameParent {
+  align-self: stretch;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  font-size: var(--font-size-17xl);
+  color: var(--aipgf-white);
+}
+.frameParent,
+.frameWrapper,
+.headingSubheadingParent {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  max-width: 100%;
+}
+.headingSubheadingParent {
+  flex: 1;
+  flex-direction: column;
+  gap: var(--gap-13xl);
+}
+.frameWrapper {
+  align-self: stretch;
+  flex-direction: row;
+  padding: 0 var(--padding-61xl);
+  box-sizing: border-box;
+  text-align: left;
+  font-size: var(--font-size-27xl-3);
+  color: var(--aipgf-shark);
+  font-family: var(--p);
+}
+@media screen and (max-width: 825px) {
+  .frequentlyAskedQuestions {
+    font-size: var(--font-size-18xl);
+    line-height: 2.375rem;
+  }
+  .whatIfIm {
+    font-size: var(--font-size-10xl);
+  }
+  .whatIfImBuildingClosedSoParent {
+    min-width: 100%;
+  }
+  .question01 {
+    flex-wrap: wrap;
+  }
+  .question01Parent {
+    min-width: 100%;
+  }
+  .headingSubheadingParent {
+    gap: var(--gap-base);
+  }
+  .frameWrapper {
+    padding-left: var(--padding-21xl);
+    padding-right: var(--padding-21xl);
+    box-sizing: border-box;
+  }
+}
+@media screen and (max-width: 450px) {
+  .frequentlyAskedQuestions {
+    font-size: var(--font-size-9xl);
+    line-height: 1.813rem;
+  }
+  .whatIfIm {
+    font-size: var(--font-size-3xl);
+  }
+}
