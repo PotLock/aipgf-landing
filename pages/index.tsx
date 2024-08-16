@@ -13,7 +13,7 @@ import Footer from "../components/footer";
 
 const Homepage: NextPage = () => {
   return (
-    <div className="w-full relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] mq450:gap-[1rem] mq825:gap-[2.063rem]">
+    <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] mq450:gap-[1rem] mq825:gap-[2.063rem]">
       <NavBar />
       <main className="self-stretch flex flex-col items-start justify-start gap-[2.937rem] max-w-full mq825:gap-[1.438rem]">
         <FrameComponent1 />
