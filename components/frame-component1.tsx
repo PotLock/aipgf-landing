@@ -68,8 +68,7 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
               Eligibility Assesment Agent
             </h1>
             <div className="self-stretch relative text-[1rem] leading-[143%]">
-              The AI will do an assessment of the project's eligibility against
-              the criteria you provide.
+              The AI will do an assessment of the project's eligibility for the AI-PGF grants program. Just type about your project or enter your NEAR address. 
             </div>
           </div>
           <textarea
@@ -95,19 +94,23 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
                 />
               </div>
             </div>
-            <div className="flex sm:self-stretch flex-row sm:w[100%] items-start sm:items-center sm:justify-center justify-start gap-[0.237rem]">
-              <div className="relative leading-[1.438rem] font-light inline-block min-w-[3.188rem]">{`Made by `}</div>
-              <div className="h-[1.431rem] w-[1.431rem] relative">
-                <div className="absolute top-[0rem] left-[0rem] rounded-[50%] bg-gainsboro w-full h-full" />
-                <img
-                  className="absolute top-[calc(50%_-_7.65px)] left-[calc(50%_-_7.65px)] w-[0.956rem] h-[0.956rem] object-cover z-[1]"
-                  loading="lazy"
-                  alt=""
-                  src="/4@2x.png"
-                />
-              </div>
-              <div className="relative leading-[1.438rem] font-light inline-block min-w-[3.813rem]">{`Boris.near `}</div>
-            </div>
+            {false && 
+                        <div className="flex sm:self-stretch flex-row sm:w[100%] items-start sm:items-center sm:justify-center justify-start gap-[0.237rem]">
+                        <div className="relative leading-[1.438rem] font-light inline-block min-w-[3.188rem]">{`Made by `}</div>
+                        <div className="h-[1.431rem] w-[1.431rem] relative">
+                          <div className="absolute top-[0rem] left-[0rem] rounded-[50%] bg-gainsboro w-full h-full" />
+                          <img
+                            className="absolute top-[calc(50%_-_7.65px)] left-[calc(50%_-_7.65px)] w-[0.956rem] h-[0.956rem] object-cover z-[1]"
+                            loading="lazy"
+                            alt=""
+                            src="/4@2x.png"
+                          />
+                        </div>
+                        <div className="relative leading-[1.438rem] font-light inline-block min-w-[3.813rem]">{`Boris.near `}</div>
+                      </div>
+            
+            }
+
           </div>
         </div>
       </div>

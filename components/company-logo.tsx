@@ -55,18 +55,18 @@ const CompanyLogo: NextPage<CompanyLogoType> = ({ className = "" }) => {
           className="flex flex-row items-center justify-start gap-[0.537rem] cursor-pointer"
           onClick={onFrameContainerClick}
         >
-          <img
+          {/* <img
             className="h-[2.369rem] w-[1.969rem] relative overflow-hidden shrink-0"
             loading="lazy"
             alt=""
             src="/642c2b9f9cb98d610d7661e6-gtciconlight-1.svg"
-          />
-          <img
+          /> */}
+          {/* <img
             className="h-[1.669rem] w-[9.369rem] relative overflow-hidden shrink-0"
             loading="lazy"
             alt=""
             src="/6433c5d029c6bb20c5f00bf8-gtclogotypedark-1.svg"
-          />
+          /> */}
         </div>
       </div>
     </div>
