@@ -56,17 +56,17 @@ const FrameComponent5: NextPage<FrameComponent5Type> = ({ className = "" }) => {
                   background: key === active ? "#0768db" : "",
                 }}
                 onClick={() => setActive(key)}
-                className={`self-stretch text-grays-black text-left text-[1.5rem]  ${
+                className={`self-stretch text-left text-[1.5rem] ${
                   active === key ? "text-white" : "text-grays-black"
                 } border-aipgf-geyser cursor-pointer border-[1px] transition-all ease-in-out duration-300 border-solid flex flex-row items-start justify-between pt-[1.437rem] pb-[1.375rem] pl-[1.937rem] pr-[0.562rem] gap-[1.25rem] mq825:flex-wrap`}
                 key={key}
               >
-                <div>
-                  <h1 className="m-0 relative text-inherit tracking-[-0.2px] leading-[1.688rem] font-medium font-[inherit] sm:text-[1.188rem] sm:leading-[1.313rem]">
+                <div className="flex-1 min-w-0">
+                  <h1 className="m-0 relative text-inherit tracking-[-0.2px] leading-[1.688rem] font-medium break-words whitespace-normal font-[inherit] sm:text-[1.188rem] sm:leading-[1.313rem]">
                     {data.title}
                   </h1>
                   {active === key && (
-                    <div className="w-[28.938rem] transition-all duration-300 ease-in-out relative text-[1rem] leading-[1.5rem] mt-2 flex items-center max-w-full">
+                    <div className="transition-all duration-300 ease-in-out relative text-[1rem] leading-[1.5rem] mt-2 flex items-center break-words">
                       {data.description}
                     </div>
                   )}
@@ -91,7 +91,7 @@ const FrameComponent5: NextPage<FrameComponent5Type> = ({ className = "" }) => {
                   active === key + 4 ? "text-white" : "text-grays-black"
                 } text-grays-black cursor-pointer transition-all ease-in-out duration-300 text-left text-[1.5rem] border-aipgf-geyser border-[1px] border-solid flex flex-row items-start justify-between pt-[1.437rem] pb-[1.375rem] pl-[1.937rem] pr-[0.562rem] gap-[1.25rem] mq825:flex-wrap`}
               >
-                <div>
+                <div className="flex-1 min-w-0">
                   <h1 className="m-0 relative text-inherit tracking-[-0.2px] leading-[1.688rem] font-medium font-[inherit] sm:text-[1.188rem] sm:leading-[1.313rem]">
                     {data.title}
                   </h1>
