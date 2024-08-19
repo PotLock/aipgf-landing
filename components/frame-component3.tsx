@@ -63,6 +63,8 @@ type ProposalTypes = {
   summary: string;
   labels: Array<string>;
   author_id: string;
+  ts: number;
+  linked_rfp?: number;
 };
 
 const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
@@ -88,6 +90,31 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
     where: {},
   };
 
+  const getOrdinalSuffix = (day: number) => {
+    if (day > 3 && day < 21) return "th"; // covers 11th-19th
+    switch (day % 10) {
+      case 1:
+        return "st";
+      case 2:
+        return "nd";
+      case 3:
+        return "rd";
+      default:
+        return "th";
+    }
+  };
+
+  const getTime = (timestamp: number) => {
+    const dateInMilliseconds = timestamp / 1000000;
+    const date = new Date(dateInMilliseconds);
+
+    const day = date.getDate();
+    const month = date.toLocaleString("en-US", { month: "long" });
+    const year = date.getFullYear();
+
+    return `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
+  };
+
   async function fetchGraphQL(
     operationsDoc: string,
     operationName: string,
@@ -108,19 +135,13 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
           if (result.data) {
             const data = result.data?.[queryName];
             const totalResult = result.data?.[`${queryName}_aggregate`];
-            let filteredData: [] = [];
-            const promises = data.map((item: any) => {
+            let filteredData: ProposalTypes[] = [];
+            const promises = data.map((item: ProposalTypes) => {
               if (Number(item.linked_rfp)) {
-                return fetchGraphQL(
-                  rfpQuery,
-                  "GetLatestSnapshot",
-                  variables
-                ).then((result) => {
-                  const rfpData = result?.data?.[rfpQueryName];
-                  return { ...item, rfpData: rfpData[0] };
-                });
+                return;
               } else {
                 filteredData.push(item);
+
                 return Promise.resolve(item);
               }
             });
@@ -140,6 +161,8 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
       console.error(error);
     }
   }, []);
+
+  // const getTime =
 
   const onButtonClick = useCallback(() => {
     window.open("https://forum.aipgf.com");
@@ -252,7 +275,7 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
                         </div>
                         <div className="flex-1 flex flex-col items-start justify-start pt-[0.375rem] pb-[0rem] pl-[0rem] pr-[1.25rem] box-border min-w-[7.375rem] text-black">
                           <div className="h-[0.875rem] relative leading-[3rem] font-semibold flex items-center shrink-0 min-w-[4.75rem]">
-                            April 15, 2024
+                            {getTime(data.ts)}
                           </div>
                         </div>
                         <button
