@@ -47,7 +47,7 @@ const Container1: NextPage<Container1Type> = ({ className = "" }) => {
           <Button
             className="self-stretch w-[8.438rem] cursor-pointer"
             startIcon={
-              <img width="20px" height="20px" src="/telegramlogo.svg" />
+              <img width="20px" height="20px" src="/TelegramLogo.svg" />
             }
             disableElevation
             variant="contained"
