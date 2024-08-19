@@ -8,6 +8,7 @@ export type FrameComponent5Type = {
 
 const FrameComponent5: NextPage<FrameComponent5Type> = ({ className = "" }) => {
   const [active, setActive] = useState(0);
+
   const faqs = [
     {
       title: "What if I’m building closed source?",
@@ -15,29 +16,36 @@ const FrameComponent5: NextPage<FrameComponent5Type> = ({ className = "" }) => {
     },
     {
       title: "Do I need to build on NEAR?",
-      description: "",
+      description:
+        "Yes, building on NEAR is a requirement. If you don't have a NEAR account, create one to get started. We're excited to see what you build on our platform!",
     },
     {
       title: "Can I submit an existing product?",
-      description: "",
+      description:
+        "Each product must be unique, so submitting an existing product isn't allowed. We encourage you to create something new and innovative that showcases your skills and creativity.",
     },
     {
       title: "What if I’m just building open source AI?",
-      description: "",
+      description:
+        "While we appreciate open-source AI projects, our funding program is specifically designed for builders creating AI applications on the NEAR protocol. If your project aligns with our focus, we'd love to consider it for funding.",
     },
     {
       title: "How much funds are you giving to builders?",
-      description: "",
+      description:
+        "The amount of funding varies based on the scope and impact of the project. We assess each proposal individually to determine the appropriate funding amount, ensuring it aligns with the project's needs and potential contributions to the ecosystem.",
     },
     {
       title: "Where can I get feedback for my proposal?",
-      description: "",
+      description:
+        "Join our community forum to share your proposal and receive constructive feedback from our team and fellow builders. This is a great opportunity to refine your idea and increase its chances of being funded.",
     },
     {
       title: "Where can I get ideas to build?",
-      description: "",
+      description:
+        "Explore our community forum  for inspiration and ideas from other builders. You can also reach out to our team for guidance on finding the right project to build. We're here to support your innovation journey!",
     },
   ];
+
   return (
     <section
       className={`self-stretch flex flex-row items-start justify-start py-[0rem] px-[5rem] box-border max-w-full text-left text-[2.894rem] text-aipgf-shark font-p mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
