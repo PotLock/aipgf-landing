@@ -199,7 +199,7 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
           <div className="self-stretch flex flex-row flex-wrap items-start justify-start gap-[1.5rem] max-w-full text-[1.375rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356">
             {proposals.length &&
               proposals.map((data) => (
-                <div className="flex-1 rounded-md bg-aipgf-regent-gray border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start pt-[3.25rem] pb-[0rem] pl-[0.062rem] pr-[0rem] min-w-[19.25rem] max-w-[400px]">
+                <div className="flex-1 rounded-md bg-aipgf-regent-gray border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start pt-[3.25rem] pb-[0rem] pl-[0.062rem] pr-[0rem] min-w-[19.25rem] max-w-[440px]">
                   <div className="flex-1 bg-aipgf-white flex flex-col items-start justify-start pt-[1.312rem] px-[0rem] pb-[0rem] box-border relative gap-[1.112rem] max-w-full">
                     <div className="w-[2.563rem] h-[2.563rem] absolute !m-[0] top-[-1.506rem] left-[1rem] rounded-[12811.22px] bg-aipgf-white border-aipgf-white border-[2px] border-solid box-border overflow-hidden shrink-0"></div>
                     <div className="self-stretch flex flex-row items-start justify-start py-[0rem] px-[1rem] box-border max-w-full font-p">

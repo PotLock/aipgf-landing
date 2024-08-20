@@ -40,18 +40,17 @@ const HeroFundingCards: NextPage<HeroFundingCardsType> = ({
                 color: "#1c1c1e",
                 fontSize: "16.1",
                 borderColor: "#dadadd",
-                cursor: "not-allowed",
                 borderRadius: "48.42px",
                 "&:hover": { borderColor: "#dadadd" },
                 width: 97.6,
                 height: 41.5,
               }}
-              // onClick={onButtonClick}
+              onClick={onButtonClick}
             >
               Join
             </Button>
           </div>
-          <div className="h-max w-[13.319rem] flex flex-col items-start justify-start min-w-[13.319rem] mq825:flex-1">
+          <div className="h-max w-[13.319rem] flex flex-col sm:mr-0 items-start mr-6 justify-start min-w-[13.319rem] mq825:flex-1">
             <img src="/InnovativeIcon.svg" loading="lazy" />
           </div>
         </div>
