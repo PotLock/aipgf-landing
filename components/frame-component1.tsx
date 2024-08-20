@@ -34,7 +34,7 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
             <div className="self-stretch sm:mb-20 flex flex-row items-center justify-start sm:justify-center py-[0rem] pl-[0rem] pr-[21.125rem] gap-[0.75rem] sm:pr-[1.25rem] sm:box-border mq825:flex-wrap mq825:pr-[10.563rem] mq825:box-border">
               <Link target="_blank" href={"https://forum.aipgf.com/"}>
                 <Button
-                  className="sm:h-[3.25rem] h-[4.25rem] mq825:w-[177px] sm:text-[13px] sm:w-[max-content] font-bold text-[20px] shadow-[0px_0px_0px_2px_#0057ff_inset] min-w-[2.375rem] cursor-pointer"
+                  className="sm:h-[3.25rem] hover:opacity-70 transition-all ease-in-out duration-400 h-[4.25rem] mq825:w-[177px] sm:text-[13px] sm:w-[max-content] font-bold text-[20px] min-w-[2.375rem] cursor-pointer"
                   variant="contained"
                   sx={{
                     textTransform: "none",
@@ -56,7 +56,7 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
                   button="Learn More"
                   onButtonClick3={onButtonClick}
                   buttonFlex="unset"
-                  className="font-bold text-[20px] sm:h-[3.25rem] h-[4.25rem] mq825:w-[177px] sm:text-[13px] sm:w-[max-content]"
+                  className="font-bold hover:opacity-50 transition-all ease-in-out duration-400 text-[20px] sm:h-[3.25rem] h-[4.25rem] mq825:w-[177px] sm:text-[13px] sm:w-[max-content]"
                 />
               </Link>
             </div>
@@ -68,7 +68,9 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
               Eligibility Assesment Agent
             </h1>
             <div className="self-stretch relative text-[1rem] leading-[143%]">
-              The AI will do an assessment of the project's eligibility for the AI-PGF grants program. Just type about your project or enter your NEAR address. 
+              The AI will do an assessment of the project's eligibility for the
+              AI-PGF grants program. Just type about your project or enter your
+              NEAR address.
             </div>
           </div>
           <textarea
@@ -79,8 +81,11 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
           <div className="w-[19.306rem]  flex flex-col items-end justify-start gap-[3.4rem] text-[0.825rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356 sm:gap-[1.688rem]">
             <div className="self-stretch flex flex-row items-start justify-start">
               <div className="flex flex-row items-center justify-start gap-[0.437rem]">
-                <button className="cursor-pointer [border:none] py-[0.468rem] px-[1.125rem] bg-communityintercomcom-blue-ribbon shadow-[0px_0px_0px_1.09px_#0057ff_inset] rounded-[22.31px] overflow-hidden flex flex-row items-center justify-center box-border min-w-[2.381rem]">
-                  <div className="flex flex-col items-center justify-start">
+                <button
+                  disabled
+                  className="cursor-not-allowed opacity-50 [border:none] py-[0.468rem] px-[1.125rem] bg-communityintercomcom-blue-ribbon shadow-[0px_0px_0px_1.09px_#0057ff_inset] rounded-[22.31px] overflow-hidden flex flex-row items-center justify-center box-border min-w-[2.381rem]"
+                >
+                  <div className="flex   flex-col items-center justify-start">
                     <b className="w-[5.313rem] relative text-[0.681rem] leading-[1.375rem] flex font-p text-aipgf-white text-center items-center justify-center">
                       Check Eligibility
                     </b>
@@ -90,27 +95,26 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
                   button="Attach files"
                   propHeight="2.313rem"
                   propWidth="7.25rem"
+                  className="cursor-not-allowed opacity-50"
                   buttonFlex="unset"
                 />
               </div>
             </div>
-            {false && 
-                        <div className="flex sm:self-stretch flex-row sm:w[100%] items-start sm:items-center sm:justify-center justify-start gap-[0.237rem]">
-                        <div className="relative leading-[1.438rem] font-light inline-block min-w-[3.188rem]">{`Made by `}</div>
-                        <div className="h-[1.431rem] w-[1.431rem] relative">
-                          <div className="absolute top-[0rem] left-[0rem] rounded-[50%] bg-gainsboro w-full h-full" />
-                          <img
-                            className="absolute top-[calc(50%_-_7.65px)] left-[calc(50%_-_7.65px)] w-[0.956rem] h-[0.956rem] object-cover z-[1]"
-                            loading="lazy"
-                            alt=""
-                            src="/4@2x.png"
-                          />
-                        </div>
-                        <div className="relative leading-[1.438rem] font-light inline-block min-w-[3.813rem]">{`Boris.near `}</div>
-                      </div>
-            
-            }
-
+            {false && (
+              <div className="flex sm:self-stretch flex-row sm:w[100%] items-start sm:items-center sm:justify-center justify-start gap-[0.237rem]">
+                <div className="relative leading-[1.438rem] font-light inline-block min-w-[3.188rem]">{`Made by `}</div>
+                <div className="h-[1.431rem] w-[1.431rem] relative">
+                  <div className="absolute top-[0rem] left-[0rem] rounded-[50%] bg-gainsboro w-full h-full" />
+                  <img
+                    className="absolute top-[calc(50%_-_7.65px)] left-[calc(50%_-_7.65px)] w-[0.956rem] h-[0.956rem] object-cover z-[1]"
+                    loading="lazy"
+                    alt=""
+                    src="/4@2x.png"
+                  />
+                </div>
+                <div className="relative leading-[1.438rem] font-light inline-block min-w-[3.813rem]">{`Boris.near `}</div>
+              </div>
+            )}
           </div>
         </div>
       </div>

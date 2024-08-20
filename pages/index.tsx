@@ -2,12 +2,12 @@ import type { NextPage } from "next";
 import NavBar from "../components/nav-bar";
 import FrameComponent1 from "../components/frame-component1";
 import CompanyLogo from "../components/company-logo";
-import FrameComponent2 from "../components/frame-component2";
+import HeroFundingCards from "../components/HeroFundingCards";
 import FeatureCards from "../components/feature-cards";
-import FrameComponent3 from "../components/frame-component3";
+import HeroProposals from "../components/HeroProposals";
 import GrantApplication from "../components/grant-application";
-import FrameComponent4 from "../components/frame-component4";
-import FrameComponent5 from "../components/frame-component5";
+import FundingAgents from "../components/FundingAgents";
+import HeroFAQs from "../components/HeroFAQs";
 import Container1 from "../components/container1";
 import Footer from "../components/footer";
 
@@ -33,13 +33,13 @@ const Homepage: NextPage = () => {
               </div>
             </div>
           </div>
-          <FrameComponent2 />
+          <HeroFundingCards />
           <FeatureCards />
         </section>
-        <FrameComponent3 />
+        <HeroProposals />
         <GrantApplication />
-        <FrameComponent4 />
-        <FrameComponent5 />
+        <FundingAgents />
+        <HeroFAQs />
       </main>
       <div className="self-stretch flex flex-col items-start justify-start max-w-full">
         <Container1 />
