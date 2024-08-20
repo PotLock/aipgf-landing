@@ -2,11 +2,11 @@ import type { NextPage } from "next";
 import Container from "./container";
 import { useState } from "react";
 
-export type FrameComponent5Type = {
+export type HeroFAQsType = {
   className?: string;
 };
 
-const FrameComponent5: NextPage<FrameComponent5Type> = ({ className = "" }) => {
+const HeroFAQs: NextPage<HeroFAQsType> = ({ className = "" }) => {
   const [active, setActive] = useState(0);
 
   const faqs = [
@@ -123,4 +123,4 @@ const FrameComponent5: NextPage<FrameComponent5Type> = ({ className = "" }) => {
   );
 };
 
-export default FrameComponent5;
+export default HeroFAQs;

@@ -37,7 +37,7 @@ const Button1: NextPage<Button1Type> = ({
 
   return (
     <Button
-      className={`h-[4.25rem] w-[9.75rem] cursor-pointer ${className}`}
+      className={`h-[4.25rem] w-[9.75rem] hover:opacity-50 transition-all ease-in-out duration-400 cursor-pointer ${className}`}
       disableElevation
       variant="contained"
       sx={{

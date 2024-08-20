@@ -7,7 +7,7 @@ import Button1 from "./button1";
 import Tag from "./tag";
 import { CANCELLED } from "dns";
 
-export type FrameComponent3Type = {
+export type HeroProposalsType = {
   className?: string;
 };
 
@@ -67,53 +67,53 @@ type ProposalTypes = {
   linked_rfp?: number;
 };
 
-const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
+const labelIcons: any = {
+  MVP: { icon: "solarcrownbroken.svg", color: "#f0cf8e" },
+  Bounty: { icon: "bounty.svg", color: "#7b66dc", textColor: "#fff" },
+};
+
+const typeStyle: any = {
+  REVIEW: "#304053",
+  FUNDED: "green",
+  CANCELLED: "#f41e1b",
+  DRAFT: "#304053",
+};
+
+const FETCH_LIMIT = 10;
+const variables = {
+  limit: FETCH_LIMIT,
+  offset: 0,
+  where: {},
+};
+
+const getOrdinalSuffix = (day: number) => {
+  if (day > 3 && day < 21) return "th"; // covers 11th-19th
+  switch (day % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+};
+
+const getTime = (timestamp: number) => {
+  const dateInMilliseconds = timestamp / 1000000;
+  const date = new Date(dateInMilliseconds);
+
+  const day = date.getDate();
+  const month = date.toLocaleString("en-US", { month: "long" });
+  const year = date.getFullYear();
+
+  return `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
+};
+
+const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
   const [aggregateCount, setAggregateCount] = useState(0);
   const [proposals, setProposals] = useState<ProposalTypes[]>([]);
-
-  const labelIcons: any = {
-    MVP: { icon: "solarcrownbroken.svg", color: "#f0cf8e" },
-    Bounty: { icon: "bounty.svg", color: "#7b66dc", textColor: "#fff" },
-  };
-
-  const typeStyle: any = {
-    REVIEW: "#304053",
-    FUNDED: "green",
-    CANCELLED: "#f41e1b",
-    DRAFT: "#304053",
-  };
-
-  const FETCH_LIMIT = 10;
-  const variables = {
-    limit: FETCH_LIMIT,
-    offset: 0,
-    where: {},
-  };
-
-  const getOrdinalSuffix = (day: number) => {
-    if (day > 3 && day < 21) return "th"; // covers 11th-19th
-    switch (day % 10) {
-      case 1:
-        return "st";
-      case 2:
-        return "nd";
-      case 3:
-        return "rd";
-      default:
-        return "th";
-    }
-  };
-
-  const getTime = (timestamp: number) => {
-    const dateInMilliseconds = timestamp / 1000000;
-    const date = new Date(dateInMilliseconds);
-
-    const day = date.getDate();
-    const month = date.toLocaleString("en-US", { month: "long" });
-    const year = date.getFullYear();
-
-    return `${day}${getOrdinalSuffix(day)} ${month} ${year}`;
-  };
 
   async function fetchGraphQL(
     operationsDoc: string,
@@ -162,8 +162,6 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
     }
   }, []);
 
-  // const getTime =
-
   const onButtonClick = useCallback(() => {
     window.open("https://forum.aipgf.com");
   }, []);
@@ -198,7 +196,7 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
           </div>
           <div className="self-stretch flex flex-row flex-wrap items-start justify-start gap-[1.5rem] max-w-full text-[1.375rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356">
             {proposals.length &&
-              proposals.slice(0, 4).map((data) => (
+              proposals.map((data) => (
                 <div className="flex-1 rounded-md bg-aipgf-regent-gray border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start pt-[3.25rem] pb-[0rem] pl-[0.062rem] pr-[0rem] min-w-[19.25rem] max-w-full">
                   <div className="flex-1 bg-aipgf-white flex flex-col items-start justify-start pt-[1.312rem] px-[0rem] pb-[0rem] box-border relative gap-[1.112rem] max-w-full">
                     <div className="w-[2.563rem] h-[2.563rem] absolute !m-[0] top-[-1.506rem] left-[1rem] rounded-[12811.22px] bg-aipgf-white border-aipgf-white border-[2px] border-solid box-border overflow-hidden shrink-0"></div>
@@ -325,4 +323,4 @@ const FrameComponent3: NextPage<FrameComponent3Type> = ({ className = "" }) => {
   );
 };
 
-export default FrameComponent3;
+export default HeroProposals;

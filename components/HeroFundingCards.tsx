@@ -2,11 +2,13 @@ import type { NextPage } from "next";
 import { useCallback } from "react";
 import { Button } from "@mui/material";
 
-export type FrameComponent2Type = {
+export type HeroFundingCardsType = {
   className?: string;
 };
 
-const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
+const HeroFundingCards: NextPage<HeroFundingCardsType> = ({
+  className = "",
+}) => {
   const onButtonClick = useCallback(() => {
     window.open("https://aipgf.com/telegram");
   }, []);
@@ -20,13 +22,17 @@ const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
       className={`self-stretch flex flex-row items-start justify-start py-[0rem] px-[5rem] box-border max-w-full text-left text-[2.375rem] text-aipgf-shark1 font-p mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
     >
       <div className="flex-1 flex flex-row items-start justify-start gap-[1.5rem] max-w-full mq1425:flex-wrap">
-        <div className="flex-[0.9894] rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-end justify-start pt-[3rem] px-[2rem] pb-[2.687rem] gap-[1.437rem] min-w-[25.5rem] max-w-full mq825:flex-wrap mq825:min-w-full mq1425:flex-1">
-          <div className="w-[18.313rem] flex flex-col items-start justify-start gap-[3.812rem] min-w-[18.313rem] sm:gap-[1.875rem] mq825:flex-1">
+        <div className="flex-[0.9894] opacity-50 rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-end justify-between pt-[3rem] px-[2rem] pb-[2.687rem] gap-[1.437rem] min-w-[25.5rem] max-w-full mq825:flex-wrap mq825:min-w-full mq1425:flex-1">
+          <div className="w-50 flex flex-col items-start justify-start gap-[3.812rem] min-w-[18.313rem] sm:gap-[1.875rem] mq825:flex-1">
             <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] sm:text-[1.438rem] mq825:text-[1.875rem]">
               Funding Innovation Community
+              <span className="bg-yellow-400 ml-2 px-2 py-1 rounded-xl text-sm text-gray-500">
+                Coming Soon
+              </span>
             </h1>
+
             <Button
-              className="w-[6.1rem] h-[2.594rem] cursor-pointer"
+              className="w-[6.1rem] h-[2.594rem] cursor-not-allowed"
               endIcon={
                 <img width="18.4px" height="18.4px" src="/arrowupright-3.svg" />
               }
@@ -37,71 +43,32 @@ const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
                 color: "#1c1c1e",
                 fontSize: "16.1",
                 borderColor: "#dadadd",
+                cursor: "not-allowed",
                 borderRadius: "48.42px",
                 "&:hover": { borderColor: "#dadadd" },
                 width: 97.6,
                 height: 41.5,
               }}
-              onClick={onButtonClick}
+              // onClick={onButtonClick}
             >
               Join
             </Button>
           </div>
-          <div className="h-[12.406rem] w-[13.319rem] flex flex-col items-start justify-start min-w-[13.319rem] mq825:flex-1">
-            <div className="self-stretch flex flex-col items-start justify-start relative gap-[4.287rem]">
-              <div className="self-stretch flex flex-row items-start justify-start relative gap-[7.9rem]">
-                <img
-                  className="h-[2.713rem] w-[2.713rem] relative rounded-[115.23px] overflow-hidden shrink-0"
-                  alt=""
-                  src="/phusercirclefill.svg"
-                />
-                <img
-                  className="h-full w-[2.713rem] absolute !m-[0] top-[0rem] right-[-0.006rem] bottom-[0rem] rounded-[115.23px] max-h-full overflow-hidden shrink-0"
-                  alt=""
-                  src="/phusercirclefill-1.svg"
-                />
-              </div>
-              <div className="self-stretch flex flex-row items-start justify-start relative gap-[7.9rem]">
-                <img
-                  className="h-[2.713rem] w-[2.713rem] relative rounded-[115.23px] overflow-hidden shrink-0"
-                  alt=""
-                  src="/phusercirclefill-2.svg"
-                />
-                <img
-                  className="h-full w-[2.713rem] absolute !m-[0] top-[0rem] right-[-0.006rem] bottom-[0rem] rounded-[115.23px] max-h-full overflow-hidden shrink-0"
-                  alt=""
-                  src="/phusercirclefill-3.svg"
-                />
-                <img
-                  className="h-[2.331rem] w-[8.869rem] absolute !m-[0] top-[-1.325rem] left-[2.138rem] z-[2]"
-                  alt=""
-                  src="/group-13080.svg"
-                />
-              </div>
-              <div className="!m-[0] absolute top-[2.288rem] left-[2.138rem] flex flex-row items-start justify-start">
-                <img
-                  className="h-[4.631rem] w-[4.631rem] absolute !m-[0] bottom-[-2.769rem] left-[1.875rem] overflow-hidden shrink-0 z-[1]"
-                  loading="lazy"
-                  alt=""
-                  src="/claritycoinbagsolid.svg"
-                />
-                <img
-                  className="h-[2.331rem] w-[8.869rem] relative z-[2]"
-                  alt=""
-                  src="/group-13078.svg"
-                />
-              </div>
-            </div>
+          <div className="h-max w-[13.319rem] flex flex-col items-start justify-start min-w-[13.319rem] mq825:flex-1">
+            <img src="/InnovativeIcon.svg" loading="lazy" />
           </div>
         </div>
-        <div className="flex-1 rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start pt-[2.625rem] pb-[3rem] pl-[2rem] pr-[1.625rem] min-w-[25.5rem] max-w-full [row-gap:20px] mq825:flex-wrap mq825:min-w-full mq1425:flex-1">
-          <div className="flex-1 flex flex-col items-start justify-start pt-[0.387rem] px-[0rem] pb-[0rem] box-border min-w-[11.875rem]">
-            <div className="self-stretch flex flex-col items-start justify-start gap-[3.812rem] sm:gap-[1.875rem]">
+        <div className="flex-1 opacity-50 rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start pt-[2.625rem] pb-[3rem] pl-[2rem] pr-[1.625rem] min-w-[25.5rem] max-w-full [row-gap:20px] mq825:flex-wrap mq825:min-w-full mq1425:flex-1">
+          <div className="flex-1  flex flex-col items-start justify-start pt-[0.387rem] px-[0rem] pb-[0rem] box-border min-w-[11.875rem]">
+            <div className=" self-stretch flex flex-col items-start justify-start gap-[3.812rem] sm:gap-[1.875rem]">
               <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] sm:text-[1.438rem] mq825:text-[1.875rem]">
-                Grant Agent Portal + Playground
+                Grant Agent Portal + Playground{" "}
               </h1>
+              <span className="bg-yellow-400 ml-2 px-2 py-1 rounded-xl text-sm text-gray-500">
+                Coming Soon
+              </span>
               <Button
-                className="w-[7.663rem] h-[2.594rem] cursor-pointer"
+                className="w-[7.663rem] h-[2.594rem] cursor-not-allowed"
                 endIcon={
                   <img
                     width="18.4px"
@@ -118,10 +85,11 @@ const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
                   borderColor: "#dadadd",
                   borderRadius: "48.42px",
                   "&:hover": { borderColor: "#dadadd" },
+                  cursor: "not-allowed",
                   width: 122.6,
                   height: 41.5,
                 }}
-                onClick={onButtonClick1}
+                // onClick={onButtonClick1}
               >
                 Explore
               </Button>
@@ -218,4 +186,4 @@ const FrameComponent2: NextPage<FrameComponent2Type> = ({ className = "" }) => {
   );
 };
 
-export default FrameComponent2;
+export default HeroFundingCards;

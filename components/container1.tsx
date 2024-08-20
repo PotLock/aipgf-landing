@@ -45,7 +45,7 @@ const Container1: NextPage<Container1Type> = ({ className = "" }) => {
         </div>
         <div className="w-[48rem] h-[2.75rem] flex flex-row items-start justify-center py-[0rem] px-[1.25rem] box-border max-w-full">
           <Button
-            className="self-stretch w-[8.438rem] cursor-pointer"
+            className="self-stretch w-[8.438rem] cursor-pointer hover:opacity-50 transition-all ease-in-out duration-400"
             startIcon={
               <img width="20px" height="20px" src="/TelegramLogo.svg" />
             }
