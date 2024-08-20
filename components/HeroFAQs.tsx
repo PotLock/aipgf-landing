@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Container from "./container";
 import { useState } from "react";
 
 export type HeroFAQsType = {
@@ -63,7 +62,10 @@ const HeroFAQs: NextPage<HeroFAQsType> = ({ className = "" }) => {
                 style={{
                   background: key === active ? "#0768db" : "",
                 }}
-                onClick={() => setActive(key)}
+                onClick={() => {
+                  if (key === active) return setActive(-1);
+                  setActive(key);
+                }}
                 className={`self-stretch text-left text-[1.5rem] ${
                   active === key ? "text-white" : "text-grays-black"
                 } border-aipgf-geyser cursor-pointer border-[1px] transition-all ease-in-out duration-300 border-solid flex flex-row items-start justify-between pt-[1.437rem] pb-[1.375rem] pl-[1.937rem] pr-[0.562rem] gap-[1.25rem] mq825:flex-wrap`}
@@ -74,7 +76,7 @@ const HeroFAQs: NextPage<HeroFAQsType> = ({ className = "" }) => {
                     {data.title}
                   </h1>
                   {active === key && (
-                    <div className="transition-all duration-300 ease-in-out relative text-[1rem] leading-[1.5rem] mt-2 flex items-center break-words">
+                    <div className="relative text-[1rem] leading-[1.5rem] mt-2 flex items-center break-words">
                       {data.description}
                     </div>
                   )}
@@ -91,7 +93,10 @@ const HeroFAQs: NextPage<HeroFAQsType> = ({ className = "" }) => {
             {faqs.slice(4).map((data, key) => (
               <div
                 key={key + 4}
-                onClick={() => setActive(key + 4)}
+                onClick={() => {
+                  if (key + 4 === active) return setActive(-1);
+                  setActive(key + 4);
+                }}
                 style={{
                   background: key + 4 === active ? "#0768db" : "",
                 }}

@@ -154,7 +154,10 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
                 background: key === active ? "#0768db" : "",
               }}
               key={key}
-              onClick={() => setActive(key)}
+              onClick={() => {
+                if (active === key) return setActive(-1);
+                setActive(key);
+              }}
               className={`self-stretch transition-all duration-300 ease-in-out cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border flex flex-row sm:flex-col items-start justify-start pt-[1rem] pb-[1.312rem] pl-[1.937rem] pr-[1.687rem] gap-[3.387rem] max-w-full mq825:gap-[1.688rem] ${
                 active === key ? "text-white" : ""
               }`}

@@ -20,16 +20,13 @@ const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
       className={`self-stretch flex flex-row items-start justify-start py-[0rem] px-[5rem] box-border max-w-full text-left text-[2.375rem] text-aipgf-shark1 font-p mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
     >
       <div className="flex-1 flex flex-row flex-wrap items-start justify-start gap-[1.5rem] max-w-full">
-        <div className="flex-1 rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border opacity-50 overflow-hidden flex flex-row items-start justify-start pt-[4.437rem] pb-[4.062rem] pl-[2rem] pr-[1.75rem] relative gap-[1.375rem] min-w-[25.5rem] max-w-full mq825:flex-wrap mq825:min-w-full">
+        <div className="flex-1 rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-start justify-start pt-[4.437rem] pb-[4.062rem] pl-[2rem] pr-[1.75rem] relative gap-[1.375rem] min-w-[25.5rem] max-w-full mq825:flex-wrap mq825:min-w-full">
           <div className="flex-1 flex flex-col items-start justify-start gap-[3.812rem] min-w-[11.875rem] sm:gap-[1.875rem] ">
             <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] sm:text-[1.438rem] mq825:text-[1.875rem]">
               Proactive Grants Program
-              <span className="bg-yellow-400 ml-2 px-2 py-1 rounded-xl text-sm text-gray-500">
-                Coming Soon
-              </span>
             </h1>
             <Button
-              className="w-[8.5rem] h-[2.594rem] cursor-not-allowed"
+              className="w-[8.5rem] h-[2.594rem]"
               endIcon={
                 <img width="18.4px" height="18.4px" src="/arrowupright-3.svg" />
               }
@@ -45,8 +42,7 @@ const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
                 width: 120.6,
                 height: 41.5,
               }}
-              // onClick={onButtonClick}
-              disabled
+              onClick={onButtonClick}
             >
               Get Funded
             </Button>
@@ -115,19 +111,16 @@ const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
             src="/sealcheck.svg"
           />
         </div>
-        <div className="flex-1 rounded-6xl opacity-50 bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-end justify-start pt-[2.625rem] px-[2rem] pb-[2.75rem] min-w-[25.5rem] max-w-full [row-gap:20px] mq825:flex-wrap mq825:min-w-full">
+        <div className="flex-1 rounded-6xl  bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-end justify-start pt-[2.625rem] px-[2rem] pb-[2.75rem] min-w-[25.5rem] max-w-full [row-gap:20px] mq825:flex-wrap mq825:min-w-full">
           <div className="h-[12.425rem]  w-[18.25rem] flex flex-col items-start justify-start min-w-[18.25rem] mq825:flex-1">
             <div className="self-stretch flex flex-col items-start justify-start gap-[3.812rem] sm:gap-[1.875rem]">
               <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] sm:text-[1.438rem] mq825:text-[1.875rem]">
                 Funding AGI{" "}
-                <span className="bg-yellow-400 ml-2 px-2 py-1 rounded-xl text-sm text-gray-500">
-                  Coming Soon
-                </span>
               </h1>
 
               <div
                 className="rounded-[48.42px] border-neutral-neutral-200 border-[1.2px] border-solid flex flex-row items-start justify-start py-[0.5rem] pl-[1.125rem] pr-[1.062rem] gap-[0.581rem] cursor-pointer text-[1.006rem] text-base-base-black font-inter"
-                // onClick={onButtonContainerClick}
+                onClick={onButtonContainerClick}
               >
                 <div className="relative cursor-not-allowed leading-[143%] font-medium inline-block min-w-[2.438rem]">
                   Build

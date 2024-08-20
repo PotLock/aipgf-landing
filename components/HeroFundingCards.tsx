@@ -22,17 +22,14 @@ const HeroFundingCards: NextPage<HeroFundingCardsType> = ({
       className={`self-stretch flex flex-row items-start justify-start py-[0rem] px-[5rem] box-border max-w-full text-left text-[2.375rem] text-aipgf-shark1 font-p mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
     >
       <div className="flex-1 flex flex-row items-start justify-start gap-[1.5rem] max-w-full mq1425:flex-wrap">
-        <div className="flex-[0.9894] opacity-50 rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-end justify-between pt-[3rem] px-[2rem] pb-[2.687rem] gap-[1.437rem] min-w-[25.5rem] max-w-full mq825:flex-wrap mq825:min-w-full mq1425:flex-1">
+        <div className="flex-[0.9894] rounded-6xl bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-row items-end justify-between pt-[3rem] px-[2rem] pb-[2.687rem] gap-[1.437rem] min-w-[25.5rem] max-w-full mq825:flex-wrap mq825:min-w-full mq1425:flex-1">
           <div className="w-50 flex flex-col items-start justify-start gap-[3.812rem] min-w-[18.313rem] sm:gap-[1.875rem] mq825:flex-1">
             <h1 className="m-0 self-stretch relative text-inherit font-medium font-[inherit] sm:text-[1.438rem] mq825:text-[1.875rem]">
               Funding Innovation Community
-              <span className="bg-yellow-400 ml-2 px-2 py-1 rounded-xl text-sm text-gray-500">
-                Coming Soon
-              </span>
             </h1>
 
             <Button
-              className="w-[6.1rem] h-[2.594rem] cursor-not-allowed"
+              className="w-[6.1rem] h-[2.594rem]"
               endIcon={
                 <img width="18.4px" height="18.4px" src="/arrowupright-3.svg" />
               }
