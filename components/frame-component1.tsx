@@ -1,14 +1,19 @@
 import type { NextPage } from "next";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import Button1 from "./button1";
 import Link from "next/link";
 
-export type FrameComponent1Type = {
+export type EligibilityCheckerType = {
   className?: string;
 };
 
-const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
+const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
+  className = "",
+}) => {
+  const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const onButtonClick = useCallback(() => {
     window.open("https://aipgf.com/about");
   }, []);
@@ -16,6 +21,23 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
   const onButtonClick1 = useCallback(() => {
     window.open("https://forum.aipgf.com");
   }, []);
+
+  const handleCheck = () => {
+    if (!inputValue) return;
+    setLoading(true);
+    fetch("/api/predict", {
+      mode: "cors",
+      method: "POST",
+      body: JSON.stringify({
+        input: inputValue,
+      }),
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        setLoading(false);
+        console.log(data.prediction);
+      });
+  };
 
   return (
     <section
@@ -74,16 +96,19 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
             </div>
           </div>
           <textarea
-            className="border-aipgf-geyser border-[1.5px] border-solid bg-[transparent] h-[9.313rem] w-auto [outline:none] self-stretch relative rounded-[7.36px] box-border overflow-hidden shrink-0"
+            className="border-aipgf-geyser p-3 border-[1.5px] border-solid bg-[transparent] h-[9.313rem] w-auto [outline:none] self-stretch relative rounded-[7.36px] box-border overflow-hidden shrink-0"
             rows={7}
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
             cols={24}
           />
           <div className="w-[19.306rem]  flex flex-col items-end justify-start gap-[3.4rem] text-[0.825rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356 sm:gap-[1.688rem]">
             <div className="self-stretch flex flex-row items-start justify-start">
               <div className="flex flex-row items-center justify-start gap-[0.437rem]">
                 <button
-                  disabled
-                  className="cursor-not-allowed opacity-50 [border:none] py-[0.468rem] px-[1.125rem] bg-communityintercomcom-blue-ribbon shadow-[0px_0px_0px_1.09px_#0057ff_inset] rounded-[22.31px] overflow-hidden flex flex-row items-center justify-center box-border min-w-[2.381rem]"
+                  onClick={handleCheck}
+                  disabled={!inputValue || loading}
+                  className="[border:none] disabled:opacity-35 transition-all ease-in-out duration-500 py-[0.468rem] px-[1.125rem] bg-communityintercomcom-blue-ribbon shadow-[0px_0px_0px_1.09px_#0057ff_inset] rounded-[22.31px] overflow-hidden flex flex-row items-center justify-center box-border min-w-[2.381rem]"
                 >
                   <div className="flex   flex-col items-center justify-start">
                     <b className="w-[5.313rem] relative text-[0.681rem] leading-[1.375rem] flex font-p text-aipgf-white text-center items-center justify-center">
@@ -122,4 +147,4 @@ const FrameComponent1: NextPage<FrameComponent1Type> = ({ className = "" }) => {
   );
 };
 
-export default FrameComponent1;
+export default EligibilityChecker;
