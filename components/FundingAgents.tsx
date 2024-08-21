@@ -18,7 +18,7 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
       icon: "monochrome-regularpng.svg",
       description:
         "Potlock donations built directly as agent within Bitte Wallet.",
-      url: "https://wallet.bitte.ai/smart-actions/Jv-wyATX7O0575hJw_1dL?mode=debug&agentId=potlock-agent-mintbase.vercel.app,
+      url: "https://wallet.bitte.ai/smart-actions/Jv-wyATX7O0575hJw_1dL?mode=debug&agentId=potlock-agent-mintbase.vercel.app",
     },
     {
       name: "Eligibility Check Agent",
