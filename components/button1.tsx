@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 export type Button1Type = {
   className?: string;
   button?: string;
-
+  disabled?: boolean;
   /** Style props */
   propHeight?: CSSProperties["height"];
   propWidth?: CSSProperties["width"];
@@ -21,6 +21,7 @@ const Button1: NextPage<Button1Type> = ({
   onButtonClick3,
   propHeight,
   propWidth,
+  disabled = false,
   buttonFlex,
 }) => {
   const buttonStyle: CSSProperties = useMemo(() => {
@@ -39,6 +40,7 @@ const Button1: NextPage<Button1Type> = ({
     <Button
       className={`h-[4.25rem] w-[9.75rem] hover:opacity-50 transition-all ease-in-out duration-400 cursor-pointer ${className}`}
       disableElevation
+      disabled={disabled}
       variant="contained"
       sx={{
         textTransform: "none",

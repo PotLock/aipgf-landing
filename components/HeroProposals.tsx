@@ -204,6 +204,7 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
                           <div className="flex flex-row space-x-3 flex-wrap">
                             {data.labels?.map((data) => (
                               <Tag
+                                key={data}
                                 propBackgroundColor={
                                   labelIcons[data]?.color ?? "#b7b7b7"
                                 }
