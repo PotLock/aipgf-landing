@@ -172,9 +172,30 @@
       "permanent": true
     },
     {
+      "source": "/forum-social",
+      "destination": "https://near.social/bos.forum.potlock.near/widget/app",
+      "permanent": true
+    },
+    {
+      "source": "/forum-dev",
+      "destination": "https://dev.near.org/bos.forum.potlock.near/widget/app",
+      "permanent": true
+    },
+    {
+      "source": "/forum-builders",
+      "destination": "https://nearbuilders.org/bos.forum.potlock.near/widget/app",
+      "permanent": true
+    },
+    {
       "source": "/copygiving-spec",
       "destination": "https://potlock.notion.site/CopyGiving-eba4858ad9bb4c769a2f22660ff35307?pvs=74",
       "permanent": true
+    },
+    {
+      "source": "/kyc",
+      "destination": "https://potlock.notion.site/CopyGiving-eba4858ad9bb4c769a2f22660ff35307?pvs=74",
+      "permanent": true
     }
+
   ]
 }
