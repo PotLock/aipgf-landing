@@ -16,7 +16,7 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
   const [predictedData, setPredictedData] = useState("");
 
   const onButtonClick = useCallback(() => {
-    window.open("https://aipgf.com/about");
+    window.open("https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4");
   }, []);
 
   const onButtonClick1 = useCallback(() => {
@@ -78,7 +78,7 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
                   Get Funded
                 </Button>
               </Link>
-              <Link target="_blank" href={"https://aipgf.com/about"}>
+              <Link target="_blank" href={"https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4"}>
                 <Button1
                   button="Learn More"
                   onButtonClick3={onButtonClick}

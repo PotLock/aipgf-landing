@@ -11,7 +11,7 @@ const Footer: NextPage<FooterType> = ({ className = "" }) => {
   }, []);
 
   const onVectorIconClick = useCallback(() => {
-    window.open("https://aipgf.com/telegram");
+    window.open("https://t.me/+ziyPvIoYO5EwOTkx");
   }, []);
 
   const onFrameContainerClick = useCallback(() => {

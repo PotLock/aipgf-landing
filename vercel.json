@@ -1,161 +1,180 @@
 {
-    "redirects": [
-      {
-        "source": "/ideas",
-        "destination": "https://potlock.notion.site/Ai-PGF-Ideas-19544cbfa45949c082811e3bff206455",
-        "permanent": true
-      },
-      {
-        "source": "/forum",
-        "destination": "https://gov.aipgf.com",
-        "permanent": true
-      },
-      {
-        "source": "/gov",
-        "destination": "https://gov.aipgf.com",
-        "permanent": true
-      },
-      {
-        "source": "/proposals",
-        "destination": "https://gov.aipgf.com/bos.forum.potlock.near/widget/app?page=proposals",
-        "permanent": true
-      },
-      {
-        "source": "/rfps",
-        "destination": "https://gov.aipgf.com/bos.forum.potlock.near/widget/app?page=rfps",
-        "permanent": true
-      },
-      {
-        "source": "/forum-backlog",
-        "destination": "https://github.com/orgs/PotLock/projects/16",
-        "permanent": true
-      },
-      {
-        "source": "/backlog",
-        "destination": "https://github.com/orgs/PotLock/projects/16",
-        "permanent": true
-      },
-      {
-        "source": "/terms",
-        "destination": "https://github.com/PotLock/aipgf/wiki/Terms-&-Conditions",
-        "permanent": true
-      },
-      {
-        "source": "/conduct",
-        "destination": "https://github.com/PotLock/aipgf/wiki/Code-of-Conduct",
-        "permanent": true
-      },
-      {
-        "source": "/about",
-        "destination": "https://potlock.notion.site/a246c8d932ff46f69b49dcd4144e1188?v=6110401a3e1e49a1a59fb3b359e07a4e&pvs=74",
-        "permanent": true
-      },
-      {
-        "source": "/announcement",
-        "destination": "https://paragraph.xyz/@potlock/ai-pgf-building-driverless-grants",
-        "permanent": true
-      },
-      {
-        "source": "/forum-specs",
-        "destination": "https://potlock.notion.site/AI-PGF-Forum-b08a145a268c45749c7ab07c7de9f07e?pvs=4",
-        "permanent": true
-      },
-      {
-        "source": "/copygiving",
-        "destination": "https://potlock.notion.site/CopyGiving-eba4858ad9bb4c769a2f22660ff35307?pvs=74",
-        "permanent": true
-      },
-      {
-        "source": "/figma",
-        "destination": "https://www.figma.com/design/FsLP5nnW3BbEmTrPfLoh8o/AIPGF?node-id=0-1&t=ZB1v2cxFq1XlDoN4-0",
-        "permanent": true
-      },
+  "redirects": [
+    {
+      "source": "/ideas",
+      "destination": "https://potlock.notion.site/Ai-PGF-Ideas-19544cbfa45949c082811e3bff206455",
+      "permanent": true
+    },
+    {
+      "source": "/forum",
+      "destination": "https://gov.aipgf.com",
+      "permanent": true
+    },
+    {
+      "source": "/gov",
+      "destination": "https://gov.aipgf.com",
+      "permanent": true
+    },
+    {
+      "source": "/proposals",
+      "destination": "https://gov.aipgf.com/bos.forum.potlock.near/widget/app?page=proposals",
+      "permanent": true
+    },
+    {
+      "source": "/rfps",
+      "destination": "https://gov.aipgf.com/bos.forum.potlock.near/widget/app?page=rfps",
+      "permanent": true
+    },
+    {
+      "source": "/forum-backlog",
+      "destination": "https://github.com/orgs/PotLock/projects/16",
+      "permanent": true
+    },
+    {
+      "source": "/backlog",
+      "destination": "https://github.com/orgs/PotLock/projects/16",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "https://github.com/PotLock/aipgf/wiki/Terms-&-Conditions",
+      "permanent": true
+    },
+    {
+      "source": "/conduct",
+      "destination": "https://github.com/PotLock/aipgf/wiki/Code-of-Conduct",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "https://potlock.notion.site/a246c8d932ff46f69b49dcd4144e1188?v=6110401a3e1e49a1a59fb3b359e07a4e&pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/election",
+      "destination": "https://potlock.notion.site/AI-Elections-d07e7f919f674e27ba4f7598a594ecbe?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/budgetoor", 
+      "destination": "https://potlock.notion.site/Budgetoor-3bf58bc7ebfe4790a1dff1ff1c3ef376",
+      "permanent": true
+    },
+    {
+      "source": "/rfp-agent",
+      "destination": "https://potlock.notion.site/RFP-Agent-Inverted-Proposals-dd7e9bdb1a5445a484a7eacf12513679",
+      "permanent": true
+    },
+    {
+      "source": "/elections",
+      "destination": "https://potlock.notion.site/AI-Elections-d07e7f919f674e27ba4f7598a594ecbe?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/announcement",
+      "destination": "https://paragraph.xyz/@potlock/ai-pgf-building-driverless-grants",
+      "permanent": true
+    },
+    {
+      "source": "/forum-specs",
+      "destination": "https://potlock.notion.site/AI-PGF-Forum-b08a145a268c45749c7ab07c7de9f07e?pvs=4",
+      "permanent": true
+    },
+    {
+      "source": "/copygiving",
+      "destination": "https://potlock.notion.site/CopyGiving-eba4858ad9bb4c769a2f22660ff35307?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/figma",
+      "destination": "https://www.figma.com/design/FsLP5nnW3BbEmTrPfLoh8o/AIPGF?node-id=0-1&t=ZB1v2cxFq1XlDoN4-0",
+      "permanent": true
+    },
 
-      {
-        "source": "/expectations",
-        "destination": "https://potlock.org/aipgf-outcomes",
-        "permanent": true
-      },
-      {
-        "source": "/explaned",
-        "destination": "https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4",
-        "permanent": true
-      },
-      {
-        "source": "/explained",
-        "destination": "https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4",
-        "permanent": true
-      },
-      {
-        "source": "/devcon",
-        "destination": "https://docs.google.com/presentation/d/1Cadm8QmSAS-J0IKN70zYzl5V6oAusk78pGcmxffSD0M/edit?usp=sharing",
-        "permanent": true
-      },
-      {
-        "source": "/autorounds-spec",
-        "destination": "https://potlock.notion.site/Auto-Rounds-f9506ad3b52d4a76bc88c1dddab081c9?pvs=4",
-        "permanent": true
-      },
-      {
-        "source": "/autorounds",
-        "destination": "https://potlock.notion.site/Auto-Rounds-f9506ad3b52d4a76bc88c1dddab081c9?pvs=4",
-        "permanent": true
-      },
-      {
-        "source": "/allo-spec",
-        "destination": "https://potlock.notion.site/Auto-Rounds-f9506ad3b52d4a76bc88c1dddab081c9?pvs=4",
-        "permanent": true
-      },
-      {
-        "source": "/allo",
-        "destination": "https://potlock.notion.site/Auto-Rounds-f9506ad3b52d4a76bc88c1dddab081c9?pvs=4",
-        "permanent": true
-      },
-      {
-        "source": "/template",
-        "destination": "https://potlock.notion.site/Application-Template-f7fa26c8a2fa494d8263363c08fd4bef",
-        "permanent": true
-      },
-      {
-        "source": "/apply",
-        "destination": "https://potlock.notion.site/Application-Template-f7fa26c8a2fa494d8263363c08fd4bef",
-        "permanent": true
-      },
-      {
-        "source": "/links",
-        "destination": "https://bento.me/aipgf",
-        "permanent": true
-      },
-      {
-        "source": "/telegram",
-        "destination": "https://t.me/+DxtNHuN0mL5jN2Jh",
-        "permanent": true
-      },
-      {
-        "source": "/potlock-telegram",
-        "destination": "https://t.me/+kZVNdJw7BHFkOTcx",
-        "permanent": true
-      },
-      {
-        "source": "/applications",
-        "destination": "https://potlock.org/agents",
-        "permanent": true
-      },
-      {
-        "source": "/donation-agent-spec",
-        "destination": "https://potlock.notion.site/Donation-Agent-2e167ee50542457787caee5667b9d843",
-        "permanent": true
-      },
-      {
-        "source": "/copygiving-rfp",
-        "destination": "https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=rfp&id=0",
-        "permanent": true
-      },
-      {
-        "source": "/copygiving-spec",
-        "destination": "https://potlock.notion.site/CopyGiving-eba4858ad9bb4c769a2f22660ff35307?pvs=74",
-        "permanent": true
-      }
-    ]
-  }
-  
+    {
+      "source": "/expectations",
+      "destination": "https://potlock.org/aipgf-outcomes",
+      "permanent": true
+    },
+    {
+      "source": "/explaned",
+      "destination": "https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4",
+      "permanent": true
+    },
+    {
+      "source": "/explained",
+      "destination": "https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4",
+      "permanent": true
+    },
+    {
+      "source": "/devcon",
+      "destination": "https://docs.google.com/presentation/d/1Cadm8QmSAS-J0IKN70zYzl5V6oAusk78pGcmxffSD0M/edit?usp=sharing",
+      "permanent": true
+    },
+    {
+      "source": "/autorounds-spec",
+      "destination": "https://potlock.notion.site/Auto-Rounds-f9506ad3b52d4a76bc88c1dddab081c9?pvs=4",
+      "permanent": true
+    },
+    {
+      "source": "/autorounds",
+      "destination": "https://potlock.notion.site/Auto-Rounds-f9506ad3b52d4a76bc88c1dddab081c9?pvs=4",
+      "permanent": true
+    },
+    {
+      "source": "/allo-spec",
+      "destination": "https://potlock.notion.site/Auto-Rounds-f9506ad3b52d4a76bc88c1dddab081c9?pvs=4",
+      "permanent": true
+    },
+    {
+      "source": "/allo",
+      "destination": "https://potlock.notion.site/Auto-Rounds-f9506ad3b52d4a76bc88c1dddab081c9?pvs=4",
+      "permanent": true
+    },
+    {
+      "source": "/template",
+      "destination": "https://potlock.notion.site/Application-Template-f7fa26c8a2fa494d8263363c08fd4bef",
+      "permanent": true
+    },
+    {
+      "source": "/apply",
+      "destination": "https://potlock.notion.site/Application-Template-f7fa26c8a2fa494d8263363c08fd4bef",
+      "permanent": true
+    },
+    {
+      "source": "/links",
+      "destination": "https://bento.me/aipgf",
+      "permanent": true
+    },
+    {
+      "source": "/telegram",
+      "destination": "https://t.me/+DxtNHuN0mL5jN2Jh",
+      "permanent": true
+    },
+    {
+      "source": "/potlock-telegram",
+      "destination": "https://t.me/+kZVNdJw7BHFkOTcx",
+      "permanent": true
+    },
+    {
+      "source": "/applications",
+      "destination": "https://potlock.org/agents",
+      "permanent": true
+    },
+    {
+      "source": "/donation-agent-spec",
+      "destination": "https://potlock.notion.site/Donation-Agent-2e167ee50542457787caee5667b9d843",
+      "permanent": true
+    },
+    {
+      "source": "/copygiving-rfp",
+      "destination": "https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=rfp&id=0",
+      "permanent": true
+    },
+    {
+      "source": "/copygiving-spec",
+      "destination": "https://potlock.notion.site/CopyGiving-eba4858ad9bb4c769a2f22660ff35307?pvs=74",
+      "permanent": true
+    }
+  ]
+}

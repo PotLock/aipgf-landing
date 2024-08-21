@@ -24,7 +24,7 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
             {`Browse the RFPs, and `}
             <a
               className="text-[inherit]"
-              href="https://aipgf.com/ideas"
+              href="https://potlock.notion.site/Ai-PGF-Ideas-19544cbfa45949c082811e3bff206455"
               target="_blank"
             >
               <span className="[text-decoration:underline]">ideas</span>
@@ -42,7 +42,7 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
           <span>{`Draft your proposal with this `}</span>
           <a
             className="text-[inherit]"
-            href="https://aipgf.com/template"
+            href="https://potlock.notion.site/Application-Template-f7fa26c8a2fa494d8263363c08fd4bef"
             target="_blank"
           >
             <span>
@@ -63,7 +63,7 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
           <span>{`Draft your proposal with this `}</span>
           <a
             className="text-[inherit]"
-            href={"https://aipgf.com/telegram"}
+            href={"https://t.me/+uG4R0N5SuP03MWEx"}
             target="_blank"
           >
             <span>
@@ -136,7 +136,7 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
                 Building at the intersection of funding, Web3, and AI? Apply for
                 a grant through our on-chain portal to build open source today!
               </h3>
-              <Link target="_blank" href={"https://aipgf.com/about"}>
+              <Link target="_blank" href={"https://potlock.notion.site/a246c8d932ff46f69b49dcd4144e1188?v=6110401a3e1e49a1a59fb3b359e07a4e&pvs=74"}>
                 <Button1
                   button="Apply Now"
                   propHeight="4.25rem"

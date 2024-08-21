@@ -8,7 +8,7 @@ export type Container1Type = {
 
 const Container1: NextPage<Container1Type> = ({ className = "" }) => {
   const onActionsClick = useCallback(() => {
-    window.open("https://aipgf.com/telegram");
+    window.open("https://t.me/+uG4R0N5SuP03MWEx");
   }, []);
 
   return (
