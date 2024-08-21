@@ -56,7 +56,7 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
             <h1 className="m-0 sm:text-center text-left self-stretch relative text-inherit font-medium font-[inherit] sm:text-[2.25rem] mq825:text-[2rem]">
               AI /powered/ Public Goods Funding
             </h1>
-            <h1 className="m-0 w-[38.625rem] relative text-[1.5rem] leading-[2.063rem] inline-block max-w-full font-[inherit] sm:text-[1.188rem] sm:leading-[1.625rem]">
+            <h1 className="m-0 sm:text-center w-[38.625rem] relative text-[1.5rem] leading-[2.063rem] inline-block max-w-full font-[inherit] sm:text-[1.188rem] sm:leading-[1.625rem]">
               <span>{`AI-PGF: A Proactive Grants Program and Movement to Build towards a `}</span>
               <b>Funding AGI</b>
             </h1>
@@ -172,7 +172,11 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
                         "Status: Eligible",
                         '<b>Status:</b> <span class="text-green-500 font-bold">Eligible</span>'
                       )
-                      .replace("Reasons:", "<b>Reasons</b>"),
+                      .replace("Reasons:", "<b>Reasons</b>")
+                      .replace(
+                        /(\d+\.\s)/g,
+                        '<span class="inline-flex items-center"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4 text-gray-500 mr-2"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>$1</span>'
+                      ),
                   }}
                 />
               )}

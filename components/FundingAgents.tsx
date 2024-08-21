@@ -18,14 +18,14 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
       icon: "monochrome-regularpng.svg",
       description:
         "Potlock donations built directly as agent within Bitte Wallet.",
-      url: "https://wallet.bitte.ai",
+      url: "https://wallet.bitte.ai/smart-actions/Jv-wyATX7O0575hJw_1dL?mode=debug&agentId=potlock-agent-mintbase.vercel.app",
     },
     {
       name: "Eligibility Check Agent",
       icon: "ProjectRecommend.svg",
       description:
         "Verifies project eligibility for funding for the AI-PGF Program.",
-      url: "https://app.aipgf.com",
+      url: "https://aipgf.com",
     },
     {
       name: "Funding AI",

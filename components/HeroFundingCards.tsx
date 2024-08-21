@@ -14,7 +14,7 @@ const HeroFundingCards: NextPage<HeroFundingCardsType> = ({
   }, []);
 
   const onButtonClick1 = useCallback(() => {
-    window.open("https://app.aipgf.com");
+    window.open("https://aipgf.com");
   }, []);
 
   return (

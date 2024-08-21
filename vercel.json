@@ -172,9 +172,35 @@
       "permanent": true
     },
     {
+      "source": "/forum-social",
+      "destination": "https://near.social/bos.forum.potlock.near/widget/app",
+      "permanent": true
+    },
+    {
+      "source": "/forum-dev",
+      "destination": "https://dev.near.org/bos.forum.potlock.near/widget/app",
+      "permanent": true
+    },
+    {
+      "source": "/forum-builders",
+      "destination": "https://nearbuilders.org/bos.forum.potlock.near/widget/app",
+      "permanent": true
+    },
+    {
       "source": "/copygiving-spec",
       "destination": "https://potlock.notion.site/CopyGiving-eba4858ad9bb4c769a2f22660ff35307?pvs=74",
       "permanent": true
+    },
+    {
+      "source": "/kyc",
+      "destination": "https://app.fractal.id/login?redirect_uri=https%3A%2F%2Fnear.foundation%2F&response_type=code&scope=contact%3Aread%20verification.plus%3Aread%20verification.plus.details%3Aread%20verification.liveness%3Aread%20verification.liveness.details%3Aread%20verification.uniq%3Aread%20verification.uniq.details%3Aread%20verification.wallet-near%3Aread%20verification.wallet-near.details%3Aread&user_role=person",
+      "permanent": true
+    },
+    {
+      "source": "/kyb",
+      "destination": "https://app.fractal.id/login?redirect_uri=https%3A%2F%2Fnear.foundation%2F&response_type=code&scope=contact%3Aread%20verification.plus%3Aread%20verification.plus.details%3Aread%20verification.liveness%3Aread%20verification.liveness.details%3Aread%20verification.uniq%3Aread%20verification.uniq.details%3Aread%20verification.wallet-near%3Aread%20verification.wallet-near.details%3Aread&user_role=institution",
+      "permanent": true
     }
+
   ]
 }
