@@ -16,7 +16,9 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
   const [predictedData, setPredictedData] = useState("");
 
   const onButtonClick = useCallback(() => {
-    window.open("https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4");
+    window.open(
+      "https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4"
+    );
   }, []);
 
   const onButtonClick1 = useCallback(() => {
@@ -78,7 +80,12 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
                   Get Funded
                 </Button>
               </Link>
-              <Link target="_blank" href={"https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4"}>
+              <Link
+                target="_blank"
+                href={
+                  "https://potlock.notion.site/What-AI-PGF-Actually-Looks-Like-dc04c784b11e474aacb6e0f27f91cb40?pvs=4"
+                }
+              >
                 <Button1
                   button="Learn More"
                   onButtonClick3={onButtonClick}
@@ -90,14 +97,33 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
           </div>
         </div>
         <div className="w-[32.813rem] rounded-3xs bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden shrink-0 flex flex-col items-start justify-start pt-[1.062rem] pb-[0.812rem] pl-[1.5rem] pr-[1.375rem] gap-[1.25rem] min-w-[32.813rem] max-w-full text-[1.5rem] mq825:min-w-full mq1425:flex-1">
-          <div className="self-stretch flex flex-col items-start justify-start gap-[0.562rem]">
-            <h1 className="m-0 self-stretch relative text-inherit leading-[143%] font-bold font-[inherit] sm:text-[1.188rem] sm:leading-[1.688rem]">
-              Eligibility Assesment Agent
-            </h1>
-            <div className="self-stretch relative text-[1rem] leading-[143%]">
-              The AI will do an assessment of the project's eligibility for the
-              AI-PGF grants program. Just type about your project.
+          <div className="flex items-start flex-row">
+            <div className="self-stretch flex flex-col items-start justify-start gap-[0.562rem]">
+              <h1 className="m-0 self-stretch relative text-inherit leading-[143%] font-bold font-[inherit] sm:text-[1.188rem] sm:leading-[1.688rem]">
+                Eligibility Assessment Agent
+              </h1>
+              <div className="self-stretch relative text-[1rem] leading-[143%]">
+                The AI will do an assessment of the project's{" "}
+                <a
+                  style={{ textDecoration: "none" }}
+                  href="https://potlock.notion.site/a246c8d932ff46f69b49dcd4144e1188?v=6110401a3e1e49a1a59fb3b359e07a4e"
+                  target="_blank"
+                >
+                  eligibility
+                </a>{" "}
+                for the AI-PGF grants program. Just type about your project.
+              </div>
             </div>
+            <img
+              src="/ArrowsClockwise.svg"
+              className="w-7 cursor-pointer hover:opacity-60 transition-all duration-300 ease-in-out"
+              alt=""
+              role="button"
+              onClick={() => {
+                setPredictedData("");
+                setInputValue("");
+              }}
+            />
           </div>
           {!loading && !predictedData ? (
             <textarea
@@ -134,7 +160,21 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
                   <p className="text-sm">Checking Eligibility...</p>
                 </div>
               ) : (
-                <p className="text-sm whitespace-pre-wrap">{predictedData}</p>
+                <p
+                  className="text-sm whitespace-pre-wrap"
+                  dangerouslySetInnerHTML={{
+                    __html: predictedData
+                      .replace(
+                        "Status: Not Eligible",
+                        '<b>Status:</b> <span class="text-red-500 font-bold">Not Eligible</span>'
+                      )
+                      .replace(
+                        "Status: Eligible",
+                        '<b>Status:</b> <span class="text-green-500 font-bold">Eligible</span>'
+                      )
+                      .replace("Reasons:", "<b>Reasons</b>"),
+                  }}
+                />
               )}
             </div>
           )}
@@ -153,14 +193,6 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
                     </b>
                   </div>
                 </button>
-                <Button1
-                  button="Attach files"
-                  propHeight="2.313rem"
-                  propWidth="7.25rem"
-                  disabled={true}
-                  className="cursor-not-allowed"
-                  buttonFlex="unset"
-                />
               </div>
             </div>
             {false && (
