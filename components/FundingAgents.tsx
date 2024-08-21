@@ -16,21 +16,22 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
     {
       name: "Bitte Donation Agent",
       icon: "monochrome-regularpng.svg",
-      description: "Potlock donations built directly as agent within Bitte Wallet.",
+      description:
+        "Potlock donations built directly as agent within Bitte Wallet.",
       url: "https://wallet.bitte.ai",
-
     },
     {
       name: "Eligibility Check Agent",
       icon: "ProjectRecommend.svg",
-      description: "Verifies project eligibility for funding for the AI-PGF Program.",
+      description:
+        "Verifies project eligibility for funding for the AI-PGF Program.",
       url: "https://app.aipgf.com",
-
     },
     {
       name: "Funding AI",
       icon: "4-3@2x.png",
-      description: "Multi-agent framework for donation and discovery of public goods projects.",
+      description:
+        "Multi-agent framework for donation and discovery of public goods projects.",
       url: "https://potlock-donation-agent.vercel.app/potlock",
     },
   ];
@@ -54,8 +55,8 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
           {agents.map((data, index) => (
             <div
               key={index}
-              onClick={() => window.open(data.url, '_blank')}
-              className="flex-1 rounded-lg bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-col items-start justify-start gap-[0.9rem] min-w-[19.25rem] max-w-full"
+              onClick={() => window.open(data.url, "_blank")}
+              className="flex-1 rounded-lg bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-col items-start justify-start gap-[0.9rem] transition-all ease-in-out duration-500 min-w-[19.25rem] max-w-full hover:opacity-60 cursor-pointer"
             >
               <div className="self-stretch flex flex-col items-start justify-center pt-[1.35rem] px-[1.312rem] pb-[0.725rem]">
                 <div className="self-stretch flex flex-row items-center justify-start">
