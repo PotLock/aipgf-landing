@@ -16,32 +16,32 @@ const HeroFAQs: NextPage<HeroFAQsType> = ({ className = "" }) => {
     {
       title: "Do I need to build on NEAR?",
       description:
-        "Yes, building on NEAR is a requirement. If you don't have a NEAR account, create one to get started. We're excited to see what you build on our platform!",
+        "For most bounties over $1000 USD, a native on-chain integration into NEAR is reccomended. However, other chains, protocols will also be sponsoring bounties so check the specific RFP for requirements. Additionaly some agents are chain agnostic. ",
     },
     {
       title: "Can I submit an existing product?",
       description:
-        "Each product must be unique, so submitting an existing product isn't allowed. We encourage you to create something new and innovative that showcases your skills and creativity.",
+        "We support existing products that can build a grant workflows as an open source agent. Being part of an existing product is a strength and gives us confidence that tooling has a higher likelihood to be mantained",
     },
     {
       title: "What if I’m just building open source AI?",
       description:
-        "While we appreciate open-source AI projects, our funding program is specifically designed for builders creating AI applications on the NEAR protocol. If your project aligns with our focus, we'd love to consider it for funding.",
+        "While we appreciate open-source AI projects, this program is designed for open source AI builders, who are using AI to tackle issues with funding & grant workflows. Check out NEAR's Upcoming AI Grants for info (TBA)",
     },
     {
       title: "How much funds are you giving to builders?",
       description:
-        "The amount of funding varies based on the scope and impact of the project. We assess each proposal individually to determine the appropriate funding amount, ensuring it aligns with the project's needs and potential contributions to the ecosystem.",
+        "The amount of funding varies based on the scope and impact of the project. Check program guidelines for more info. Traditionally most agents will be in the $1K-$5k, but grants can range from $1K-$20K, depending on level of integration.",
     },
     {
       title: "Where can I get feedback for my proposal?",
       description:
-        "Join our community forum to share your proposal and receive constructive feedback from our team and fellow builders. This is a great opportunity to refine your idea and increase its chances of being funded.",
+        "Join our community forum to share your proposal and receive constructive feedback from our team and fellow builders. This is a great opportunity to refine your idea and increase its chances of being funded. We reccomend doing this before posting on chain",
     },
     {
       title: "Where can I get ideas to build?",
       description:
-        "Explore our community forum  for inspiration and ideas from other builders. You can also reach out to our team for guidance on finding the right project to build. We're here to support your innovation journey!",
+        "Check out the Ideas list.",
     },
   ];
 

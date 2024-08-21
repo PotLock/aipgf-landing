@@ -10,7 +10,7 @@ const HeroFundingCards: NextPage<HeroFundingCardsType> = ({
   className = "",
 }) => {
   const onButtonClick = useCallback(() => {
-    window.open("https://aipgf.com/telegram");
+    window.open("https://t.me/+uG4R0N5SuP03MWEx");
   }, []);
 
   const onButtonClick1 = useCallback(() => {

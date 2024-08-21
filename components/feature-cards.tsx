@@ -12,7 +12,7 @@ const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
   }, []);
 
   const onButtonContainerClick = useCallback(() => {
-    window.open("https://aipgf.com/ideas");
+    window.open("https://potlock.notion.site/Ai-PGF-Ideas-19544cbfa45949c082811e3bff206455");
   }, []);
 
   return (
