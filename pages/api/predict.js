@@ -5,7 +5,7 @@ import { ChatOpenAI } from "@langchain/openai";
 
 export async function sendMessage(input) {
   const chatModel = new ChatOpenAI({
-    openAIApiKey: process.env.NEXT_APP_OPEN_AI_KEY,
+    openAIApiKey: process.env.NEXT_PUBLIC_OPEN_AI_KEY,
   });
 
   const outputParser = new StringOutputParser();

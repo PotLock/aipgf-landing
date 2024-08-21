@@ -13,6 +13,7 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
+  const [predictedData, setPredictedData] = useState("");
 
   const onButtonClick = useCallback(() => {
     window.open("https://aipgf.com/about");
@@ -23,6 +24,7 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
   }, []);
 
   const handleCheck = () => {
+    setPredictedData("");
     if (!inputValue) return;
     setLoading(true);
     fetch("/api/predict", {
@@ -35,8 +37,11 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
       .then((data) => data.json())
       .then((data) => {
         setLoading(false);
+        setPredictedData(data.prediction);
         console.log(data.prediction);
-      });
+        setInputValue("");
+      })
+      .catch((error) => setPredictedData("Something went wrong"));
   };
 
   return (
@@ -91,26 +96,58 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
             </h1>
             <div className="self-stretch relative text-[1rem] leading-[143%]">
               The AI will do an assessment of the project's eligibility for the
-              AI-PGF grants program. Just type about your project or enter your
-              NEAR address.
+              AI-PGF grants program. Just type about your project.
             </div>
           </div>
-          <textarea
-            className="border-aipgf-geyser p-3 border-[1.5px] border-solid bg-[transparent] h-[9.313rem] w-auto [outline:none] self-stretch relative rounded-[7.36px] box-border overflow-hidden shrink-0"
-            rows={7}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            cols={24}
-          />
+          {!loading && !predictedData ? (
+            <textarea
+              className="border-aipgf-geyser p-3 border-[1.5px] border-solid bg-[transparent] h-[9.313rem] w-auto [outline:none] self-stretch relative rounded-[7.36px] box-border overflow-hidden shrink-0"
+              rows={7}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              cols={24}
+            />
+          ) : (
+            <div className="min-h-[149px] max-h-auto overflow-auto flex items-center justify-center">
+              {loading ? (
+                <div className="flex justify-center items-center">
+                  <svg
+                    className="animate-spin h-8 w-8 mr-4 text-gray-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v8z"
+                    ></path>
+                  </svg>
+                  <p className="text-sm">Checking Eligibility...</p>
+                </div>
+              ) : (
+                <p className="text-sm whitespace-pre-wrap">{predictedData}</p>
+              )}
+            </div>
+          )}
+
           <div className="w-[19.306rem]  flex flex-col items-end justify-start gap-[3.4rem] text-[0.825rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356 sm:gap-[1.688rem]">
             <div className="self-stretch flex flex-row items-start justify-start">
               <div className="flex flex-row items-center justify-start gap-[0.437rem]">
                 <button
                   onClick={handleCheck}
-                  disabled={!inputValue || loading}
-                  className="[border:none] disabled:opacity-35 transition-all ease-in-out duration-500 py-[0.468rem] px-[1.125rem] bg-communityintercomcom-blue-ribbon shadow-[0px_0px_0px_1.09px_#0057ff_inset] rounded-[22.31px] overflow-hidden flex flex-row items-center justify-center box-border min-w-[2.381rem]"
+                  disabled={(!inputValue && !predictedData) || loading}
+                  className="[border:none] cursor-pointer disabled:opacity-35 transition-all ease-in-out duration-500 py-[0.468rem] px-[1.125rem] bg-communityintercomcom-blue-ribbon shadow-[0px_0px_0px_1.09px_#0057ff_inset] rounded-[22.31px] overflow-hidden flex flex-row items-center justify-center box-border min-w-[2.381rem]"
                 >
-                  <div className="flex   flex-col items-center justify-start">
+                  <div className="flex flex-col items-center justify-start">
                     <b className="w-[5.313rem] relative text-[0.681rem] leading-[1.375rem] flex font-p text-aipgf-white text-center items-center justify-center">
                       Check Eligibility
                     </b>
@@ -120,7 +157,8 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
                   button="Attach files"
                   propHeight="2.313rem"
                   propWidth="7.25rem"
-                  className="cursor-not-allowed opacity-50"
+                  disabled={true}
+                  className="cursor-not-allowed"
                   buttonFlex="unset"
                 />
               </div>

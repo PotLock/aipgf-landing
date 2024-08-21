@@ -186,6 +186,7 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
             {proposals.length &&
               proposals.map((data) => (
                 <Link
+                  key={data.rfp_id}
                   href={`https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=rfp&id=0/${data.rfp_id}`}
                   target="_blank"
                   style={{ textDecoration: "none", color: "unset" }}
@@ -203,6 +204,7 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
                           <div className="flex flex-row space-x-3 flex-wrap">
                             {data.labels?.map((data) => (
                               <Tag
+                                key={data}
                                 propBackgroundColor={
                                   labelIcons[data]?.color ?? "#b7b7b7"
                                 }
