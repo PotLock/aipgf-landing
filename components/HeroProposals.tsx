@@ -187,7 +187,7 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
               proposals.map((data) => (
                 <Link
                   key={data.rfp_id}
-                  href={`https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=rfp&id=0/${data.rfp_id}`}
+                  href={`https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=rfp&id=/${data.rfp_id}`}
                   target="_blank"
                   style={{ textDecoration: "none", color: "unset" }}
                 >
