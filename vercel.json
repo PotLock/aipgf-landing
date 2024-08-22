@@ -122,6 +122,51 @@
       "permanent": true
     },
     {
+      "source": "/deadproject",
+      "destination": "https://potlock.notion.site/DeadProject-2c536543d02d42c2b86c25e67178ae7f?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/dead-project",
+      "destination": "https://potlock.notion.site/DeadProject-2c536543d02d42c2b86c25e67178ae7f?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/dead",
+      "destination": "https://potlock.notion.site/DeadProject-2c536543d02d42c2b86c25e67178ae7f?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/dead-projects",
+      "destination": "https://potlock.notion.site/DeadProject-2c536543d02d42c2b86c25e67178ae7f?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/dead-projects-spec",
+      "destination": "https://potlock.notion.site/DeadProject-2c536543d02d42c2b86c25e67178ae7f?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/dead-projects-specs",
+      "destination": "https://potlock.notion.site/DeadProject-2c536543d02d42c2b86c25e67178ae7f?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/dead-projects-specifications",
+      "destination": "https://potlock.notion.site/DeadProject-2c536543d02d42c2b86c25e67178ae7f?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/dead-projects-specification",
+      "destination": "https://potlock.notion.site/DeadProject-2c536543d02d42c2b86c25e67178ae7f?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/dead-projects-specifications",
+      "destination": "https://potlock.notion.site/DeadProject-2c536543d02d42c2b86c25e67178ae7f?pvs=74",
+      "permanent": true
+    },
+{
       "source": "/allo-spec",
       "destination": "https://potlock.notion.site/Auto-Rounds-f9506ad3b52d4a76bc88c1dddab081c9?pvs=4",
       "permanent": true
