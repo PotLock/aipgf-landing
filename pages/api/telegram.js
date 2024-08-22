@@ -16,6 +16,11 @@ bot.onText(/\/eligibility (.+)/, async (msg, match) => {
   bot.sendMessage(chatId, response);
 });
 
+const setWebhook = async () => {
+  const webhookUrl = `https://www.aipgf.com//api/telegram`;
+  await bot.setWebHook(webhookUrl);
+};
+
 // Handle other commands or messages here...
 const handler = async (req, res) => {
   if (req.method === "POST") {
@@ -47,5 +52,7 @@ const handler = async (req, res) => {
     return res.status(405).send("Method Not Allowed");
   }
 };
+
+setWebhook();
 
 export default handler;
