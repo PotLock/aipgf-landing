@@ -41,7 +41,7 @@ const Tag: NextPage<TagType> = ({
 
   return (
     <button
-      className={`cursor-pointer [border:none] py-[0.312rem] px-[0.5rem] bg-aipgf-red-ribbon w-[5.475rem] rounded-3xl flex flex-row items-center justify-center box-border gap-[0.187rem] ${className}`}
+      className={`cursor-pointer [border:none] py-[0.312rem] h-[25px] px-[0.5rem] bg-aipgf-red-ribbon w-[5.475rem] rounded-3xl flex flex-row items-center justify-center box-border gap-[0.187rem] ${className}`}
       style={tagStyle}
     >
       <div className="flex flex-col items-start justify-start">
