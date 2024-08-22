@@ -242,6 +242,11 @@
       "permanent": true
     },
     {
+      "source": "/tgbot",
+      "destination": "https://t.me/aipgfbot",
+      "permanent": true
+    },
+    {
       "source": "/kyb",
       "destination": "https://app.fractal.id/login?redirect_uri=https%3A%2F%2Fnear.foundation%2F&response_type=code&scope=contact%3Aread%20verification.plus%3Aread%20verification.plus.details%3Aread%20verification.liveness%3Aread%20verification.liveness.details%3Aread%20verification.uniq%3Aread%20verification.uniq.details%3Aread%20verification.wallet-near%3Aread%20verification.wallet-near.details%3Aread&user_role=institution",
       "permanent": true

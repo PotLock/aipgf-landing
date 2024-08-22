@@ -24,8 +24,8 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
       name: "Eligibility Check Agent",
       icon: "ProjectRecommend.svg",
       description:
-        "Verifies project eligibility for funding for the AI-PGF Program.",
-      url: "https://aipgf.com",
+        "Telegram bot that verifies project eligibility for funding for the AI-PGF Program.",
+      url: "https://t.me/aipgfbot",
     },
     {
       name: "Funding AI",
