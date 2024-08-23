@@ -134,7 +134,7 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
     } else if (containerWidth < 650) {
       setPercentageWidth(100);
     } else {
-      setPercentageWidth(70);
+      setPercentageWidth(80);
     }
   }, [containerWidth]);
 
@@ -227,7 +227,7 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
             />
           </div>
           <div className="relative w-full">
-            <div className="relative flex-row w-full overflow-hidden items-start justify-start gap-[1.5rem] max-w-full text-[1.375rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356">
+            <div className="relative flex-row w-full overflow-hidden items-start justify-start  gap-[1.5rem] max-w-full text-[1.375rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356">
               <div
                 className={`flex transition-transform duration-500 space-x-8 w-full sm:space-x-4 items-center ease-in-out`}
                 style={{
@@ -243,7 +243,26 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
                       target="_blank"
                       style={{ textDecoration: "none", color: "unset" }}
                     >
-                      <div className="flex-1 cursor-pointer rounded-md bg-aipgf-regent-gray border-aipgf-geyser border-[1px] border-solid box-border  flex flex-row items-start justify-start pt-[3.25rem] pb-[0rem] pl-[0.062rem] pr-[0rem] min-w-[19.25rem] sm:min-w-[320px] sm:max-w-[320px] max-w-[440px]">
+                      <div
+                        className={`flex-1 cursor-pointer rounded-md bg-aipgf-regent-gray border-aipgf-geyser border-[1px] border-solid box-border  flex flex-row items-start justify-start pt-[3.25rem] pb-[0rem] pl-[0.062rem] pr-[0rem] min-w-[19.25rem] max-w-[440px]`}
+                        style={{
+                          width: `${
+                            containerWidth < 650
+                              ? `calc(${containerWidth - 15}px)`
+                              : ""
+                          }`,
+                          minWidth: `${
+                            containerWidth < 650
+                              ? `${Math.floor(containerWidth - 15)}px`
+                              : ""
+                          }`,
+                          maxWidth: `${
+                            containerWidth < 650
+                              ? `${Math.floor(containerWidth - 15)}px`
+                              : ""
+                          }`,
+                        }}
+                      >
                         <div className="flex-1 bg-aipgf-white flex flex-col items-start justify-start pt-[1.312rem] px-[0rem] pb-[0rem] box-border relative gap-[1.112rem] max-w-full">
                           <div className="self-stretch flex flex-row items-start justify-start py-[0rem] px-[1rem] box-border max-w-full font-p">
                             <div className="flex-1 flex flex-col items-start justify-start gap-[1.343rem] max-w-full">
@@ -252,7 +271,7 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
                                   {data?.name}
                                 </h2>
                               </div>
-                              <div className="flex flex-row sm:items-between w-100 space-x-3 sm:space-x-2 ">
+                              <div className="flex flex-row sm:items-between w-100 space-x-3 sm:space-y-2 sm:flex-wrap sm:space-x-2 ">
                                 {data.labels?.map((data) => (
                                   <Tag
                                     key={data}
