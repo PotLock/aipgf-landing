@@ -271,7 +271,7 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
                                   {data?.name}
                                 </h2>
                               </div>
-                              <div className="flex flex-row sm:items-between w-100 space-x-3 sm:space-y-2 sm:flex-wrap sm:space-x-2 ">
+                              <div className="flex flex-row sm:items-between w-100 space-x-3 sm:gap-y-2 sm:flex-wrap sm:space-x-2 ">
                                 {data.labels?.map((data) => (
                                   <Tag
                                     key={data}
