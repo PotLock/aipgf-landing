@@ -13,6 +13,9 @@ const CompanyLogo: NextPage<CompanyLogoType> = ({ className = "" }) => {
   const onNEARFoundation1ImageClick = useCallback(() => {
     window.open("https://near.foundation");
   }, []);
+  const onViaprizeImageClick = useCallback(() => {
+    window.open("https://viaprize.org");
+  }, []);
 
   const onWhiteLogo56effa5f1ImageClick = useCallback(() => {
     window.open("https://masa.ai");
@@ -43,6 +46,13 @@ const CompanyLogo: NextPage<CompanyLogoType> = ({ className = "" }) => {
           alt=""
           src="/nearfoundation-1@2x.png"
           onClick={onNEARFoundation1ImageClick}
+        />
+                <img
+          className="h-[1.956rem] w-[9.563rem] relative overflow-hidden shrink-0 object-cover cursor-pointer"
+          loading="lazy"
+          alt=""
+          src="/viaprizegraytransparent.png"
+          onClick={onViaprizeImageClick}
         />
         {/* <img
           className="h-[1.956rem] w-[9.563rem] relative overflow-hidden shrink-0 object-cover cursor-pointer"
