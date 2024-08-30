@@ -13,7 +13,7 @@ const NavBar: NextPage<NavBarType> = ({ className = "" }) => {
         <div className="flex flex-col items-start justify-start py-[0rem] pl-[0rem] pr-[1.5rem]">
           <div className="flex flex-row items-start justify-start">
             <div className="flex flex-row items-center justify-start gap-[0.562rem]">
-              <div className="h-[1.875rem] w-[1.875rem] relative overflow-hidden shrink-0">
+              {/* <div className="h-[1.875rem] w-[1.875rem] relative overflow-hidden shrink-0">
                 <div className="absolute h-[89%] w-[84.33%] top-[4.33%] right-[7.33%] bottom-[6.67%] left-[8.33%]">
                   <img
                     className="absolute h-[88.76%] w-full top-[0%] right-[0%] bottom-[11.24%] left-[0%] max-w-full overflow-hidden max-h-full"
@@ -47,7 +47,12 @@ const NavBar: NextPage<NavBarType> = ({ className = "" }) => {
                     src="/vector-5.svg"
                   />
                 </div>
-              </div>
+              </div> */}
+              <img
+  className="h-[1.875rem] w-[1.875rem] relative overflow-hidden shrink-0"
+  alt="AIPGF Logo"
+  src="/AIPGFLogo.svg"
+/>
               <a className="[text-decoration:none] relative font-bold text-[inherit] inline-block min-w-[3.438rem]">
                 AI-PGF
               </a>

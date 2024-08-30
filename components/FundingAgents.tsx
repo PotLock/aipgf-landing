@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import { useCallback } from "react";
 import Button1 from "./button1";
 import FrameComponent from "./frame-component";
 
@@ -8,10 +7,6 @@ export type FundingAgentsType = {
 };
 
 const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
-  const onButtonClick = useCallback(() => {
-    window.open("https://app.aipgf.com");
-  }, []);
-
   const agents = [
     {
       name: "Bitte Donation Agent",
@@ -19,6 +14,7 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
       description:
         "Potlock donations built directly as agent within Bitte Wallet.",
       url: "https://wallet.bitte.ai/smart-actions/Jv-wyATX7O0575hJw_1dL?mode=debug&agentId=potlock-agent-mintbase.vercel.app",
+      tags: ["NEAR", "On-Chain"],
     },
     {
       name: "Eligibility Check Agent",
@@ -32,9 +28,11 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
       icon: "4-3@2x.png",
       description:
         "Multi-agent framework for donation and discovery of public goods projects.",
-      url: "https://potlock-donation-agent.vercel.app/potlock",
+      url: "https://ai.potlock.org/potlock",
+      tags: ["NEAR", "On-Chain", "Chatbot"],
     },
   ];
+
   return (
     <section
       className={`self-stretch flex flex-row items-start justify-start pt-[0rem] px-[5rem] pb-[1.062rem] box-border max-w-full text-left text-[2.894rem] text-aipgf-shark font-p mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
@@ -49,14 +47,17 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
           <div className="w-[39.438rem] flex flex-col items-start justify-start pt-[1.406rem] pb-[0rem] pl-[0rem] pr-[1.25rem] box-border max-w-full text-[1.125rem]">
             <h3 className="m-0 w-[36.25rem] relative text-inherit font-normal font-[inherit] whitespace-pre-wrap inline-block max-w-full">{`Explore   funding agents designed to streamline grant workflows `}</h3>
           </div>
-          <Button1 button="Explore" onButtonClick3={onButtonClick} />
+          <Button1 button="Explore" onButtonClick3={() => window.open("https://app.aipgf.com", "_blank")} />
         </div>
         <div className="self-stretch flex flex-row flex-wrap items-start justify-start gap-[1.5rem] max-w-full text-[0.869rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356">
           {agents.map((data, index) => (
-            <div
+            <a
               key={index}
-              onClick={() => window.open(data.url, "_blank")}
+              href={data.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex-1 rounded-lg bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-col items-start justify-start gap-[0.9rem] transition-all ease-in-out duration-500 min-w-[19.25rem] max-w-full hover:opacity-60 cursor-pointer"
+              style={{ textDecoration: "none" }} // Remove underline
             >
               <div className="self-stretch flex flex-col items-start justify-center pt-[1.35rem] px-[1.312rem] pb-[0.725rem]">
                 <div className="self-stretch flex flex-row items-center justify-start">
@@ -72,8 +73,9 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
                 description={data.description}
                 rFPProposalGenerator={data.name}
                 prop="ProjectRecommend.svg"
+                tags={data.tags}
               />
-            </div>
+            </a>
           ))}
         </div>
       </div>

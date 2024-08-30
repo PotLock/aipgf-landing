@@ -5,12 +5,14 @@ export type FrameComponentType = {
   rFPProposalGenerator?: string;
   prop?: string;
   description?: string;
+  tags?: string[]; // Add tags as a prop
 };
 
 const FrameComponent: NextPage<FrameComponentType> = ({
   className = "",
   rFPProposalGenerator,
   description,
+  tags = [], // Default to an empty array if no tags are provided
   prop,
 }) => {
   return (
@@ -28,38 +30,19 @@ const FrameComponent: NextPage<FrameComponentType> = ({
         </div>
       </div>
       <div className="self-stretch h-[5.863rem] relative">
-        {/* <b className="absolute top-[0rem] left-[1.375rem] leading-[1.5rem] flex items-center min-w-[1.063rem]">{`By `}</b>
-        <div className="absolute top-[0rem] left-[2.688rem] w-[1.5rem] h-[1.5rem]">
-          <div className="absolute top-[0rem] left-[0rem] rounded-[50%] bg-gainsboro w-full h-full" />
-          <img
-            className="absolute top-[calc(50%_-_8px)] left-[calc(50%_-_8px)] w-[1rem] h-[1rem] object-cover z-[1]"
-            alt=""
-            src={prop}
-          />
-        </div>
-        <div className="absolute top-[0rem] left-[4.438rem] leading-[1.5rem] flex items-center">
-          <span className="w-full">
-            <b>{`Boris.near `}</b>
-            <span className="font-light">|</span>
-            <b>{` `}</b>
-            <span className="font-light">2 hours ago</span>
-          </span>
-        </div> */}
         <div className="absolute top-[1.475rem] left-[0rem] rounded-t-none rounded-b-3xs w-full flex flex-row items-start justify-start py-[1.35rem] pl-[1.312rem] pr-[13.062rem] box-border gap-[0.5rem] min-h-[2.813rem] z-[2] text-center text-[0.75rem] sm:pr-[1.25rem] sm:box-border">
-          <div className="flex-1 rounded-lg bg-aipgf-iron-50 flex flex-row items-center justify-start py-[0.093rem] px-[0rem]">
-            <div className="flex-1 flex flex-col items-start justify-center py-[0.031rem] px-[0.375rem]">
-              <div className="self-stretch h-[1.438rem] relative flex items-center justify-center shrink-0">
-                On-Chain
+          {tags.map((tag, index) => (
+            <div
+              key={index}
+              className="flex-1 rounded-lg bg-aipgf-iron-50 flex flex-row items-center justify-start py-[0.093rem] px-[0rem]"
+            >
+              <div className="flex-1 flex flex-col items-start justify-center py-[0.031rem] px-[0.375rem]">
+                <div className="self-stretch h-[1.438rem] relative flex items-center justify-center shrink-0">
+                  {tag}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex-1 rounded-lg bg-aipgf-jungle-mist flex flex-row items-center justify-start py-[0.093rem] px-[0rem]">
-            <div className="flex-1 flex flex-col items-start justify-center py-[0.031rem] px-[0.375rem]">
-              <div className="self-stretch h-[1.438rem] relative flex items-center justify-center shrink-0">
-                NEAR
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>

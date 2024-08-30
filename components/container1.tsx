@@ -1,6 +1,5 @@
 import type { NextPage } from "next";
 import { useCallback } from "react";
-import { Button } from "@mui/material";
 
 export type Container1Type = {
   className?: string;
@@ -44,27 +43,35 @@ const Container1: NextPage<Container1Type> = ({ className = "" }) => {
           </h3>
         </div>
         <div className="w-[48rem] h-[2.75rem] flex flex-row items-start justify-center py-[0rem] px-[1.25rem] box-border max-w-full">
-          <Button
-            className="self-stretch w-[8.438rem] cursor-pointer hover:opacity-50 transition-all ease-in-out duration-400"
-            startIcon={
-              <img width="20px" height="20px" src="/TelegramLogo.svg" />
-            }
-            disableElevation
-            variant="contained"
-            sx={{
+          <a
+            href="https://t.me/+uG4R0N5SuP03MWEx"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="self-stretch w-[8.438rem] cursor-pointer hover:opacity-50 transition-all ease-in-out duration-400 inline-flex items-center justify-center"
+            style={{
               textTransform: "none",
               color: "#fff",
-              fontSize: "16",
+              fontSize: "16px",
               background: "#0969da",
               border: "#fff solid 1px",
               borderRadius: "39px",
-              "&:hover": { background: "#0969da" },
-              width: 135,
+              width: "135px",
+              padding: "0.5rem 1rem",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              textDecoration: "none", // Remove underline
             }}
-            onClick={onActionsClick}
           >
+            <img
+              width="20px"
+              height="20px"
+              src="/TelegramLogo.svg"
+              style={{ marginRight: '0.5rem' }}
+              alt="Telegram Logo"
+            />
             Join Now
-          </Button>
+          </a>
         </div>
       </div>
     </div>
