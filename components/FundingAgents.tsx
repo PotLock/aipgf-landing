@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Button1 from "./button1";
 import FrameComponent from "./agent-card";
-import AgentCard, { AgentCardProps } from "./agent-card";
+import AgentCard from "./agent-card";
 import agentsData from "../data/agents.json";
 
 export type FundingAgentsType = {

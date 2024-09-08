@@ -47,7 +47,7 @@ const NavBar: NextPage<NavBarType> = ({ className = "" }) => {
               // target="_blank"
               className="[text-decoration:none] cursor-pointer relative leading-[2rem] text-[inherit] inline-block min-w-[3.75rem]"
             >
-              Projects
+              Explore
             </a>
             <div className="flex flex-col items-start justify-start py-[0rem] pl-[0rem] pr-[0.625rem]">
               <a
