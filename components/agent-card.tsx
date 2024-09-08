@@ -46,7 +46,7 @@ const AgentCard: React.FC<AgentCardProps> = ({ url, icon, name, description, tag
                 className="flex-1 rounded-lg bg-aipgf-iron-50 flex flex-row items-center justify-start py-[0.093rem] px-[0rem]"
               >
                 <div className="flex-1 flex flex-col items-start justify-center py-[0.031rem] px-[0.375rem]">
-                  <div className="self-stretch h-[1.438rem] relative flex items-center justify-center shrink-0">
+                  <div className="self-stretch h-[1.438rem] relative flex items-center justify-center shrink-0 whitespace-nowrap">
                     {tag}
                   </div>
                 </div>
