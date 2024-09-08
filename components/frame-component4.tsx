@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { useCallback } from "react";
 import Button1 from "./button1";
-import FrameComponent from "./frame-component";
+import FrameComponent from "./agent-card";
 
 export type FrameComponent4Type = {
   className?: string;

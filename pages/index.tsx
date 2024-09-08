@@ -6,10 +6,16 @@ import HeroFundingCards from "../components/HeroFundingCards";
 import FeatureCards from "../components/feature-cards";
 import HeroProposals from "../components/HeroProposals";
 import GrantApplication from "../components/grant-application";
-import FundingAgents from "../components/FundingAgents";
+import AgentsExplore from "../components/AgentsExplore";
 import HeroFAQs from "../components/HeroFAQs";
 import Container1 from "../components/container1";
 import Footer from "../components/footer";
+import dynamic from 'next/dynamic';
+import FundingAgents from "../components/FundingAgents";
+
+const ClientOnlyComponent = dynamic(() => import('../components/ClientOnlyComponent'), {
+  ssr: false,
+});
 
 const Homepage: NextPage = () => {
   return (
@@ -34,17 +40,18 @@ const Homepage: NextPage = () => {
             </div>
           </div>
           <HeroFundingCards />
-          <FeatureCards />
+          {/* <FeatureCards /> */}
         </section>
         <HeroProposals />
         <GrantApplication />
-        <FundingAgents />
+        <FundingAgents/>
         <HeroFAQs />
       </main>
       <div className="self-stretch flex flex-col items-start justify-start max-w-full">
         <Container1 />
         <Footer />
       </div>
+      <ClientOnlyComponent />
     </div>
   );
 };

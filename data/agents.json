@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Bitte Donation Agent",
+    "icon": "monochrome-regularpng.svg",
+    "description": "Potlock donations built directly as agent within Bitte Wallet.",
+    "url": "https://wallet.bitte.ai/smart-actions/Jv-wyATX7O0575hJw_1dL?mode=debug&agentId=potlock-agent-mintbase.vercel.app",
+    "tags": ["NEAR", "On-Chain"],
+    "order": 1
+  },
+  {
+    "name": "Eligibility Check Agent",
+    "icon": "ProjectRecommend.svg",
+    "description": "Telegram bot that verifies project eligibility for funding for the AI-PGF Program.",
+    "url": "https://t.me/aipgfbot",
+    "tags": [],
+    "order": 2
+  },
+  {
+    "name": "Funding AI",
+    "icon": "4-3@2x.png",
+    "description": "Multi-agent framework for donation and discovery of public goods projects.",
+    "url": "https://ai.potlock.org/potlock",
+    "tags": ["NEAR", "On-Chain", "Chatbot"],
+    "order": 3
+  },
+  {
+      "name": "Budgetoor",
+      "icon": "budget-calculator-count-svgrepo-com.svg",
+      "description": "Agent for calculating project budgets, based on tasks, duration, and competitive pricing",
+      "url": "https://github.com/NEARBuilders/budgetoor",
+      "tags": ["Chatbot"],
+      "order": 4
+    },
+  {
+      "name": "Dead Project Sniper",
+      "icon": "target-svgrepo-com.svg",
+      "description": "Automatically assess the activity level of blockchain projects and determine if they can be considered dead or inactive.",
+      "url": "https://github.com/Ludium-Official/dead-project-snipper",
+      "tags": ["NEAR", "On-Chain", "API"],
+      "order": 5
+    }
+]

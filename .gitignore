@@ -41,3 +41,4 @@ next-env.d.ts
 *.lock
 package-lock.json
 *.lock
+.DS_Store

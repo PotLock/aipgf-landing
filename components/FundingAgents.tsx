@@ -1,37 +1,18 @@
 import type { NextPage } from "next";
 import Button1 from "./button1";
-import FrameComponent from "./frame-component";
+import FrameComponent from "./agent-card";
+import AgentCard, { AgentCardProps } from "./agent-card";
+import agentsData from "../data/agents.json";
 
 export type FundingAgentsType = {
   className?: string;
 };
 
 const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
-  const agents = [
-    {
-      name: "Bitte Donation Agent",
-      icon: "monochrome-regularpng.svg",
-      description:
-        "Potlock donations built directly as agent within Bitte Wallet.",
-      url: "https://wallet.bitte.ai/smart-actions/Jv-wyATX7O0575hJw_1dL?mode=debug&agentId=potlock-agent-mintbase.vercel.app",
-      tags: ["NEAR", "On-Chain"],
-    },
-    {
-      name: "Eligibility Check Agent",
-      icon: "ProjectRecommend.svg",
-      description:
-        "Telegram bot that verifies project eligibility for funding for the AI-PGF Program.",
-      url: "https://t.me/aipgfbot",
-    },
-    {
-      name: "Funding AI",
-      icon: "4-3@2x.png",
-      description:
-        "Multi-agent framework for donation and discovery of public goods projects.",
-      url: "https://ai.potlock.org/potlock",
-      tags: ["NEAR", "On-Chain", "Chatbot"],
-    },
-  ];
+  // Sort agentsData by order and slice the first 3
+  const sortedAgents = agentsData
+    .sort((a, b) => a.order - b.order)
+    .slice(0, 3);
 
   return (
     <section
@@ -47,35 +28,11 @@ const FundingAgents: NextPage<FundingAgentsType> = ({ className = "" }) => {
           <div className="w-[39.438rem] flex flex-col items-start justify-start pt-[1.406rem] pb-[0rem] pl-[0rem] pr-[1.25rem] box-border max-w-full text-[1.125rem]">
             <h3 className="m-0 w-[36.25rem] relative text-inherit font-normal font-[inherit] whitespace-pre-wrap inline-block max-w-full">{`Explore   funding agents designed to streamline grant workflows `}</h3>
           </div>
-          <Button1 button="Explore" onButtonClick3={() => window.open("https://app.aipgf.com", "_blank")} />
-        </div>
+          <Button1 button="Explore" onButtonClick3={() => window.open("/explore", "_blank")} />
+        </div> 
         <div className="self-stretch flex flex-row flex-wrap items-start justify-start gap-[1.5rem] max-w-full text-[0.869rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356">
-          {agents.map((data, index) => (
-            <a
-              key={index}
-              href={data.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 rounded-lg bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-col items-start justify-start gap-[0.9rem] transition-all ease-in-out duration-500 min-w-[19.25rem] max-w-full hover:opacity-60 cursor-pointer"
-              style={{ textDecoration: "none" }} // Remove underline
-            >
-              <div className="self-stretch flex flex-col items-start justify-center pt-[1.35rem] px-[1.312rem] pb-[0.725rem]">
-                <div className="self-stretch flex flex-row items-center justify-start">
-                  <img
-                    loading="lazy"
-                    src={`/${data.icon}`}
-                    alt=""
-                    className="flex flex-row items-center justify-start"
-                  />
-                </div>
-              </div>
-              <FrameComponent
-                description={data.description}
-                rFPProposalGenerator={data.name}
-                prop="ProjectRecommend.svg"
-                tags={data.tags}
-              />
-            </a>
+          {sortedAgents.map((agent, index) => (
+            <AgentCard key={index} {...agent} />
           ))}
         </div>
       </div>

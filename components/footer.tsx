@@ -85,7 +85,7 @@ const Footer: NextPage<FooterType> = ({ className = "" }) => {
             <img className="h-[1rem] relative min-h-[1rem] cursor-pointer" alt="Telegram" src="/vector-47.svg" />
           </Link>
         </div>
-        <Link href="https://bento.me/potlock" target="_blank" rel="noopener noreferrer" className="flex flex-1 sm:flex-row items-center justify-center py-[0.718rem] px-[0rem] box-border gap-[0.4rem] max-w-full cursor-pointer sm:flex-wrap">
+        <Link href="https://potlock.org" target="_blank" rel="noopener noreferrer" className="flex flex-1 sm:flex-row items-center justify-center py-[0.718rem] px-[0rem] box-border gap-[0.4rem] max-w-full cursor-pointer sm:flex-wrap">
           <div className="relative leading-[1.563rem] font-extrabold inline-block min-w-[5.625rem] text-aipgf-white no-underline">
             Part of the 
           </div>
