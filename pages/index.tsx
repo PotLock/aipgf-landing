@@ -10,12 +10,9 @@ import AgentsExplore from "../components/AgentsExplore";
 import HeroFAQs from "../components/HeroFAQs";
 import Container1 from "../components/container1";
 import Footer from "../components/footer";
-import dynamic from 'next/dynamic';
 import FundingAgents from "../components/FundingAgents";
 
-const ClientOnlyComponent = dynamic(() => import('../components/ClientOnlyComponent'), {
-  ssr: false,
-});
+
 
 const Homepage: NextPage = () => {
   return (
@@ -51,7 +48,6 @@ const Homepage: NextPage = () => {
         <Container1 />
         <Footer />
       </div>
-      <ClientOnlyComponent />
     </div>
   );
 };
