@@ -1,6 +1,13 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode, CSSProperties } from 'react';
 
-const ClientSideLink = ({ href, className, style, children }) => {
+interface ClientSideLinkProps {
+  href: string;
+  className?: string;
+  style?: CSSProperties;
+  children: ReactNode;
+}
+
+const ClientSideLink: React.FC<ClientSideLinkProps> = ({ href, className, style, children }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
