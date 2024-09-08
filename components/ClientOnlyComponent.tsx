@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 
-const ClientOnlyComponent: React.FC = () => {
+interface ClientOnlyComponentProps {
+  children: ReactNode;
+}
+
+const ClientOnlyComponent: React.FC<ClientOnlyComponentProps> = ({ children }) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -9,7 +13,7 @@ const ClientOnlyComponent: React.FC = () => {
 
   if (!isClient) return null;
 
-//   return <div>Client-side rendered component</div>;
+  return <>{children}</>;
 };
 
 export default ClientOnlyComponent;
