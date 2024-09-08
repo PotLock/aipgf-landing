@@ -1,7 +1,7 @@
 [
   {
     "name": "Bitte Donation Agent",
-    "icon": "monochrome-regularpng.svg",
+    "icon": "bitteblack.png",
     "description": "Potlock donations built directly as agent within Bitte Wallet.",
     "url": "https://wallet.bitte.ai/smart-actions/Jv-wyATX7O0575hJw_1dL?mode=debug&agentId=potlock-agent-mintbase.vercel.app",
     "tags": ["NEAR", "On-Chain"],
@@ -17,7 +17,7 @@
   },
   {
     "name": "Funding AI",
-    "icon": "4-3@2x.png",
+    "icon": "money-withdrawal-svgrepo-com.svg",
     "description": "Multi-agent framework for donation and discovery of public goods projects.",
     "url": "https://ai.potlock.org/potlock",
     "tags": ["NEAR", "On-Chain", "Chatbot"],
