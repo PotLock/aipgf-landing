@@ -6,6 +6,7 @@ export interface AgentData {
   icon: string;
   description: string;
   url: string;
+  github: string;
   tags: string[];
   order: number;
 }
@@ -30,6 +31,7 @@ const AgentsExplore: NextPage<AgentsExploreProps> = ({ agents, className = "" })
               name={data.name}
               description={data.description}
               tags={data.tags}
+              github={data.github}
             />
           ))}
         </div>

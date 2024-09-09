@@ -5,7 +5,7 @@
     "description": "Potlock donations built directly as agent within Bitte Wallet.",
     "url": "https://wallet.bitte.ai/smart-actions/Jv-wyATX7O0575hJw_1dL?mode=debug&agentId=potlock-agent-mintbase.vercel.app",
     "tags": ["NEAR", "On-Chain", "Open-Source", "Team Built"],
-    "github": "",
+    "github": "https://github.com/PotLock/potlock-agent-mintbase",
     "team": "Potlock",
     "order": 1
   },
@@ -14,8 +14,8 @@
     "icon": "ProjectRecommend.svg",
     "description": "Telegram bot that verifies project eligibility for funding for the AI-PGF Program.",
     "url": "https://t.me/aipgfbot",
-    "tags": ["Open Source", "Team Built"],
-    "github": "",
+    "tags": ["Open-Source", "Team Built"],
+    "github": "https://github.com/PotLock/AI-PGF-telegram-bot",
     "team": "Potlock",
     "order": 2
   },
@@ -33,9 +33,9 @@
       "name": "Budgetoor",
       "icon": "budget-calculator-count-svgrepo-com.svg",
       "description": "Agent for calculating project budgets, based on tasks, duration, and competitive pricing",
-      "url": "https://github.com/NEARBuilders/budgetoor",
+      "url": "https://budgetoor.vercel.app/",
       "tags": ["Chatbot", "Open-Source", "Grantee"],
-      "github": "",
+      "github": "https://github.com/NEARBuilders/budgetoor",
       "team": "Build DAO",
       "order": 4
     },

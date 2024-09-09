@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 interface AgentCardProps {
   url: string;
@@ -6,25 +7,33 @@ interface AgentCardProps {
   name: string;
   description: string;
   tags: string[];
+  github?: string;
 }
 
-const AgentCard: React.FC<AgentCardProps> = ({ url, icon, name, description, tags }) => {
+const AgentCard: React.FC<AgentCardProps> = ({ url, icon, name, description, tags, github }) => {
   return (
     <a
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex-1 rounded-lg bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-col items-start justify-start gap-[0.9rem] transition-all ease-in-out duration-500 min-w-[19.25rem] max-w-full hover:opacity-60 cursor-pointer"
+      className="flex-1 rounded-lg bg-aipgf-white border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-col items-start justify-start gap-[0.9rem] transition-all ease-in-out duration-500 min-w-[19.25rem] max-w-full hover:opacity-60 cursor-pointer relative"
       style={{ textDecoration: "none" }}
     >
       <div className="self-stretch flex flex-col items-start justify-center pt-[1.35rem] px-[1.312rem] pb-[0.725rem]">
-        <div className="self-stretch flex flex-row items-center justify-start">
+        <div className="self-stretch flex flex-row items-center justify-between">
           <img
             loading="lazy"
             src={`/${icon}`}
             alt={name}
             className="flex flex-row items-center justify-start w-[33px] h-[33px]"
           />
+          {github && (
+            <Link href={github} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-github">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+            </Link>
+          )}
         </div>
       </div>
       <div className="self-stretch flex flex-col items-start justify-start gap-[1.262rem] max-w-full text-left text-[0.869rem] text-aipgf-shark1 font-aipgf-manrope-semibold-1356">

@@ -83,7 +83,7 @@ Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
 - [AI-PGF BOS Repository](https://github.com/potlock/aipgf-bos)
 - [AI-PGF Contract](https://github.com/potlock/aipgf)
 - [AI-PGF Telegram](https://aipgf.com/telegram)
-- [AI-PGF Eligibility Agent](https://github.com/PotLock/AI-PGF-telegram-bot) and [Bot](https://t.me/aipgf_bot)
+- [AI-PGF Eligibility Agent](https://github.com/PotLock/AI-PGF-telegram-bot) and [Bot](https://t.me/aipgfbot)
 
 ## License
 
