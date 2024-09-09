@@ -4,7 +4,9 @@
     "icon": "bitteblack.png",
     "description": "Potlock donations built directly as agent within Bitte Wallet.",
     "url": "https://wallet.bitte.ai/smart-actions/Jv-wyATX7O0575hJw_1dL?mode=debug&agentId=potlock-agent-mintbase.vercel.app",
-    "tags": ["NEAR", "On-Chain"],
+    "tags": ["NEAR", "On-Chain", "Open-Source", "Team Built"],
+    "github": "",
+    "team": "Potlock",
     "order": 1
   },
   {
@@ -12,7 +14,9 @@
     "icon": "ProjectRecommend.svg",
     "description": "Telegram bot that verifies project eligibility for funding for the AI-PGF Program.",
     "url": "https://t.me/aipgfbot",
-    "tags": [],
+    "tags": ["Open Source", "Team Built"],
+    "github": "",
+    "team": "Potlock",
     "order": 2
   },
   {
@@ -20,7 +24,9 @@
     "icon": "money-withdrawal-svgrepo-com.svg",
     "description": "Multi-agent framework for donation and discovery of public goods projects.",
     "url": "https://ai.potlock.org/potlock",
-    "tags": ["NEAR", "On-Chain", "Chatbot"],
+    "github": "",
+    "tags": ["NEAR", "On-Chain", "Chatbot", "Open-Source", "Team Built"],
+    "team": "Potlock",
     "order": 3
   },
   {
@@ -28,7 +34,9 @@
       "icon": "budget-calculator-count-svgrepo-com.svg",
       "description": "Agent for calculating project budgets, based on tasks, duration, and competitive pricing",
       "url": "https://github.com/NEARBuilders/budgetoor",
-      "tags": ["Chatbot"],
+      "tags": ["Chatbot", "Open-Source", "Grantee"],
+      "github": "",
+      "team": "Build DAO",
       "order": 4
     },
   {
@@ -36,7 +44,57 @@
       "icon": "target-svgrepo-com.svg",
       "description": "Automatically assess the activity level of blockchain projects and determine if they can be considered dead or inactive.",
       "url": "https://github.com/Ludium-Official/dead-project-snipper",
-      "tags": ["NEAR", "On-Chain", "API"],
+      "tags": ["NEAR", "On-Chain", "API", "Open-Source", "Grantee"],
+      "github": "",
+      "team": "Ludium",
       "order": 5
+    },
+    {
+      "name": "FundPublicGoods.AI",
+      "icon": "AgentCoinLogo.png",
+      "description": "Indexes gitcoin projects and enables allocation strategies based on text prompt",
+      "url": "https://fundpublicgoods.ai",
+      "tags": ["EVM", "On-Chain", "Open-Source"],
+      "github": "https://github.com/agentcoinorg/fundpublicgoods",
+      "team": "AgentCoin",
+      "order": 6
+    },
+    {
+      "name": "Checker",
+      "icon": "GitcoinLogo.png",
+      "description": "Internal gitcoin tool for evaluating projects and rounds with LLMs.",
+      "url": "https://checker.gitcoin.co/",
+      "github": "https://github.com/gitcoinco/gitcoin-checker",
+      "tags": ["EVM", "On-Chain", "Open-Source"],
+      "team": "Gitcoin",
+      "order": 7
+    },
+    {
+      "name": "GrantOrb",
+      "icon": "glass-ball-svgrepo-com.svg",
+      "description": "Write winning grant proposals in < 5 minutes with AI",
+      "url": "https://grantorb.com",
+      "tags": [],
+      "team": "GrantOrb",
+      "order": 8
+    },
+    {
+      "name": "x23.ai Governance Bot",
+      "icon": "x23.jpeg",
+      "description": "AI bot that informs you about Web3 governance also being repurposed for specific news bots like GrantsWire",
+      "url": "https://t.me/@x23ai_bot",
+      "tags": ["EVM", "On-Chain"],
+      "team": "x23.ai",
+      "order": 9
+    },
+    {
+      "name": "AI Delegate",
+      "icon": "BlockfulLogo.svg",
+      "description": "Enabling AI Delegates to take part in DAO governance. ",
+      "url": "https://ai-delegate-dapp.netlify.app/manifesto",
+      "github": "https://github.com/blockful-io/ai-delegate-dapp",
+      "tags": ["EVM", "On-Chain", "Open-Source"],
+      "team": "Blockful",
+      "order": 10
     }
 ]
