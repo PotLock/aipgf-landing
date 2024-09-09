@@ -5,7 +5,7 @@ import BuildCTA from "../components/buildcta";
 import AgentsExplore from "../components/AgentsExplore";
 import agentsData from "../data/agents.json";
 import { useState } from "react";
-import { AgentData } from "./types/AgentData"; // Make sure to import the AgentData type
+import { AgentData } from "../types/AgentData";
 
 const Homepage: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,11 +17,13 @@ const Homepage: NextPage = () => {
     );
   };
 
-  const filteredAgents: AgentData[] = agentsData.filter(agent => 
-    (agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     agent.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
-    (selectedTags.length === 0 || selectedTags.every(tag => agent.tags.includes(tag)))
-  );
+  const filteredAgents: AgentData[] = agentsData
+    .filter((agent): agent is AgentData => 'github' in agent && typeof agent.github === 'string')
+    .filter(agent => 
+      (agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+       agent.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
+      (selectedTags.length === 0 || selectedTags.every(tag => agent.tags.includes(tag)))
+    );
 
   return (
     <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem]">

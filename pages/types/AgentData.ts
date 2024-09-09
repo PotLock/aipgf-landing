@@ -6,5 +6,5 @@ export interface AgentData {
     tags: string[];
     team: string;
     order: number;
-    github?: string; // Make github property optional
-  }
+    github: string; // Keep this as a required field
+}
