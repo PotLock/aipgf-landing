@@ -19,7 +19,7 @@ const Homepage: NextPage = () => {
   const filteredAgents = agentsData.filter(agent => 
     (agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
      agent.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
-    (selectedTags.length === 0 || selectedTags.some(tag => agent.tags.includes(tag)))
+    (selectedTags.length === 0 || selectedTags.every(tag => agent.tags.includes(tag)))
   );
 
   return (
