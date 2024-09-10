@@ -6,9 +6,10 @@ export interface AgentData {
   icon: string;
   description: string;
   url: string;
-  github: string;
   tags: string[];
+  team: string;
   order: number;
+  github: string;
 }
 
 export interface AgentsExploreProps {
