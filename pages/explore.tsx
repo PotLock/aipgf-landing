@@ -5,7 +5,18 @@ import BuildCTA from "../components/buildcta";
 import AgentsExplore from "../components/AgentsExplore";
 import agentsData from "../data/agents.json";
 import { useState } from "react";
-import { AgentData } from "../types/AgentData";
+
+// Define AgentData interface here
+interface AgentData {
+  name: string;
+  icon: string;
+  description: string;
+  url: string;
+  tags: string[];
+  team: string;
+  order: number;
+  github: string;
+}
 
 const Homepage: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
