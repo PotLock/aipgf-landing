@@ -6,9 +6,6 @@ export type buildcta = {
 };
 
 const Container1: NextPage<buildcta> = ({ className = "" }) => {
-  const onActionsClick = useCallback(() => {
-    window.open("https://t.me/+uG4R0N5SuP03MWEx");
-  }, []);
 
   return (
     <div

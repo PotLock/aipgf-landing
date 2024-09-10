@@ -1,4 +1,5 @@
 import React, { useState, useEffect, ReactNode, CSSProperties } from 'react';
+import Link from 'next/link';
 
 interface ClientSideLinkProps {
   href: string;
@@ -19,9 +20,9 @@ const ClientSideLink: React.FC<ClientSideLinkProps> = ({ href, className, style,
   }
 
   return (
-    <a href={href} className={className} style={style}>
+    <Link href={href} className={className} style={style}>
       {children}
-    </a>
+    </Link>
   );
 };
 

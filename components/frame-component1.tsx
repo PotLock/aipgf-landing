@@ -104,13 +104,13 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
               </h1>
               <div className="self-stretch relative text-[1rem] leading-[143%]">
                 The AI will do an assessment of the project's{" "}
-                <a
-                  style={{ textDecoration: "none" }}
+                <Link
                   href="https://potlock.notion.site/a246c8d932ff46f69b49dcd4144e1188?v=6110401a3e1e49a1a59fb3b359e07a4e"
                   target="_blank"
+                  style={{ textDecoration: "none" }}
                 >
                   eligibility
-                </a>{" "}
+                </Link>{" "}
                 for the AI-PGF grants program. Just type about your project.
               </div>
             </div>
