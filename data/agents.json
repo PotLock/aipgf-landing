@@ -50,6 +50,16 @@
       "order": 5
     },
     {
+      "name": "Create, Write, Fund Prizes",
+      "icon": "ViaPrizeLogo.png",
+      "description": "Levarages viaPrize to create, write, and fund prizes & campaigns",
+      "url": "",
+      "tags": ["EVM", "On-Chain", "Open-Source", "Grantee"],
+      "github": "",
+      "team": "ViaPrize",
+      "order": 6
+    },
+    {
       "name": "FundPublicGoods.AI",
       "icon": "AgentCoinLogo.png",
       "description": "Indexes gitcoin projects and enables allocation strategies based on text prompt",
@@ -70,6 +80,16 @@
       "order": 7
     },
     {
+      "name": "AI Delegate",
+      "icon": "BlockfulLogo.svg",
+      "description": "Enabling AI Delegates to take part in DAO governance. ",
+      "url": "https://ai-delegate-dapp.netlify.app/manifesto",
+      "github": "https://github.com/blockful-io/ai-delegate-dapp",
+      "tags": ["EVM", "On-Chain", "Open-Source", "Live"],
+      "team": "Blockful",
+      "order": 10
+    },
+    {
       "name": "GrantOrb",
       "icon": "glass-ball-svgrepo-com.svg",
       "description": "Write winning grant proposals in < 5 minutes with AI",
@@ -86,15 +106,5 @@
       "tags": ["EVM", "On-Chain", "Live"],
       "team": "x23.ai",
       "order": 9
-    },
-    {
-      "name": "AI Delegate",
-      "icon": "BlockfulLogo.svg",
-      "description": "Enabling AI Delegates to take part in DAO governance. ",
-      "url": "https://ai-delegate-dapp.netlify.app/manifesto",
-      "github": "https://github.com/blockful-io/ai-delegate-dapp",
-      "tags": ["EVM", "On-Chain", "Open-Source", "Live"],
-      "team": "Blockful",
-      "order": 10
     }
 ]

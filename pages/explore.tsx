@@ -2,21 +2,10 @@ import type { NextPage } from "next";
 import NavBar from "../components/nav-bar";
 import Footer from "../components/footer";
 import BuildCTA from "../components/buildcta";
-import AgentsExplore from "../components/AgentsExplore";
+import AgentsExplore, { AgentData } from "../components/AgentsExplore";
 import agentsData from "../data/agents.json";
 import { useState } from "react";
 
-// Define AgentData interface here
-interface AgentData {
-  name: string;
-  icon: string;
-  description: string;
-  url: string;
-  tags: string[];
-  team: string;
-  order: number;
-  github: string;
-}
 
 const Homepage: NextPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,7 +18,7 @@ const Homepage: NextPage = () => {
   };
 
   const filteredAgents: AgentData[] = agentsData
-    .filter((agent): agent is AgentData => 'github' in agent && typeof agent.github === 'string')
+    // .filter((agent): agent is AgentData => 'github' in agent && typeof agent.github === 'string')
     .filter(agent => 
       (agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
        agent.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
