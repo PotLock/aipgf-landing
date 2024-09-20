@@ -115,6 +115,9 @@ module.exports = {
       sm: {
         raw: "screen and (max-width: 450px)",
       },
+      md:{
+        raw: "screen and (min-width: 768px)"
+      }
     },
   },
   corePlugins: {
