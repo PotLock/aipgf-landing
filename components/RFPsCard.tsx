@@ -6,7 +6,7 @@ const RFPsCard = () => {
         return str
     }
     return(
-        <div className="flex flex-col gap-3 min-w-[350px] md:w-[445px] p-3 md:p-4 border border-gray-300 rounded-lg shadow-sm">
+        <div className="flex flex-col gap-3 min-w-[350px] md:w-[550px] p-3 md:p-4 border border-gray-300 rounded-lg shadow-sm">
             <div className="flex gap-3 flex-col md:flex-row justify-between items-start">
                 <div className="flex flex-row gap-3">
                     <div className="w-[41px] h-[41px]">

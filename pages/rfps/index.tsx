@@ -1,7 +1,7 @@
 "use client"
 import Footer from "@/components/footer";
 import Header from "@/components/nav-bar";
-import ProposalPost from "@/components/ProposalPost";
+import ProposalPost from "@/components/post";
 import ProposalTemplate from "@/components/Template";
 import Section from "@/components/Section";
 import Link from "next/link";
@@ -52,7 +52,7 @@ const RFPs = () =>{
                         </div>
                         {
                             windowSize?.width > 768 &&(
-                                <Link href={"/rfps/create-rfps"} className="flex flex-row gap-2 p-3 rounded-full bg-[#0969DA] text-white hover:bg-opacity-90">
+                                <Link href={"/rfps/create-rfps"} style={{textDecoration: "none"}} className="flex flex-row gap-2 p-3 rounded-full bg-[#0969DA] text-white hover:bg-opacity-90">
                                     <img width={16} src="/assets/icon/add-white.svg" alt="icon" />
                                     <span>Submit RFPs</span>
                                 </Link>
@@ -60,7 +60,7 @@ const RFPs = () =>{
                         }
                     </div>
                     <div className="flex flex-col gap-5 w-full mt-10">
-                        <div className="flex flex-row gap-5 max-w-sm md:max-w-screen-2xl overflow-y-auto w-full">
+                        <div className="flex flex-row gap-5 overflow-y-auto w-full">
                             <RFPsCard/>
                             <RFPsCard/>
                             <RFPsCard/>
