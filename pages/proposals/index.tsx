@@ -6,6 +6,7 @@ import Link from "next/link";
 import ProposalPost from "@/components/ProposalPost";
 import Template from "@/components/Template";
 import Footer from "@/components/footer";
+import { ProposalTypes } from "@/types/types";
 
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { DropdownProps } from '@/types/types';
 
 const Dropdown: React.FC<DropdownProps> = ({
     options,

@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react";
 import Dropdown from "./DropDown";
-
+import { SectionProps } from "@/types/types";
 
 const Section = ({ title, searchProposals, sortProposals, sortCategory, sortByStage }: SectionProps) => {
 

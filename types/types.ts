@@ -1,4 +1,4 @@
-interface ProposalTypes {
+export interface ProposalTypes {
     name: string;
     timeline: string;
     summary: string;
@@ -12,7 +12,7 @@ interface ProposalTypes {
     ipfs_cid?: string;
 };
 
-interface DropdownProps {
+export interface DropdownProps {
     options: string[];
     defaultValue: string;
     onChange: (value: string) => void;
@@ -23,7 +23,7 @@ interface DropdownProps {
     iconWidth?: number;
 }
 
-interface SectionProps {
+export interface SectionProps {
     title?: string;
     searchProposals?: (searchTerm: string) => void;
     sortProposals?: (sortBy: string) => void;
