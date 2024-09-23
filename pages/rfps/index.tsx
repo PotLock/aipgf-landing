@@ -38,7 +38,7 @@ const RFPs = () =>{
                     <div className="flex flex-row justify-between w-full">
                         <div className="flex flex-row gap-2 md:gap-4 text-xs md:text-2xl">
                             <div className="flex flex-row md:gap-2 gap-1">
-                                <span className="font-semibold">$5,299</span>
+                                <span className="font-semibold">$10,299</span>
                                 <span>Total Awarded</span>
                             </div>
                             <div className="flex flex-row md:gap-2 gap-1">
