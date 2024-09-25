@@ -97,7 +97,7 @@ const Proposals: NextPage = () => {
                         return Promise.resolve(item);
                     }
                     });
-                    console.log(filteredData);
+                    //console.log(filteredData);
                     setProposals(filteredData)
                     setAllProposals(filteredData)
                 }
@@ -184,7 +184,7 @@ const Proposals: NextPage = () => {
             <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem]">
                 <NavBar />
             </div>
-            <Section title="Proposals" sortByStage={sortByStage} sortCategory={sortByCategory} sortProposals={sortProposals} searchProposals={searchProposals}/>
+            <Section title="Proposals" type="proposals" sortByStage={sortByStage} sortCategory={sortByCategory} sortBy={sortProposals} search={searchProposals}/>
             <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem]">
                 <div className="flex justify-center items-center">
                     <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20">
@@ -214,7 +214,22 @@ const Proposals: NextPage = () => {
                         </div>
                         <div className="mq825:mt-5 mt-10 flex mq825:flex-col flex-row justify-between gap-10">
                             <div className="w-full h-full flex flex-col gap-5 md:gap-4 ">
-                                <ProposalPost proposals={proposals} />
+                                {
+                                    proposals.length > 0 &&(
+                                        proposals.map((proposal)=>{
+                                            return(
+                                                <ProposalPost proposal={proposal}/>
+                                            )
+                                        })
+                                    )
+                                }
+                                {
+                                    proposals.length === 0 &&(
+                                        <div className="flex flex-col gap-5">
+                                            <span>No proposals found</span>
+                                        </div>
+                                    )
+                                }
                                 <div className="mq825:mt-5 mt-10">
                                     <button onClick={loadMoreProposals} className="border-aipgf-geyser border-[1px] border-solid box-border cursor-pointer hover:bg-stone-50 bg-[#F6F8FA] p-3 text-center rounded-full w-full">
                                         <span className="font-semibold">Load More</span>

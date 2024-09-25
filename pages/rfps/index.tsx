@@ -1,45 +1,48 @@
 "use client"
 import Footer from "@/components/footer";
 import RFPsPost from "@/components/RFPsPost";
-import ProposalTemplate from "@/components/Template";
+import Template from "@/components/Template";
 import Section from "@/components/Section";
 import Link from "next/link";
 import { useEffect,useState } from "react";
 import RFPsCard from "@/components/RFPsCard";
 import NavBar from "@/components/nav-bar";
 import { RFPsTypes } from "@/types/types";
+
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 
 const rfpQueryName =
     "bos_forum_potlock_near_ai_pgf_indexer_rfps_with_latest_snapshot";
 const rfpQuery = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${rfpQueryName}_bool_exp = {}) {
     ${rfpQueryName}(
-      offset: $offset
-      limit: $limit
-      order_by: {rfp_id: desc}
-      where: $where
+        offset: $offset
+        limit: $limit
+        order_by: {rfp_id: desc}
+        where: $where
     ) {
-      author_id
-      block_height
-      name
-      summary
-      editor_id
-      rfp_id
-      timeline
-      views
-      labels
-      submission_deadline
-      linked_proposals
+        author_id
+        block_height
+        name
+        summary
+        editor_id
+        rfp_id
+        timeline
+        views
+        labels
+        submission_deadline
+        linked_proposals
+        ts
+        linked_proposals
     }
     ${rfpQueryName}_aggregate(
-      order_by: {rfp_id: desc}
-      where: $where
-    )  {
-      aggregate {
-        count
-      }
-    }
-  }`;
+        order_by: {rfp_id: desc}
+        where: $where
+        )  {
+        aggregate {
+            count
+        }
+        }
+    }`;
 
 const FETCH_LIMIT = 10;
 const variables = {
@@ -98,7 +101,7 @@ const RFPs = () =>{
                         return Promise.resolve(item);
                     }
                     });
-                    console.log(filteredData)
+                    //console.log(filteredData)
                     setRfps(filteredData)
                     setRfpsAll(data)
                 }
@@ -115,12 +118,82 @@ const RFPs = () =>{
         }
     }, []);
 
+    const searchRFPs = (searchTerm: string) => {
+        if(searchTerm === ""){
+            fetchGraphQL(rfpQuery, "GetLatestSnapshot", variables);
+        }else{
+            const filteredRFPs = rfpsAll.filter((rfp) => {
+                const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                const lowerCaseTitle = rfp.name.toLowerCase();
+                const lowerCaseSummary = rfp.summary.toLowerCase();
+                return lowerCaseTitle.includes(lowerCaseSearchTerm) || lowerCaseSummary.includes(lowerCaseSearchTerm);
+            });
+            setRfps(filteredRFPs);
+        }
+    };
+
+    const loadMoreRFPs = () => {
+        fetchGraphQL(rfpQuery, "GetLatestSnapshot", {
+            offset: rfps.length,
+            limit: 10,
+            where: {},
+        })
+    };
+
+    const sortRFPs = (sortBy: string) => {
+        let sortedRFPs = [...rfpsAll];
+        switch (sortBy) {
+            case 'Most recent':
+                sortedRFPs.sort((a, b) => b.ts - a.ts);
+                break;
+            case 'Most viewed':
+                sortedRFPs.sort((a, b) => (b.views || 0) - (a.views || 0));
+                break;
+            case 'All':
+                sortedRFPs.sort((a, b) => b.rfp_id - a.rfp_id);
+                break;
+            default:
+                sortedRFPs.sort((a, b) => b.rfp_id - a.rfp_id);
+                break;
+        }
+        setRfps(sortedRFPs);
+    };
+
+    const sortByCategory = (category: string) => {
+        if (category === "All") {
+            fetchGraphQL(rfpQuery, "GetLatestSnapshot", variables);
+        } else {
+            const filteredRFPs = rfpsAll.filter((rfp) => {
+                return rfp.labels.includes(category);
+            });
+            setRfps(filteredRFPs);
+        }
+    };
+
+
+    const sortByStage = (stage: string) => {
+        if (stage === "All") {
+            fetchGraphQL(rfpQuery, "GetLatestSnapshot", variables);
+        } else {
+            const filteredRFPs = rfpsAll.filter((rfp) => {
+                const timeline = JSON.parse(rfp?.timeline)
+                    ?.status.replace("_", " ")
+                    .toLowerCase()
+                    .replace(/\b\w/g, (c: any) =>
+                        c.toUpperCase()
+                    )
+                return timeline === stage;
+            });
+            setRfps(filteredRFPs);
+        }
+    };
+
     return(
         <div className="flex flex-col w-full h-full">
             <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem]">
                 <NavBar />
             </div>
-            <Section title="RFPs"/>
+            <Section title="RFPs" type="rfps" sortByStage={sortByStage} sortCategory={sortByCategory} sortBy={sortRFPs} search={searchRFPs}/>
             <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem]">
                 <div className="flex justify-center items-center">
                     <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20">
@@ -150,26 +223,39 @@ const RFPs = () =>{
                         </div>
                         <div className="flex flex-col gap-5 w-full mt-10">
                             <div className="flex flex-row gap-5 overflow-y-auto w-full">
-                                <RFPsCard/>
-                                <RFPsCard/>
-                                <RFPsCard/>
+                                {
+                                    rfpsAll.slice(0,3).map((rfp) => (
+                                        <RFPsCard rfp={rfp}/>
+                                    ))
+                                }
                             </div>
                         </div>
                         <div className="mt-5 md:mt-10 flex flex-col md:flex-row flex-auto justify-between gap-10">
                             <div className="w-full h-full flex flex-col gap-4">
-                                <RFPsPost rfps={rfps}/>
+                                {
+                                    rfps.map((rfp) => (
+                                        <RFPsPost rfp={rfp}/>
+                                    ))
+                                }
+                                {
+                                    rfps.length ==0 &&(
+                                        <div className="flex flex-col items-start justify-start h-full">
+                                            <span className="text-sm">No RFPs found</span>
+                                        </div>
+                                    )
+                                }
                                 <div className="mt-5 md:mt-10">
-                                    <button className="border border-gray-300 bg-[#F6F8FA] p-3 text-center rounded-full w-full">
+                                    <button onClick={loadMoreRFPs} className="border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full w-full">
                                         <span className="font-semibold">Load More</span>
                                     </button>
                                 </div>
                             </div>
                             <div className="md:w-96 w-full flex flex-col gap-3 border-b border-gray-200 pb-10">
                                 <div className="flex flex-col">
-                                    <span className="text-xl text-[#57606A] font-semibold">Proposal Template</span>
+                                    <span className="text-xl text-[#57606A] font-semibold">RFPs Template</span>
                                     <div className="flex flex-col gap-3 mt-5">
-                                        <ProposalTemplate/>
-                                        <ProposalTemplate/>
+                                        <Template/>
+                                        <Template/>
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-5 mt-5 md:mt-0">
@@ -177,7 +263,7 @@ const RFPs = () =>{
                                     <div className="flex flex-col gap-2">
                                         <div className="flex flex-row gap-5 w-full">
                                             <div className="flex flex-col items-center">
-                                                <img width={20} className="w-16 h-6" src="/assets/icon/checked.png" alt="icon" />
+                                                <img width={20} className="w-6 h-6" src="/assets/icon/checked.png" alt="icon" />
                                                 <div className="h-full w-0.5 bg-[#0969DA]"/>
                                             </div>
                                             <div className="flex flex-col gap-1">
@@ -189,7 +275,7 @@ const RFPs = () =>{
                                         </div>
                                         <div className="flex flex-row gap-5 w-full">
                                             <div className="flex flex-col items-center">
-                                                <img width={20} className="w-16 h-6 md:h-5" src="/assets/icon/check.png" alt="icon" />
+                                                <img width={20} className="w-6 h-6" src="/assets/icon/check.png" alt="icon" />
                                                 <div className="h-full w-0.5 bg-[#0969DA]"/>
                                             </div>
                                             <div className="flex flex-col gap-1">
@@ -201,7 +287,7 @@ const RFPs = () =>{
                                         </div>
                                         <div className="flex flex-row gap-5 w-full">
                                             <div className="flex flex-col items-center">
-                                                <img width={20} className="w-16 h-6 md:h-5" src="/assets/icon/check.png" alt="icon" />
+                                                <img width={20} className="w-6 h-6" src="/assets/icon/check.png" alt="icon" />
                                             </div>
                                             <div className="flex flex-col gap-1">
                                                 <div className="flex flex-col gap-1">

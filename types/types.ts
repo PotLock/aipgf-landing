@@ -9,6 +9,8 @@ export interface ProposalTypes {
     proposal_id: number;
     ts: number;
     views: number;
+    linked_proposals: Array<number>;
+    block_height: number;
 };
 
 export interface RFPsTypes {
@@ -22,6 +24,8 @@ export interface RFPsTypes {
     rfp_id: number;
     ts: number;
     views: number;
+    linked_proposals: Array<number>;
+    block_height: number;
 };
 
 export interface DropdownProps {
@@ -37,8 +41,9 @@ export interface DropdownProps {
 
 export interface SectionProps {
     title?: string;
-    searchProposals?: (searchTerm: string) => void;
-    sortProposals?: (sortBy: string) => void;
+    search?: (searchTerm: string) => void;
+    sortBy?: (sortBy: string) => void;
     sortCategory?: (category: string) => void;
     sortByStage?: (stage: string) => void;
+    type?: string;
 }
