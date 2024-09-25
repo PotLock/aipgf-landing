@@ -3,7 +3,7 @@ import NavBar from "@/components/nav-bar";
 import Section from "@/components/Section";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import ProposalPost from "@/components/post";
+import ProposalPost from "@/components/ProposalPost";
 import Template from "@/components/Template";
 import Footer from "@/components/footer";
 import { ProposalTypes } from "@/types/types";

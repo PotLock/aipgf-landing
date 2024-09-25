@@ -9,7 +9,19 @@ export interface ProposalTypes {
     proposal_id: number;
     ts: number;
     views: number;
-    ipfs_cid?: string;
+};
+
+export interface RFPsTypes {
+    name: string;
+    timeline: string;
+    summary: string;
+    labels: Array<string>;
+    author_id: string;
+    submission_deadline: number;
+    linked_rfp?: number;
+    rfp_id: number;
+    ts: number;
+    views: number;
 };
 
 export interface DropdownProps {
