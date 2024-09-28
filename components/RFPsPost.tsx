@@ -6,6 +6,7 @@ import { RFPsTypes } from "@/types/types";
 import { timeAgo } from "@/lib/common";
 import { labelIcons,timelineStyle } from "@/lib/constant";
 import { Social } from "@builddao/near-social-js";
+import AvatarProfile from "./AvatarProfile";
 
 const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
     const [avatar, setAvatar] = useState<string>("");
@@ -89,33 +90,27 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
                 <div className="flex md:flex-row flex-col gap-3 items-end md:items-center justify-between">
                     <div className="flex flex-col md:flex-row md:gap-3 gap-1">
                         <div className="flex flex-row gap-2 items-center md:items-start">
-                            {
-                                avatar?(
-                                    <img width={30} className="rounded-full md:w-8 md:h-8 w-6 h-6" src={avatar} alt="avatar" />
-                                ):(
-                                    <img width={30} className="rounded-full md:w-8 md:h-8 w-6 h-6" src={`/assets/avatar.png`} alt="avatar" />
-                                )
-                            }
+                            <AvatarProfile accountId={rfp?.author_id} size={30} />
                             {
                                 windowSize?.width <= 768&&(
                                     <div className="flex flex-row gap-3">
                                         <span className="text-sm md:text-lg font-semibold">{rfp.name}</span>
                                             {rfp.labels?.map((data) => (
-                                            <Tag
-                                                key={data}
-                                                propBackgroundColor={
-                                                    labelIcons[data]?.color ?? "#b7b7b7"
-                                                }
-                                                propWidth="max-content"
-                                                x={labelIcons[data]?.icon ?? "icon.svg"}
-                                                cancel={data}
-                                                propFontWeight="unset"
-                                                propColor={
-                                                    labelIcons[data]?.textColor ?? "#000"
-                                                }
-                                                cancelFontSize="0.75rem"
-                                            />
-                                        ))}
+                                                <Tag
+                                                    key={data}
+                                                    propBackgroundColor={
+                                                        labelIcons[data]?.color ?? "#b7b7b7"
+                                                    }
+                                                    propWidth="max-content"
+                                                    x={labelIcons[data]?.icon ?? "icon.svg"}
+                                                    cancel={data}
+                                                    propFontWeight="unset"
+                                                    propColor={
+                                                        labelIcons[data]?.textColor ?? "#000"
+                                                    }
+                                                    cancelFontSize="0.75rem"
+                                                />
+                                            ))}
                                     </div>
                                 )
                             }

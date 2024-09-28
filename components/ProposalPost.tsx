@@ -41,7 +41,7 @@ const ProposalPost: NextPage<{proposal: ProposalTypes}> = ({proposal}) => {
                 keys: [`${proposal.author_id}/profile/**`],
             });
             const avatarUrl = result?.[proposal.author_id]?.profile?.image?.ipfs_cid;
-            console.log(avatarUrl)
+            //console.log(avatarUrl)
             if (avatarUrl) {
                 setAvatar(`https://ipfs.near.social/ipfs/${avatarUrl}`);
             }
@@ -126,8 +126,7 @@ const ProposalPost: NextPage<{proposal: ProposalTypes}> = ({proposal}) => {
                         </div>
                         <Link 
                             style={{color: "unset", textDecoration: "none"}}
-                            target="_blank"
-                            href={`https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=proposal&id=${proposal.proposal_id}`} 
+                            href={`/proposals/${proposal.proposal_id}`} 
                             className="flex flex-col gap-1">
                             {
                                 windowSize?.width > 768 &&(
