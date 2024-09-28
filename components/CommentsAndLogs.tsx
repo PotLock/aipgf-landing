@@ -17,6 +17,21 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
         contractId: 'social.near',
     });
 
+    useEffect(() => {
+        const getComments = async () => {
+            const result:any = await social.index({
+                action: 'comment',
+                key: {
+                    type: "social",
+                    path: `forum.potlock.near/post/main`,
+                    blockHeight: block_height,
+                },
+            });
+            setComments(result)
+        }
+        getComments()
+    }, [block_height])
+
     const getDifferentKeysWithValues = (obj1: any, obj2: any) => {
         return Object.keys(obj1)
             .filter((key) => {
@@ -42,15 +57,8 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
             }));
     }
 
-    const sortTimelineAndComments = async () => {
-        const comments = await social.index({
-            action: 'comment',
-            key: {
-                type: "social",
-                path: `forum.potlock.near/post/main`,
-                blockHeight: block_height,
-            },
-        });
+    const sortTimelineAndComments = () => {
+
 
         if (changedKeysListWithValues === null) {
             const changedKeysListWithValues = snapshotHistory
@@ -107,19 +115,19 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
 
     //console.log('data',data)
 
-    const Comment = async({ commentItem }: { commentItem: any }) => {
+    const Comment = ({ commentItem }: { commentItem: any }) => {
         const { accountId, blockHeight } = commentItem;
-        const item = {
-            type: "social",
-            path: `${accountId}/post/comment`,
-            blockHeight,
-        };
-        const comment:any = await social.get({
-            keys:[
-                item.path,
-            ]
-        })
-        const content = JSON.parse(comment ?? "null");
+        // const item = {
+        //     type: "social",
+        //     path: `${accountId}/post/comment`,
+        //     blockHeight,
+        // };
+        // const comment:any = await social.get({
+        //     keys:[
+        //         item.path,
+        //     ]
+        // })
+        const content = JSON.parse("null");
 
 
         const hightlightComment =
@@ -419,51 +427,53 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
             [changedKeysListWithValues, timestamp],
         );
 
-
         const editorId = updatedData?.editorId;
-        //console.log('updatedData',editorId)
-        const valuesArray = Object.values(updatedData ?? {});
-        // if valuesArray length is 2 that means it only has timestamp and editorId
-        if (!updatedData || valuesArray.length === 2) {
-            return <></>;
+
+        if (!updatedData || Object.values(updatedData).length === 2) {
+            return null;
         }
 
-        return valuesArray.map((i: any, index: any) => {
-            if (i.key && i.key !== "timestamp") {
-                return (
-                    <div
-                        className="flex gap-3 items-center z-20"
-                        key={index}
-                    >
-                        <img
-                            src="https://ipfs.near.social/ipfs/bafkreiffqrxdi4xqu7erf46gdlwuodt6dm6rji2jtixs3iionjvga6rhdi"
-                            height={30}
-                        />
-                        <div
-                            className={
-                                "flex flex-1 gap-1 w-10 text-wrap items-center " +
-                                (i.key === "timeline" &&
-                                Object.keys(i.originalValue ?? {}).length > 1
-                                ? ""
-                                : "inline-flex")
-                            }
+        return (
+            <div className="flex flex-col gap-3">
+                {Object.values(updatedData).map((i: any, index: any) => {
+                    if (i.key && i.key !== "timestamp") {
+                        return (
+                            <div
+                                className="flex gap-3 items-center z-20"
+                                key={index}
                             >
-                            <span className="inline-flex items-center gap-2 font-bold text-black">
-                                <AccountProfile accountId={editorId} size={30} />{" "}
-                                <Link rel="noopener noreferrer" target="_blank" style={{color: "unset"}} className="hover:underline no-underline" href={`https://bos.potlock.org/?tab=profile&accountId=${editorId}`}>
-                                    <span className="text-sm font-semibold">{editorId}</span>
-                                </Link>
-                            </span>
-                            {parseProposalKeyAndValue(i.key, i.modifiedValue, i.originalValue)}
-                            {i.key !== "timeline" && "･"}
-                            <span className="text-sm">
-                                {timeAgo(timestamp*1000000)}
-                            </span>
-                        </div>
-                    </div>
-                );
-            }
-        });
+                                <img
+                                    src="https://ipfs.near.social/ipfs/bafkreiffqrxdi4xqu7erf46gdlwuodt6dm6rji2jtixs3iionjvga6rhdi"
+                                    height={30}
+                                />
+                                <div
+                                    className={
+                                        "flex flex-1 gap-1 w-10 text-wrap items-center " +
+                                        (i.key === "timeline" &&
+                                        Object.keys(i.originalValue ?? {}).length > 1
+                                        ? ""
+                                        : "inline-flex")
+                                    }
+                                    >
+                                    <span className="inline-flex items-center gap-2 font-bold text-black">
+                                        <AccountProfile accountId={editorId} size={30} />{" "}
+                                        <Link rel="noopener noreferrer" target="_blank" style={{color: "unset"}} className="hover:underline no-underline" href={`https://bos.potlock.org/?tab=profile&accountId=${editorId}`}>
+                                            <span className="text-sm font-semibold">{editorId}</span>
+                                        </Link>
+                                    </span>
+                                    {parseProposalKeyAndValue(i.key, i.modifiedValue, i.originalValue)}
+                                    {i.key !== "timeline" && "･"}
+                                    <span className="text-sm">
+                                        {timeAgo(timestamp*1000000)}
+                                    </span>
+                                </div>
+                            </div>
+                        );
+                    }
+                    return null;
+                })}
+            </div>
+        );
     };      
 
     return (
