@@ -4,6 +4,8 @@ import { readableDate, timeAgo } from "@/lib/common";
 import { labelIcons, timelineStyle } from "@/lib/constant";
 import { Social } from '@builddao/near-social-js';
 import { useEffect, useState } from "react";
+import AvatarProfile from "./AvatarProfile";
+
 
 const RFPsCard = ({rfp}:{rfp: RFPsTypes}) => {
     const [avatar, setAvatar] = useState<string>("");
@@ -64,13 +66,7 @@ const RFPsCard = ({rfp}:{rfp: RFPsTypes}) => {
             <div className="flex gap-3 flex-col md:flex-col justify-between items-start">
                 <div className="flex flex-row gap-3 items-center">
                     <div className="w-[41px] h-[41px] rounded-full">
-                        {
-                            avatar ? (
-                                <img width={41} className="w-[41px] h-[41px] rounded-full" src={avatar} alt="avatar" />
-                            ) : (
-                                <img width={41} className="w-[41px] h-[41px] rounded-full" src="/assets/icon/avatar.png" alt="avatar" />
-                            )
-                        }
+                        <AvatarProfile size={41} accountId={rfp.author_id}/>
                     </div>
                     <span className="font-bold w-full">{rfp.name}</span>
                 </div>

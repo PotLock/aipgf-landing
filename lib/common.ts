@@ -36,3 +36,15 @@ export const readableDate = (timestamp: number) => {
     } as const;
     return a.toLocaleString("en-US", options) + " UTC";
 }
+
+export const capitalizeFirstLetter = (string: string) => {
+    const updated = string.replace("_", " ");
+    return updated.charAt(0).toUpperCase() + updated.slice(1).toLowerCase();
+}
+
+export const sliceAddress = (address: string): string => {
+  if (address.length > 20) {
+    return `${address.slice(0, 10)}...${address.slice(-10)}`;
+  }
+  return address;
+};
