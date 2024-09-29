@@ -2,35 +2,56 @@ import { timeAgo } from "@/lib/common";
 import { Social } from "@builddao/near-social-js";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import Tag from "./tag";
-import { labelIcons } from "@/lib/constant";
 import AccountProfile from "./AvatarProfile";
 import { timelineStyle } from "@/lib/constant";
+import Markdown from 'markdown-to-jsx'
 
-const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snapshotHistory?: any,latestSnapshot?: any,block_height?: number,ts?: number}) => {
+const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snapshotHistory?: any,latestSnapshot?: any,block_height?: string,ts?: number}) => {
     const [changedKeysListWithValues, setChangedKeysListWithValues] = useState<any>(null);
     const [data, setData] = useState<any>([]);
     const [comments, setComments] = useState<any>([]);
-
+    const [loading, setLoading] = useState(false);
+    const [isDataReady, setIsDataReady] = useState(false);
 
     const social = new Social({
         contractId: 'social.near',
     });
 
-    useEffect(() => {
-        const getComments = async () => {
-            const result:any = await social.index({
+    const getComments = async () => {
+        setLoading(true);
+        try {
+            const result: any = await social.index({
                 action: 'comment',
                 key: {
                     type: "social",
                     path: `forum.potlock.near/post/main`,
-                    blockHeight: block_height,
+                    blockHeight: parseInt(block_height as string),
                 },
             });
-            setComments(result)
+            // Process the comments to include the necessary data
+            const processedComments = await Promise.all(result.map(async (comment: any) => {
+                const content:any = await social.get({
+                    keys: [`${comment.accountId}/post/comment`]
+                });
+                return {
+                    ...comment,
+                    content: JSON.parse(content?.[comment.accountId]?.post?.comment ?? 'null')
+                };
+            }));
+            setComments(processedComments);
+            sortTimelineAndComments(processedComments);
+        } catch (error) {
+            console.error("Error fetching comments:", error);
+        } finally {
+            setLoading(false);
         }
-        getComments()
-    }, [block_height])
+    };
+
+    useEffect(() => {
+        getComments();
+    }, [block_height]);
+
+    //console.log("comments",comments)
 
     const getDifferentKeysWithValues = (obj1: any, obj2: any) => {
         return Object.keys(obj1)
@@ -57,105 +78,104 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
             }));
     }
 
-    const sortTimelineAndComments = () => {
-
-
-        if (changedKeysListWithValues === null) {
-            const changedKeysListWithValues = snapshotHistory
-                .slice(1)
-                .map((item:any, index:any) => {
-                const startingPoint = snapshotHistory[index]; 
-                return {
-                    editorId: item?.editor_id,
-                    ...getDifferentKeysWithValues(startingPoint, item),
-                };
-                });
-            setChangedKeysListWithValues(changedKeysListWithValues);
-        }
-        
-
-        // sort comments and timeline logs by time
-        const snapShotTimeStamp = Array.isArray(snapshotHistory)
-            ? snapshotHistory.map((i:any) => {
-                return { blockHeight: null, timestamp: parseFloat((i.timestamp / 1e6).toString()) };
-                })
-            : [];
-
-        const commentsTimeStampPromise = Array.isArray(comments)
-            ? Promise.all(
-                comments.map((item) => {
-                    return fetch(
-                    `https://api.near.social/time?blockHeight=${item.blockHeight}`,
-                    ).then((res:any) => res.json())
-                    .then(data =>{
-                        const timeMs = parseFloat(data);
-                        return {
-                            blockHeight: item.blockHeight,
-                            timestamp: timeMs,
-                        };
+    const sortTimelineAndComments = (fetchedComments: any[]) => {
+        if (snapshotHistory && snapshotHistory.length > 0) {
+            setLoading(true);
+            if (changedKeysListWithValues === null) {
+                const changedKeysListWithValues = snapshotHistory
+                    .slice(1)
+                    .map((item:any, index:any) => {
+                    const startingPoint = snapshotHistory[index]; 
+                    return {
+                        editorId: item?.editor_id,
+                        ...getDifferentKeysWithValues(startingPoint, item),
+                    };
                     });
-                }),
-                ).then((res) => res)
-            : Promise.resolve([])
+                setChangedKeysListWithValues(changedKeysListWithValues);
+            }
+            
+            // sort comments and timeline logs by time
+            const snapShotTimeStamp = Array.isArray(snapshotHistory)
+                ? snapshotHistory.map((i:any) => {
+                    return { blockHeight: null, timestamp: parseFloat((i.timestamp / 1e6).toString()) };
+                    })
+                : [];
 
-        commentsTimeStampPromise.then((commentsTimeStamp:any) => {
-            const combinedArray = [...snapShotTimeStamp, ...commentsTimeStamp];
-            combinedArray.sort((a, b) => a.timestamp - b.timestamp);
-            setComments(comments)
-            setData(combinedArray)
-        });
-    }
+            const commentsTimeStampPromise = Array.isArray(fetchedComments)
+                ? Promise.all(
+                    fetchedComments.map((item) => {
+                        return fetch(
+                        `https://api.near.social/time?blockHeight=${item.blockHeight}`,
+                        ).then((res:any) => res.json())
+                        .then(data =>{
+                            const timeMs = parseFloat(data);
+                            return {
+                                blockHeight: item.blockHeight,
+                                timestamp: timeMs,
+                            };
+                        });
+                    }),
+                    ).then((res) => res)
+                : Promise.resolve([])
 
-
-    useEffect(() => {
-        if (snapshotHistory.length > 0) {
-            sortTimelineAndComments();
+            commentsTimeStampPromise.then((commentsTimeStamp:any) => {
+                const combinedArray = [...snapShotTimeStamp, ...commentsTimeStamp];
+                combinedArray.sort((a, b) => a.timestamp - b.timestamp);
+                setData(combinedArray);
+                setIsDataReady(true);
+                setLoading(false);
+            });
         }
-    }, [block_height]);
+    }
 
     //console.log('data',data)
 
     const Comment = ({ commentItem }: { commentItem: any }) => {
         const { accountId, blockHeight } = commentItem;
-        // const item = {
-        //     type: "social",
-        //     path: `${accountId}/post/comment`,
-        //     blockHeight,
-        // };
-        // const comment:any = await social.get({
-        //     keys:[
-        //         item.path,
-        //     ]
-        // })
-        const content = JSON.parse("null");
-
+        
+        const comment = comments.find((comment: any) => comment.accountId === accountId);
 
         const hightlightComment =
             parseInt(blockHeight ?? "") === blockHeight &&
             accountId === accountId;
 
         return (
-            <div style={{ zIndex: 99, background: "white" }}>
+            <div style={{ zIndex: 99, background: "white" }} className="md:-ml-14 mt-3">
                 <div className="flex gap-2 flex-1">
                 <div className="hidden md:flex">
-                    <img width={20} className="w-10 h-10 rounded-full" src="/assets/avatar.png" alt="avatar" />
+                    <AccountProfile accountId={accountId} size={40} />
                 </div>
                 <div
-                    style={{ border: hightlightComment ? "2px solid black" : "" }}
-                    className="rounded-lg flex-1 border-aipgf-geyser border-[1px]"
+                    style={{ border: hightlightComment ? "" : "" }}
+                    className="rounded-lg flex flex-col flex-1 border-aipgf-geyser border-[1px] border-solid box-border p-3"
                 >
-                    <div className="relative bg-white h-16">
-                        <div className="">
+                    <div className="relative bg-white h-5">
+                        <div className="flex items-center gap-2">
                             <Link
                             rel="noopener noreferrer"
                             target="_blank"
+                            style={{color: "unset"}}
+                            className="hover:underline no-underline"
                             href={`https://bos.potlock.org/?tab=profile&accountId=${accountId}`}
                             >
-                            <span className="fw-bold text-black">{accountId}</span>
+                            <span className="font-bold text-black">{accountId}</span>
                             </Link>
                             commented ･{" "}
                             {timeAgo(ts as number)}
                         </div>
+                    </div>
+                    <div className="p-2 px-3">
+                        <Markdown
+                            options={{
+                                overrides: {
+                                    a: {
+                                        props: {
+                                            className: "text-green-600 hover:underline",
+                                        },
+                                    },
+                                },
+                            }}
+                        >{comment?.content?.text}</Markdown>
                     </div>
                     {/* <div className="p-2 px-3">
                         <Widget
@@ -206,7 +226,7 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
                 latestSnapshot?.linked_rfp
             ) {
                 return (
-                    <span className="inline-flex">
+                    <span className="inline-flex gap-2 items-center">
                         moved proposal to{" "}
                         <button  
                         style={{
@@ -237,7 +257,7 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
             } else
                 return (
                     oldValue !== newValue && (
-                    <span className="inline-flex gap-2 items-center">
+                    <span className="inline-flex gap-2 items-center flex-wrap">
                         moved proposal from{" "}
                         <button  
                         style={{
@@ -248,21 +268,21 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
                         }}
                         className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
                         {/* <img width={16} src="/assets/icon/pen.svg" alt="icon" /> */}
-                        <small
-                            style={{
-                                color:
-                                timelineStyle[
-                                    oldValue
-                                ],
-                            }}
-                        >
-                            {oldValue.replace("_", " ")
-                                    .toLowerCase()
-                                    .replace(/\b\w/g, (c: any) =>
-                                        c.toUpperCase()
-                                    )}
-                        </small>
-                    </button>
+                            <small
+                                style={{
+                                    color:
+                                    timelineStyle[
+                                        oldValue
+                                    ],
+                                }}
+                            >
+                                {oldValue.replace("_", " ")
+                                        .toLowerCase()
+                                        .replace(/\b\w/g, (c: any) =>
+                                            c.toUpperCase()
+                                        )}
+                            </small>
+                        </button>
                         to{" "}
                         <button  
                         style={{
@@ -434,7 +454,7 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
         }
 
         return (
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 md:ml-2 -ml-2">
                 {Object.values(updatedData).map((i: any, index: any) => {
                     if (i.key && i.key !== "timestamp") {
                         return (
@@ -448,7 +468,7 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
                                 />
                                 <div
                                     className={
-                                        "flex flex-1 gap-1 w-10 text-wrap items-center " +
+                                        "flex md:flex-1 gap-1 text-wrap items-center flex-wrap " +
                                         (i.key === "timeline" &&
                                         Object.keys(i.originalValue ?? {}).length > 1
                                         ? ""
@@ -456,7 +476,7 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
                                     }
                                     >
                                     <span className="inline-flex items-center gap-2 font-bold text-black">
-                                        <AccountProfile accountId={editorId} size={30} />{" "}
+                                        <AccountProfile accountId={editorId} size={30} />{""}
                                         <Link rel="noopener noreferrer" target="_blank" style={{color: "unset"}} className="hover:underline no-underline" href={`https://bos.potlock.org/?tab=profile&accountId=${editorId}`}>
                                             <span className="text-sm font-semibold">{editorId}</span>
                                         </Link>
@@ -478,26 +498,24 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
 
     return (
         <div className="flex flex-col">
-            {
-                Array.isArray(data) && data.length > 0 && (
-                    <div className="relative">
-                        <div className="absolute left-[2%] top-0 h-full bg-aipgf-geyser z-10 w-[1px]"></div>
-                        <div className="flex flex-col gap-8 mt-5 ml-2">
-                            {data.map((i: any, index: any) => {
-                                if (i.blockHeight) {
-                                    const item = comments.find(
-                                    (t: any) => t.blockHeight === i.blockHeight,
-                                    );
-                                    return <Comment commentItem={item} />;
-                                } else {
-                                    return <Log timestamp={i.timestamp} key={index} />;
-                                }
-                            })}
-                        </div>
-                        
+            {isDataReady && !loading && Array.isArray(data) && data.length > 0 && (
+                <div className="relative">
+                    <div className="absolute left-[2%] top-0 h-full bg-aipgf-geyser z-10 w-[1px]"></div>
+                    <div className="flex flex-col gap-2 mt-5">
+                        {data.map((i: any, index: any) => {
+                            if (i.blockHeight) {
+                                const item = comments.find(
+                                    (t: any) => t.blockHeight === i.blockHeight
+                                );
+                                return item ? <Comment commentItem={item} key={index} /> : null;
+                            } else {
+                                return <Log timestamp={i.timestamp} key={index} />;
+                            }       
+                        })}
                     </div>
-                )
-            }
+                </div>
+            )}
+            {loading && <div>Loading...</div>}
         </div>
     )
 }

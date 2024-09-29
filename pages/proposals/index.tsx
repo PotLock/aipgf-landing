@@ -88,18 +88,9 @@ const Proposals: NextPage = () => {
                 if (result.data) {
                 if (result.data) {
                     const data = result.data?.[queryName];
-                    let filteredData: ProposalTypes[] = [];
-                    data.map((item: ProposalTypes) => {
-                    if (Number(item.linked_rfp)) {
-                        return;
-                    } else {
-                        filteredData.push(item);
-                        return Promise.resolve(item);
-                    }
-                    });
-                    //console.log(filteredData);
-                    setProposals(filteredData)
-                    setAllProposals(filteredData)
+                    //console.log("data",data)
+                    setProposals(data)
+                    setAllProposals(data)
                 }
             }
         });
@@ -218,7 +209,7 @@ const Proposals: NextPage = () => {
                                     proposals.length > 0 &&(
                                         proposals.map((proposal)=>{
                                             return(
-                                                <ProposalPost proposal={proposal}/>
+                                                <ProposalPost key={proposal.proposal_id} proposal={proposal}/>
                                             )
                                         })
                                     )

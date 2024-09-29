@@ -265,10 +265,10 @@ const ProposalPage: NextPage = () => {
                                         <span>Ready For Review</span>
                                     </button>
                                 </div> */}
-                                <div className="flex flex-row gap-4 w-full justify-between mt-12">
-                                    <div className="flex row gap-2 items-start max-w-6xl">
+                                <div className="flex flex-col-reverse md:flex-row gap-4 w-full justify-between mt-12">
+                                    <div className="flex gap-2 items-start md:max-w-6xl">
                                         <div className="h-14 w-14">
-                                            <AvatarProfile accountId={proposal.author_id} size={40} />
+                                            <AvatarProfile accountId={proposal.author_id} size={40} style="hidden md:block" />
                                         </div>
                                         <div className="flex flex-col">
                                             <div className="w-full mx-auto border-[1px] border-aipgf-geyser border-solid box-border rounded-lg">
@@ -294,22 +294,24 @@ const ProposalPage: NextPage = () => {
                                                             selectedOption={selectedCategory}
                                                             onSelect={setSelectedCategory}
                                                         /> */}
-                                                        {proposal.labels?.map((data) => (
-                                                            <Tag
-                                                                key={data}
-                                                                propBackgroundColor={
-                                                                    labelIcons[data]?.color ?? "#b7b7b7"
-                                                                }
-                                                                propWidth="max-content"
-                                                                x={`/${labelIcons[data]?.icon}`}
-                                                                cancel={data}
-                                                                propFontWeight="unset"
-                                                                propColor={
-                                                                    labelIcons[data]?.textColor ?? "#000"
-                                                                }
-                                                                cancelFontSize="0.75rem"
-                                                            />
-                                                        ))}
+                                                        <div className="flex flex-row gap-2">
+                                                            {proposal.labels?.map((data) => (
+                                                                <Tag
+                                                                    key={data}
+                                                                    propBackgroundColor={
+                                                                        labelIcons[data]?.color ?? "#b7b7b7"
+                                                                    }
+                                                                    propWidth="max-content"
+                                                                    x={`/${labelIcons[data]?.icon}`}
+                                                                    cancel={data}
+                                                                    propFontWeight="unset"
+                                                                    propColor={
+                                                                        labelIcons[data]?.textColor ?? "#000"
+                                                                    }
+                                                                    cancelFontSize="0.75rem"
+                                                                />
+                                                            ))}
+                                                        </div>
                                                     </div>
                                                     <div className="mb-6">
                                                         <h2 className="text-sm font-semibold text-gray-700 border-b-[1px] border-aipgf-geyser border-solid box-border pb-2">SUMMARY</h2>
@@ -319,6 +321,11 @@ const ProposalPage: NextPage = () => {
                                                         <h2 className="text-sm font-semibold text-gray-700 border-b-[1px] border-aipgf-geyser border-solid box-border pb-2">DESCRIPTION</h2>
                                                         <Markdown options={{ 
                                                             overrides: {
+                                                                img: {
+                                                                    props: {
+                                                                        className: "w-full h-auto",
+                                                                    }
+                                                                },
                                                                 a: {
                                                                     props: {
                                                                         className: "text-green-600",
@@ -349,10 +356,10 @@ const ProposalPage: NextPage = () => {
                                                 </div>
                                                 
                                             </div>
-                                            <CommentsAndLogs snapshotHistory={history} latestSnapshot={proposal} block_height={blockHeight} ts={timestamp} />
+                                            <CommentsAndLogs snapshotHistory={history} latestSnapshot={proposal} block_height={blockHeight.toString()} ts={timestamp} />
                                         </div>
                                     </div>
-                                    <div className="px-4 w-96 rounded-lg shadow-sm space-y-4">
+                                    <div className="px-4 md:w-96 md:min-w-96 rounded-lg shadow-sm space-y-4">
                                         <div className="border-b-[1px] border-aipgf-geyser border-solid box-border pb-4">
                                             <h2 className="text-lg font-semibold">Author</h2>
                                             <div className="flex items-center space-x-2 mt-1">

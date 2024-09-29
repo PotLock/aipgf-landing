@@ -6,12 +6,43 @@ import { ViewMethod } from '@/hook/call-near-method';
 interface AvatarProfileProps {
   accountId: string;
   size?: number;
+  style?: string;
 }
 
-const AvatarProfile: React.FC<AvatarProfileProps> = ({ accountId, size = 40 }) => {
+const AvatarProfile: React.FC<AvatarProfileProps> = ({ accountId, size = 40,style }) => {
     const [avatar, setAvatar] = useState<string | null>(null);
+    const [oldUrl, setOldUrl] = useState<string | null>(null);
+    const [imageUrls, setImageUrl] = useState<string | null>(null);
+    const [thumbnail, setThumbnail] = useState<string | null>(null);
+    const [img, setImg] = useState<string | null>(null);
 
-    // console.log(accountId)
+    const rex =
+    /^(?:https?:\/\/)(?:[^\/]+\/ipfs\/)?(Qm[1-9A-HJ-NP-Za-km-z]{44,}|b[A-Za-z2-7]{58,}|B[A-Z2-7]{58,}|z[1-9A-HJ-NP-Za-km-z]{48,}|F[0-9A-F]{50,})(?:\.[^\/]+)?(\/.*)?$/g;
+    rex.lastIndex = 0;
+
+    const replaceIpfs = (imageUrl: string) => {
+        if (oldUrl !== imageUrl && imageUrl) {
+            const match = rex.exec(imageUrl);
+            if (match) {
+                const newImageUrl = `https://ipfs.near.social/ipfs/${match[1]}${
+                match[2] || ""
+                }`;
+                if (newImageUrl !== imageUrl) {
+                    setOldUrl(imageUrl);
+                    setImageUrl(newImageUrl);
+                    return;
+                }
+            }
+        }
+        if (imageUrl !== null) {
+            setImageUrl(null);
+        }
+    };
+
+    const thumb = (imageUrl: string) =>
+        thumbnail && imageUrl && !imageUrl.startsWith("data:image/")
+            ? `https://i.near.social/${thumbnail}/${imageUrl}`
+            : imageUrl;
 
     useEffect(() => {
         const getAvatarBySocial = async () => {
@@ -29,12 +60,58 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({ accountId, size = 40 }) =
                 if (nftData) {
                     const { contractId, tokenId } = nftData;
                     try {
-                        const nftMetadata = await ViewMethod(contractId, 'nft_metadata', { token_id: tokenId });
-                        const nftAvatarUrl = nftMetadata?.icon;
-                        if (nftAvatarUrl) {
-                            setAvatar(nftAvatarUrl);
-                            return; // Exit if NFT avatar is found
+                        const nftMetadata = await ViewMethod(contractId, 'nft_metadata', { });
+                        const tokenMetadata = await ViewMethod(contractId, 'nft_token', { token_id: tokenId });
+                        //console.log(tokenMetadata)
+                        let imageUrl = null;
+                        if (nftMetadata && tokenMetadata) {
+                            let tokenMedia = tokenMetadata.media || "";
+                            imageUrl =
+                                tokenMedia.startsWith("https://") ||
+                                tokenMedia.startsWith("http://") ||
+                                tokenMedia.startsWith("data:image")
+                                    ? tokenMedia
+                                    : nftMetadata.base_uri
+                                    ? `${nftMetadata.base_uri}/${tokenMedia}`
+                                    : tokenMedia.startsWith("Qm") || tokenMedia.startsWith("ba")
+                                    ? `https://ipfs.near.social/ipfs/${tokenMedia}`
+                                    : tokenMedia;
+                            if (!tokenMedia && tokenMetadata.reference) {
+                                if (
+                                    nftMetadata.base_uri === "https://arweave.net" &&
+                                    !tokenMetadata.reference.startsWith("https://")
+                                ) {
+                                    const res = await fetch(`${nftMetadata.base_uri}/${tokenMetadata.reference}`);
+                                    const data = await res.json();
+                                    imageUrl = data.media;
+                                } else if (
+                                    tokenMetadata.reference.startsWith("https://") ||
+                                    tokenMetadata.reference.startsWith("http://")
+                                ) {
+                                    const res = await fetch(tokenMetadata.reference);
+                                    const data = await res.json();
+                                    imageUrl = data.media;
+                                } else if (tokenMetadata.reference.startsWith("ar://")) {
+                                    const res = await fetch(
+                                    `${"https://arweave.net"}/${tokenMetadata.reference.split("//")[1]}`
+                                    );
+                                    const data = await res.json();
+                                    imageUrl = data.media;
+                                }
+                            }
+                            if (!imageUrl) {
+                                imageUrl = null;
+                            }
                         }
+                        const img = imageUrl !== null ? imageUrls : imageUrl;
+                        const src = img !== false ? img : 'https://ipfs.near.social/ipfs/bafkreibiyqabm3kl24gcb2oegb7pmwdi6wwrpui62iwb44l7uomnn3lhbi';
+                        setImg(src);
+                        setAvatar(thumb(src));
+                        // const nftAvatarUrl = tokenMetadata?.metadata?.media;
+                        // if (nftAvatarUrl) {
+                        //     setAvatar(nftAvatarUrl);
+                        //     return; // Exit if NFT avatar is found
+                        // }
                     } catch (error) {
                         console.error("Error fetching NFT metadata:", error);
                     }
@@ -59,7 +136,8 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({ accountId, size = 40 }) =
             alt="User Avatar"
             width={size}
             height={size}
-            className="rounded-full"
+            className={`rounded-full ${style}`}
+            onError={() => replaceIpfs(img as string)}
             />
         ) : (
             <img
@@ -67,7 +145,7 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({ accountId, size = 40 }) =
                 alt="Default Avatar"
                 width={size}
                 height={size}
-                className="rounded-full"
+                className={`rounded-full ${style}`}
             />
         )}
         </div>
