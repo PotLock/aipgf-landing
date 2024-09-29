@@ -515,7 +515,9 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
                     </div>
                 </div>
             )}
-            {loading && <div>Loading...</div>}
+            {loading && <div className="flex justify-start items-start mt-3">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-[2px] border-b-[2px] border-solid border-gray-900"></div>
+            </div>}
         </div>
     )
 }

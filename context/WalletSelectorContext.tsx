@@ -1,6 +1,6 @@
 "use client"
 
-import type { AccountState, WalletSelector } from "@near-wallet-selector/core";
+import type { AccountState, NetworkId, WalletSelector } from "@near-wallet-selector/core";
 import { setupWalletSelector } from "@near-wallet-selector/core";
 import type { WalletSelectorModal } from "@near-wallet-selector/modal-ui";
 import { setupModal } from "@near-wallet-selector/modal-ui";
@@ -19,6 +19,7 @@ import React, {
   useMemo,
 } from "react";
 import { distinctUntilChanged, map } from "rxjs";
+import { NextPage } from "next";
 
 
 declare global {
@@ -38,16 +39,20 @@ interface WalletSelectorContextValue {
 const WalletSelectorContext =
   React.createContext<WalletSelectorContextValue | null>(null);
 
-  export const Loading: React.FC = () => (
-    <div className="lds-ellipsis">
-      <div />
-      <div />
-      <div />
-      <div />
+  export const Loading: NextPage = () => (
+    <div style={{height: "100vh"}} className="flex justify-center items-center w-full">
+      <div className="spinner">
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      <div></div>
+      </div>
     </div>
   );
 
-export const WalletSelectorContextProvider: React.FC<{
+export const WalletSelectorContextProvider: NextPage<{
   children: ReactNode;
 }> = ({ children }) => {
   const [selector, setSelector] = useState<WalletSelector | null>(null);
@@ -57,7 +62,7 @@ export const WalletSelectorContextProvider: React.FC<{
 
   const init = useCallback(async () => {
     const _selector = await setupWalletSelector({
-      network: "testnet",
+      network: process.env.NEXT_PUBLIC_NETWORK as NetworkId,
       debug: true,
       modules: [
         setupNightly() as any,
@@ -65,14 +70,14 @@ export const WalletSelectorContextProvider: React.FC<{
         setupHereWallet(),
         setupMeteorWallet(),
         setupBitteWallet({
-          walletUrl: "https://testnet.wallet.bitte.ai",
-          callbackUrl: process.env.NEXTAUTH_URL,
+          walletUrl: process.env.NEXT_PUBLIC_WALLET_URL as string,
+          callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL,
           deprecated: false,
       }),
       ],
     });
     const _modal = setupModal(_selector, {
-      contractId: "forum.potlock.testnet",
+      contractId: process.env.NEXT_PUBLIC_NEAR_CONTRACT_ID as string,
     });
     const state = _selector.store.getState();
     setAccounts(state.accounts);

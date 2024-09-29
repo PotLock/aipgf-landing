@@ -24,7 +24,7 @@ const Section = ({ title, type, search, sortBy, sortCategory, sortByStage }: Sec
 
 
     return(
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full z-0">
             {
                 windowSize?.width <= 768?(
                     <img width={100} className="w-full h-60" src="/assets/background/background-mobile.png" alt="background" />
@@ -32,7 +32,7 @@ const Section = ({ title, type, search, sortBy, sortCategory, sortByStage }: Sec
                     <img width={100} className="w-full h-full" src="/assets/background/background-section.png" alt="background" />
                 )
             }
-            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
                 <div className="flex flex-col text-center px-5 items-center">
                     <span className="font-semibold mq825:text-3xl text-17xl mb-1">{title?title:""}</span>
                     {/* <p className="font-semibold text-sm mq825:max-w-sm max-w-6xl">Lorem ipsum dolor sit amet consectetur. Tortor ac amet imperdiet nam odio varius proin. </p> */}

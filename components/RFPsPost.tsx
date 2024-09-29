@@ -117,8 +117,7 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
                         </div>
                         <Link 
                             style={{color: "unset", textDecoration: "none"}}
-                            target="_blank"
-                            href={`https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=rfp&id=${rfp.rfp_id}`} 
+                            href={`/rfps/${rfp.rfp_id}`} 
                             className="flex flex-col gap-1">
                             {
                                 windowSize?.width > 768 &&(

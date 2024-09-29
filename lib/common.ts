@@ -48,3 +48,14 @@ export const sliceAddress = (address: string): string => {
   }
   return address;
 };
+
+const PROPOSALS_APPROVED_STATUS_ARRAY = [
+    'APPROVED',
+    'APPROVED_CONDITIONALLY',
+    'PAYMENT_PROCESSING',
+    'FUNDED',
+];
+
+export const isProposalApproved = (status: string): boolean => {
+    return PROPOSALS_APPROVED_STATUS_ARRAY.includes(status);
+};

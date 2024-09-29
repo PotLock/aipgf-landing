@@ -8,7 +8,7 @@ import { useEffect,useState } from "react";
 import RFPsCard from "@/components/RFPsCard";
 import NavBar from "@/components/nav-bar";
 import { RFPsTypes } from "@/types/types";
-
+import { ViewMethod } from "@/hook/call-near-method";
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 
 const rfpQueryName =
@@ -54,6 +54,9 @@ const variables = {
 const RFPs = () =>{
     const [rfps, setRfps] = useState<RFPsTypes[]>([]);
     const [rfpsAll, setRfpsAll] = useState<RFPsTypes[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [totalRfps, setTotalRfps] = useState<number>(0);
+    const [totalUsers, setTotalUsers] = useState<number>(0);
     const [windowSize, setWindowSize] = useState<any>({
         width: null,
         height: null
@@ -72,12 +75,20 @@ const RFPs = () =>{
         return () => window.removeEventListener("resize", handleResize);
     }, []); 
 
+    const Loading = () => {
+        return (
+            <div className="flex justify-center items-center">
+                <div className="animate-spin rounded-full h-10 w-10 border-t-[2px] border-b-[2px] border-solid border-gray-900"></div>
+            </div>
+        );
+    };
 
     async function fetchGraphQL(
         operationsDoc: string,
         operationName: string,
         variables: { limit: number; offset: number; where: {} }
     ) {
+        setIsLoading(true);
         return fetch(QUERYAPI_ENDPOINT, {
             method: "POST",
             headers: { "x-hasura-role": "bos_forum_potlock_near" },
@@ -88,27 +99,40 @@ const RFPs = () =>{
             }),
         })
             .then((data) => data.json())
-            .then((result) => {
+            .then(async(result) => {
                 if (result.data) {
                 if (result.data) {
                     const data = result.data?.[rfpQueryName];
-                    let filteredData: RFPsTypes[] = [];
-                    data.map((item: RFPsTypes) => {
-                    if (Number(item.linked_rfp)) {
-                        return;
-                    } else {
-                        filteredData.push(item);
-                        return Promise.resolve(item);
-                    }
-                    });
-                    //console.log(filteredData)
-                    setRfps(filteredData)
-                    setRfpsAll(data)
+                    //console.log("data",data)
+                    const totalResult = result.data?.[`${rfpQueryName}_aggregate`];
+                    setTotalRfps(totalResult.aggregate.count)
+                    const filteredRfps: RFPsTypes[] = new Array(data.length);
+                    await Promise.all(data.map(async (item: RFPsTypes, index: number) => {
+                        const rfp = await loadRfp(item.rfp_id);
+                        const new_rfp = { ...item, blockHeight: rfp?.social_db_post_block_height };
+                        filteredRfps[index] = new_rfp;
+                    }));
+                    //console.log(filteredRfps)
+                    setRfps(filteredRfps)
+                    setRfpsAll(filteredRfps)
                 }
             }
+        })
+        .finally(() => {
+            setIsLoading(false);
         });
     }
 
+    const loadRfp = async(rfpId:number) => {
+        if(rfpId){
+            const rfp = await ViewMethod("forum.potlock.near", "get_rfp", {
+                rfp_id: rfpId
+            });
+            return rfp
+        }
+    }
+
+    console.log(rfps)
 
     useEffect(() => {
         try {
@@ -190,119 +214,125 @@ const RFPs = () =>{
 
     return(
         <div className="flex flex-col w-full h-full">
-            <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem]">
-                <NavBar />
-            </div>
+            <NavBar />
             <Section title="RFPs" type="rfps" sortByStage={sortByStage} sortCategory={sortByCategory} sortBy={sortRFPs} search={searchRFPs}/>
             <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem]">
-                <div className="flex justify-center items-center">
-                    <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20">
-                        <div className="flex flex-row justify-between w-full">
-                            <div className="flex flex-row gap-2 md:gap-4 text-xs md:text-2xl">
-                                <div className="flex flex-row md:gap-2 gap-1">
-                                    <span className="font-semibold">$10,299</span>
-                                    <span>Total Awarded</span>
+                    <div className="flex justify-center items-center">
+                        <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20">
+                            <div className="flex flex-row justify-between w-full">
+                                <div className="flex flex-row gap-2 md:gap-4 text-xs md:text-2xl">
+                                    <div className="flex flex-row md:gap-2 gap-1">
+                                        <span className="font-semibold">$10,299</span>
+                                        <span>Total Awarded</span>
+                                    </div>
+                                    <div className="flex flex-row md:gap-2 gap-1">
+                                        <span className="font-semibold">{totalRfps}</span>
+                                        <span>RFPs</span>
+                                    </div>
+                                    <div className="flex flex-row md:gap-2 gap-1">
+                                        <span className="font-semibold">140</span>
+                                        <span>Non RFPs</span>
+                                    </div>
                                 </div>
-                                <div className="flex flex-row md:gap-2 gap-1">
-                                    <span className="font-semibold">200</span>
-                                    <span>RFPs</span>
-                                </div>
-                                <div className="flex flex-row md:gap-2 gap-1">
-                                    <span className="font-semibold">140</span>
-                                    <span>Non RFPs</span>
-                                </div>
-                            </div>
-                            {
-                                windowSize?.width > 768 &&(
-                                    <Link href={"/rfps/create-rfps"} style={{textDecoration: "none"}} className="flex flex-row gap-2 p-3 rounded-full bg-[#0969DA] text-white hover:bg-opacity-90">
-                                        <img width={16} src="/assets/icon/add-white.svg" alt="icon" />
-                                        <span>Submit RFPs</span>
-                                    </Link>
-                                )
-                            }
-                        </div>
-                        <div className="flex flex-col gap-5 w-full mt-10">
-                            <div className="flex flex-row gap-5 overflow-y-auto w-full">
                                 {
-                                    rfpsAll.slice(0,3).map((rfp) => (
-                                        <RFPsCard rfp={rfp}/>
-                                    ))
-                                }
-                            </div>
-                        </div>
-                        <div className="mt-5 md:mt-10 flex flex-col md:flex-row flex-auto justify-between gap-10">
-                            <div className="w-full h-full flex flex-col gap-4">
-                                {
-                                    rfps.map((rfp) => (
-                                        <RFPsPost rfp={rfp}/>
-                                    ))
-                                }
-                                {
-                                    rfps.length ==0 &&(
-                                        <div className="flex flex-col items-start justify-start h-full">
-                                            <span className="text-sm">No RFPs found</span>
-                                        </div>
+                                    windowSize?.width > 768 &&(
+                                        <Link href={"/rfps/create-rfps"} style={{textDecoration: "none"}} className="flex flex-row gap-2 p-3 rounded-full bg-[#0969DA] text-white hover:bg-opacity-90">
+                                            <img width={16} src="/assets/icon/add-white.svg" alt="icon" />
+                                            <span>Submit RFPs</span>
+                                        </Link>
                                     )
                                 }
-                                <div className="mt-5 md:mt-10">
-                                    <button onClick={loadMoreRFPs} className="border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full w-full">
-                                        <span className="font-semibold">Load More</span>
-                                    </button>
+                            </div>
+                            <div className="flex flex-col gap-5 w-full mt-10">
+                                <div className="flex flex-row gap-5 overflow-y-auto w-full">
+                                    {
+                                        !isLoading && rfpsAll.slice(0,3).map((rfp) => (
+                                            <RFPsCard rfp={rfp}/>
+                                        ))
+                                    }
                                 </div>
                             </div>
-                            <div className="md:w-96 w-full flex flex-col gap-3 border-b border-gray-200 pb-10">
-                                <div className="flex flex-col">
-                                    <span className="text-xl text-[#57606A] font-semibold">RFPs Template</span>
-                                    <div className="flex flex-col gap-3 mt-5">
-                                        <Template/>
-                                        <Template/>
-                                    </div>
+                            <div className="mt-5 md:mt-10 flex flex-col md:flex-row flex-auto justify-between gap-10">
+                                <div className="w-full h-full flex flex-col gap-4">
+                                    {
+                                        isLoading ? (
+                                            <Loading/>
+                                        ) : (
+                                            rfps.map((rfp) => (
+                                                <RFPsPost rfp={rfp}/>
+                                            ))
+                                        )
+                                    }
+                                    {
+                                        !isLoading && rfps.length ==0 &&(
+                                            <div className="flex flex-col items-start justify-start h-full">
+                                                <span className="text-sm">No RFPs found</span>
+                                            </div>
+                                        )
+                                    }
+                                    {
+                                        !isLoading && rfps.length > 0 && (
+                                            <div className="mt-5 md:mt-10">
+                                                <button onClick={loadMoreRFPs} className="border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full w-full">
+                                                    <span className="font-semibold">Load More</span>
+                                                </button>
+                                            </div>
+                                        )
+                                    }
                                 </div>
-                                <div className="flex flex-col gap-5 mt-5 md:mt-0">
-                                    <span className="text-xl text-[#57606A] font-semibold">How it works</span>
-                                    <div className="flex flex-col gap-2">
-                                        <div className="flex flex-row gap-5 w-full">
-                                            <div className="flex flex-col items-center">
-                                                <img width={20} className="w-6 h-6" src="/assets/icon/checked.png" alt="icon" />
-                                                <div className="h-full w-0.5 bg-[#0969DA]"/>
-                                            </div>
-                                            <div className="flex flex-col gap-1">
+                                <div className="md:w-96 w-full flex flex-col gap-3 border-b border-gray-200 pb-10">
+                                    <div className="flex flex-col">
+                                        <span className="text-xl text-[#57606A] font-semibold">RFPs Template</span>
+                                        <div className="flex flex-col gap-3 mt-5">
+                                            <Template/>
+                                            <Template/>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-col gap-5 mt-5 md:mt-0">
+                                        <span className="text-xl text-[#57606A] font-semibold">How it works</span>
+                                        <div className="flex flex-col gap-2">
+                                            <div className="flex flex-row gap-5 w-full">
+                                                <div className="flex flex-col items-center">
+                                                    <img width={20} className="w-6 h-6" src="/assets/icon/checked.png" alt="icon" />
+                                                    <div className="h-full w-0.5 bg-[#0969DA]"/>
+                                                </div>
                                                 <div className="flex flex-col gap-1">
-                                                    <span className="font-semibold text-[#24292F]">1. Loreum Ipsum</span>
-                                                    <p className="text-xs">Lorem ipsum dolor sit amet consectetur. Consectetur sem id est nam nam et vestibulum imperdiet a. A aliquet volutpat porta malesuada.</p>
+                                                    <div className="flex flex-col gap-1">
+                                                        <span className="font-semibold text-[#24292F]">1. Loreum Ipsum</span>
+                                                        <p className="text-xs">Lorem ipsum dolor sit amet consectetur. Consectetur sem id est nam nam et vestibulum imperdiet a. A aliquet volutpat porta malesuada.</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="flex flex-row gap-5 w-full">
-                                            <div className="flex flex-col items-center">
-                                                <img width={20} className="w-6 h-6" src="/assets/icon/check.png" alt="icon" />
-                                                <div className="h-full w-0.5 bg-[#0969DA]"/>
-                                            </div>
-                                            <div className="flex flex-col gap-1">
+                                            <div className="flex flex-row gap-5 w-full">
+                                                <div className="flex flex-col items-center">
+                                                    <img width={20} className="w-6 h-6" src="/assets/icon/check.png" alt="icon" />
+                                                    <div className="h-full w-0.5 bg-[#0969DA]"/>
+                                                </div>
                                                 <div className="flex flex-col gap-1">
-                                                    <span className="font-semibold text-[#24292F]">2. Loreum Ipsum</span>
-                                                    <p className="text-xs">Lorem ipsum dolor sit amet consectetur. Consectetur sem id est nam nam et vestibulum imperdiet a. A aliquet volutpat porta malesuada.</p>
+                                                    <div className="flex flex-col gap-1">
+                                                        <span className="font-semibold text-[#24292F]">2. Loreum Ipsum</span>
+                                                        <p className="text-xs">Lorem ipsum dolor sit amet consectetur. Consectetur sem id est nam nam et vestibulum imperdiet a. A aliquet volutpat porta malesuada.</p>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="flex flex-row gap-5 w-full">
-                                            <div className="flex flex-col items-center">
-                                                <img width={20} className="w-6 h-6" src="/assets/icon/check.png" alt="icon" />
-                                            </div>
-                                            <div className="flex flex-col gap-1">
+                                            <div className="flex flex-row gap-5 w-full">
+                                                <div className="flex flex-col items-center">
+                                                    <img width={20} className="w-6 h-6" src="/assets/icon/check.png" alt="icon" />
+                                                </div>
                                                 <div className="flex flex-col gap-1">
-                                                    <span className="font-semibold text-[#24292F]">3. Loreum Ipsum</span>
-                                                    <p className="text-xs">Lorem ipsum dolor sit amet consectetur. Consectetur sem id est nam nam et vestibulum imperdiet a. A aliquet volutpat porta malesuada.</p>
+                                                    <div className="flex flex-col gap-1">
+                                                        <span className="font-semibold text-[#24292F]">3. Loreum Ipsum</span>
+                                                        <p className="text-xs">Lorem ipsum dolor sit amet consectetur. Consectetur sem id est nam nam et vestibulum imperdiet a. A aliquet volutpat porta malesuada.</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
-                        
                     </div>
-                </div>
             </div>
             <div className="w-full bg-[#F6F8FA] h-64 md:mb-14 mb-5 mt-3 flex flex-col md:flex-row justify-center md:gap-20 items-center px-5 md:px-0">
                 {

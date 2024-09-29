@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Social } from '@builddao/near-social-js';
 import { ViewMethod } from '@/hook/call-near-method';
-
-
-interface AvatarProfileProps {
-  accountId: string;
-  size?: number;
-  style?: string;
-}
+import { AvatarProfileProps } from '@/types/types';
 
 const AvatarProfile: React.FC<AvatarProfileProps> = ({ accountId, size = 40,style }) => {
     const [avatar, setAvatar] = useState<string | null>(null);

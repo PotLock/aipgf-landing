@@ -4,6 +4,8 @@ import type { AppProps } from "next/app";
 import { ThemeProvider, createTheme } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Script from "next/script";
+import { WalletSelectorContextProvider } from "@/context/WalletSelectorContext"
+import "@near-wallet-selector/modal-ui/styles.css"
 
 import "./global.css";
 
@@ -47,7 +49,9 @@ export default function MyApp(props: AppProps) {
       <ThemeProvider theme={muiTheme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
-        <Component {...pageProps} />
+        <WalletSelectorContextProvider>
+          <Component {...pageProps} />
+        </WalletSelectorContextProvider>
       </ThemeProvider>
     </Fragment>
   );

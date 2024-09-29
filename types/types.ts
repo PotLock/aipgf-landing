@@ -27,6 +27,7 @@ export interface RFPsTypes {
     views: number;
     linked_proposals: Array<number>;
     block_height: number;
+    blockHeight?:number;
 };
 
 export interface DropdownProps {
@@ -72,6 +73,21 @@ export interface ProposalDetailTypes {
     block_height: number;
 }
 
+export interface RFPDetailTypes {
+    editor_id: string;
+    name: string;
+    summary: string;
+    description: string;
+    timestamp: number;
+    labels: Array<string>;
+    linked_proposals: Array<number>;
+    linked_rfp: number | null;
+    block_height: number;
+    submission_deadline: string;
+    timeline: {
+        status: string;
+    };
+}
 export interface CategoryOption {
     bgColor: string;
     title: string;
@@ -82,4 +98,22 @@ export interface ProposalCategoryDropdownProps {
     options: CategoryOption[];
     selectedOption: CategoryOption;
     onSelect: (option: CategoryOption) => void;
+}
+
+export interface AvatarProfileProps {
+    accountId: string;
+    size?: number;
+    style?: string;
+}
+
+export interface LinkProposalProps {
+    linkedProposalIds: number[];
+    showStatus?: boolean;
+}
+
+export interface VoteButtonProps {
+    proposalId: number;
+    blockHeight: number;
+    notifyAccountId: string;
+    accountId: string;
 }

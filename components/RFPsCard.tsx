@@ -5,7 +5,7 @@ import { labelIcons, timelineStyle } from "@/lib/constant";
 import { Social } from '@builddao/near-social-js';
 import { useEffect, useState } from "react";
 import AvatarProfile from "./AvatarProfile";
-
+import Link from "next/link";
 
 const RFPsCard = ({rfp}:{rfp: RFPsTypes}) => {
     const [avatar, setAvatar] = useState<string>("");
@@ -49,7 +49,7 @@ const RFPsCard = ({rfp}:{rfp: RFPsTypes}) => {
             key: {
                 type: "social",
                 path: `forum.potlock.near/post/main`,
-                blockHeight: rfp.block_height,
+                blockHeight: rfp.blockHeight?parseInt(rfp.blockHeight.toString()):rfp.block_height,
             },
         });
         setTotalComments(result?.length);
@@ -62,7 +62,11 @@ const RFPsCard = ({rfp}:{rfp: RFPsTypes}) => {
     }, []);
 
     return(
-        <div className="flex flex-col gap-3 min-w-[350px] md:w-[550px] p-3 md:p-4 border-aipgf-geyser border-[1px] border-solid box-border rounded-lg shadow-sm relative">
+        <Link
+            href={`/rfps/${rfp.rfp_id}`}
+            style={{textDecoration: "none", color: "unset"}}
+            className="flex flex-col gap-3 min-w-[350px] md:w-[550px] p-3 md:p-4 border-aipgf-geyser border-[1px] border-solid box-border rounded-lg shadow-sm relative"
+        >
             <div className="flex gap-3 flex-col md:flex-col justify-between items-start">
                 <div className="flex flex-row gap-3 items-center">
                     <div className="w-[41px] h-[41px] rounded-full">
@@ -143,7 +147,7 @@ const RFPsCard = ({rfp}:{rfp: RFPsTypes}) => {
                     </small>
                 </button>
             </div>
-        </div>
+        </Link>
     )
 }
 

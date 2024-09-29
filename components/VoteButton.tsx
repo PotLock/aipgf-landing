@@ -2,13 +2,8 @@ import React from 'react';
 import { Social } from "@builddao/near-social-js";
 import { useState } from "react";
 import { NextPage } from "next";
+import { VoteButtonProps } from "@/types/types";
 
-interface VoteButtonProps {
-    proposalId: number;
-    blockHeight: number;
-    notifyAccountId: string;
-    accountId: string;
-}
 
 const VoteButton: NextPage<VoteButtonProps> = ({ proposalId, blockHeight, notifyAccountId, accountId }) => {
     const [hasLike, setHasLike] = useState<boolean>(false);

@@ -208,11 +208,9 @@ const Proposals: NextPage = () => {
 
     return (
         <div className="flex flex-col w-full h-full">
-            <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem]">
-                <NavBar />
-            </div>
+            <NavBar/>
             <Section title="Proposals" type="proposals" sortByStage={sortByStage} sortCategory={sortByCategory} sortBy={sortProposals} search={searchProposals}/>
-            <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem]">
+            <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch">
                 <div className="flex justify-center items-center">
                     <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20">
                         <div className="flex flex-row justify-between w-full items-center">
