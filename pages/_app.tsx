@@ -5,9 +5,11 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Script from "next/script";
 import { WalletSelectorContextProvider } from "@/context/WalletSelectorContext"
+import "./global.css";
+
 import "@near-wallet-selector/modal-ui/styles.css"
 
-import "./global.css";
+
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;

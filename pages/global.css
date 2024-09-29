@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: "Menlo";
-  src: url("/font/Menlo-Regular.ttf");
+  src: url("/Menlo-Bold.ttf");
   font-weight: 700;
 }
 
@@ -22,7 +22,6 @@ body {
   border-width: 0;
 }
 
-/* From Uiverse.io by AqFox */ 
 .spinner {
   width: 44px;
   height: 44px;
