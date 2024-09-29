@@ -11,6 +11,7 @@ export interface ProposalTypes {
     views: number;
     linked_proposals: Array<number>;
     block_height: number;
+    blockHeight?:number;
 };
 
 export interface RFPsTypes {

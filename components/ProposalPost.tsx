@@ -7,9 +7,10 @@ import { Social } from '@builddao/near-social-js';
 import { labelIcons, timelineStyle } from "@/lib/constant";
 import { timeAgo } from "@/lib/common";
 import VoteButton from "./VoteButton";
+import AvatarProfile from "./AvatarProfile";
 
-const ProposalPost: NextPage<{proposal: ProposalTypes}> = ({proposal}) => {
-    const [avatar, setAvatar] = useState<string>("");
+
+const ProposalPost: NextPage<{proposal: ProposalTypes,setTotalReplies:any,replies:any}> = ({proposal,setTotalReplies,replies}) => {
     const [totalComments, setTotalComments] = useState<number>(0);
     const [totalVotes, setTotalVotes] = useState<number>(0);
     const [windowSize, setWindowSize] = useState<any>({
@@ -35,21 +36,6 @@ const ProposalPost: NextPage<{proposal: ProposalTypes}> = ({proposal}) => {
         contractId: 'social.near',
     });
 
-    const getAvatarBySocial = async () => {
-        try {
-            const result: any = await social.get({
-                keys: [`${proposal.author_id}/profile/**`],
-            });
-            const avatarUrl = result?.[proposal.author_id]?.profile?.image?.ipfs_cid;
-            //console.log(avatarUrl)
-            if (avatarUrl) {
-                setAvatar(`https://ipfs.near.social/ipfs/${avatarUrl}`);
-            }
-        } catch (error) {
-            console.error("Error fetching avatar by social.get:", error);
-        }
-    };
-
 
     const getTotalComments = async () => {
         const result:any = await social.index({
@@ -57,11 +43,13 @@ const ProposalPost: NextPage<{proposal: ProposalTypes}> = ({proposal}) => {
             key: {
                 type: "social",
                 path: `forum.potlock.near/post/main`,
-                blockHeight: proposal.block_height,
+                blockHeight: proposal.blockHeight?parseInt(proposal.blockHeight.toString()):proposal.block_height,
             },
         });
         setTotalComments(result?.length);
-        //console.log(result)
+        if(result?.length > 0){
+            setTotalReplies((prevReplies:number) => prevReplies + result?.length);
+        }
     };
 
     const getTotalVotes = async () => {
@@ -70,7 +58,7 @@ const ProposalPost: NextPage<{proposal: ProposalTypes}> = ({proposal}) => {
             key: {
                 type: "social",
                 path: `forum.potlock.near/post/main`,
-                blockHeight: proposal.block_height,
+                blockHeight: proposal.blockHeight?parseInt(proposal.blockHeight.toString()):proposal.block_height,
             },
         });
         setTotalVotes(result?.length);
@@ -78,7 +66,6 @@ const ProposalPost: NextPage<{proposal: ProposalTypes}> = ({proposal}) => {
     };
 
     useEffect(() => {
-        getAvatarBySocial();
         getTotalComments(); 
         getTotalVotes();
     }, []);
@@ -105,13 +92,7 @@ const ProposalPost: NextPage<{proposal: ProposalTypes}> = ({proposal}) => {
                 <div className="flex md:flex-row flex-col gap-3 items-end md:items-center justify-between">
                     <div className="flex flex-col md:flex-row md:gap-3 gap-1">
                         <div className="flex flex-row gap-2 items-center md:items-start">
-                            {
-                                avatar ?(
-                                    <img width={30} className="rounded-full md:w-8 md:h-8 w-6 h-6" src={avatar} alt="avatar" />
-                                ):(
-                                    <img width={30} className="rounded-full md:w-8 md:h-8 w-6 h-6" src="/assets/icon/avatar.png" alt="avatar" />
-                                )
-                            }
+                            <AvatarProfile accountId={proposal.author_id} size={30} />
                             {
                                 windowSize?.width <= 768&&(
                                     <div className="flex flex-row gap-3">

@@ -1,12 +1,13 @@
 import type { NextPage } from "next"
 import NavBar from "@/components/nav-bar";
 import Section from "@/components/Section";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useCallback } from "react";
 import Link from "next/link";
 import ProposalPost from "@/components/ProposalPost";
 import Template from "@/components/Template";
 import Footer from "@/components/footer";
 import { ProposalTypes } from "@/types/types";
+import { ViewMethod } from "@/hook/call-near-method";
 
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 
@@ -51,6 +52,11 @@ const variables = {
 const Proposals: NextPage = () => {
     const [proposals, setProposals] = useState<ProposalTypes[]>([]);
     const [allProposals, setAllProposals] = useState<ProposalTypes[]>([]);
+    const [totalProposals, setTotalProposals] = useState<number>(0);
+    const [totalReplies, setTotalReplies] = useState<number>(0);
+    const [totalUsers, setTotalUsers] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
     const [windowSize, setWindowSize] = useState<any>({
         width: null,
         height: null
@@ -74,6 +80,7 @@ const Proposals: NextPage = () => {
         operationName: string,
         variables: { limit: number; offset: number; where: {} }
     ) {
+        setIsLoading(true);
         return fetch(QUERYAPI_ENDPOINT, {
             method: "POST",
             headers: { "x-hasura-role": "bos_forum_potlock_near" },
@@ -84,18 +91,42 @@ const Proposals: NextPage = () => {
             }),
         })
             .then((data) => data.json())
-            .then((result) => {
+            .then(async(result) => {
                 if (result.data) {
                 if (result.data) {
                     const data = result.data?.[queryName];
                     //console.log("data",data)
-                    setProposals(data)
-                    setAllProposals(data)
+                    const totalResult = result.data?.[`${queryName}_aggregate`];
+                    setTotalProposals(totalResult.aggregate.count)
+                    const filteredProposals: ProposalTypes[] = new Array(data.length);
+                    const uniqueUsers = new Set();
+                    await Promise.all(data.map(async (item: ProposalTypes, index: number) => {
+                        const proposal = await loadProposal(item.proposal_id);
+                        uniqueUsers.add(item.author_id);
+                        const new_proposal = { ...item, blockHeight: proposal?.social_db_post_block_height };
+                        filteredProposals[index] = new_proposal;
+                    }));
+                    setTotalUsers(uniqueUsers.size)
+                    //console.log(filteredProposals)
+                    setProposals(filteredProposals)
+                    setAllProposals(filteredProposals)
+                    // setAllProposals(data)
                 }
             }
+        })
+        .finally(() => {
+            setIsLoading(false);
         });
     }
 
+    const loadProposal = async(proposalId:number) => {
+        if(proposalId){
+            const proposal = await ViewMethod("forum.potlock.near", "get_proposal", {
+                proposal_id: proposalId
+            });
+            return proposal
+        }
+    }
 
     useEffect(() => {
         try {
@@ -107,6 +138,7 @@ const Proposals: NextPage = () => {
 
     const searchProposals = (searchTerm: string) => {
         if(searchTerm === ""){
+            setTotalReplies(0)
             fetchGraphQL(query, "GetLatestSnapshot", variables);
         }else{
             const filteredProposals = proposals.filter((proposal) => {
@@ -140,6 +172,7 @@ const Proposals: NextPage = () => {
                 sortedProposals.sort((a, b) => b.proposal_id - a.proposal_id);
                 break;
             default:
+                setTotalReplies(0)
                 sortedProposals.sort((a, b) => b.proposal_id - a.proposal_id);
                 break;
         }
@@ -148,6 +181,7 @@ const Proposals: NextPage = () => {
 
     const sortByCategory = (category: string) => {
         if (category === "All") {
+            setTotalReplies(0)
             fetchGraphQL(query, "GetLatestSnapshot", variables);
         } else {
             const filteredProposals = allProposals.filter((proposal) => {
@@ -170,6 +204,8 @@ const Proposals: NextPage = () => {
         }
     };
 
+    //console.log(totalComments)
+
     return (
         <div className="flex flex-col w-full h-full">
             <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem]">
@@ -182,15 +218,15 @@ const Proposals: NextPage = () => {
                         <div className="flex flex-row justify-between w-full items-center">
                             <div className="flex flex-row mq825:gap-2 gap-4 mq825:text-xs text-2xl">
                                 <div className="flex flex-row gap-2 mq825:gap-1">
-                                    <span className="font-semibold">5,299</span>
+                                    <span className="font-semibold">{totalProposals}</span>
                                     <span>Projects funded</span>
                                 </div>
                                 <div className="flex flex-row gap-2 mq825:gap-1">
-                                    <span className="font-semibold">13,319</span>
+                                    <span className="font-semibold">{totalReplies}</span>
                                     <span>Replies</span>
                                 </div>
                                 <div className="flex flex-row gap-2 mq825:gap-1">
-                                    <span className="font-semibold">14,299</span>
+                                    <span className="font-semibold">{totalUsers}</span>
                                     <span>Users</span>
                                 </div>
                             </div>
@@ -205,27 +241,29 @@ const Proposals: NextPage = () => {
                         </div>
                         <div className="mq825:mt-5 mt-10 flex mq825:flex-col flex-row justify-between gap-10">
                             <div className="w-full h-full flex flex-col gap-5 md:gap-4 ">
-                                {
-                                    proposals.length > 0 &&(
-                                        proposals.map((proposal)=>{
-                                            return(
-                                                <ProposalPost key={proposal.proposal_id} proposal={proposal}/>
-                                            )
-                                        })
-                                    )
-                                }
-                                {
-                                    proposals.length === 0 &&(
-                                        <div className="flex flex-col gap-5">
-                                            <span>No proposals found</span>
+                                {isLoading ? (
+                                    <div className="flex justify-center items-center">
+                                        <div className="animate-spin rounded-full h-10 w-10 border-t-[2px] border-b-[2px] border-solid border-gray-900"></div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {proposals.length > 0 && (
+                                            proposals.map((proposal) => (
+                                                <ProposalPost key={proposal.proposal_id} proposal={proposal} setTotalReplies={setTotalReplies} replies={totalReplies}/>
+                                            ))
+                                        )}
+                                        {proposals.length === 0 && (
+                                            <div className="flex flex-col gap-5">
+                                                <span>No proposals found</span>
+                                            </div>
+                                        )}
+                                        <div className="mq825:mt-5 mt-10">
+                                            <button onClick={loadMoreProposals} className="border-aipgf-geyser border-[1px] border-solid box-border cursor-pointer hover:bg-stone-50 bg-[#F6F8FA] p-3 text-center rounded-full w-full">
+                                                <span className="font-semibold">Load More</span>
+                                            </button>
                                         </div>
-                                    )
-                                }
-                                <div className="mq825:mt-5 mt-10">
-                                    <button onClick={loadMoreProposals} className="border-aipgf-geyser border-[1px] border-solid box-border cursor-pointer hover:bg-stone-50 bg-[#F6F8FA] p-3 text-center rounded-full w-full">
-                                        <span className="font-semibold">Load More</span>
-                                    </button>
-                                </div>
+                                    </>
+                                )}
                             </div>
                             <div className="w-96 mq825:w-full flex flex-col gap-3 border-b border-gray-200 pb-10">
                                 <div className="flex flex-col">
