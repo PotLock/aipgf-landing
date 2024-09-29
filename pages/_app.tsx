@@ -5,9 +5,16 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Script from "next/script";
 import { WalletSelectorContextProvider } from "@/context/WalletSelectorContext"
+import { Manrope } from "next/font/google"
 import "@near-wallet-selector/modal-ui/styles.css"
 
 import "./global.css";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  weight: ["700", "800"],
+  variable: "--font-manrope",
+})
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -50,7 +57,9 @@ export default function MyApp(props: AppProps) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <WalletSelectorContextProvider>
-          <Component {...pageProps} />
+          <main className={`${manrope.variable} font-sans`}>
+            <Component {...pageProps} />
+          </main>
         </WalletSelectorContextProvider>
       </ThemeProvider>
     </Fragment>
