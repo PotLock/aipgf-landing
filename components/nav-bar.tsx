@@ -20,7 +20,7 @@ const NavBar: NextPage<NavBarType> = ({ className = "" }) => {
                 alt="AIPGF Logo"
                 src="/AIPGFLogo.svg"
               />
-              <span className="[text-decoration:none] relative font-bold inline-block min-w-[3.438rem]">
+              <span className="[text-decoration:none] relative font-semibold inline-block min-w-[3.438rem]">
                 AI-PGF
               </span>
             </Link>

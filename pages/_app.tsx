@@ -5,15 +5,15 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import Script from "next/script";
 import { WalletSelectorContextProvider } from "@/context/WalletSelectorContext"
-import { Manrope } from "next/font/google"
+import localFont from "next/font/local"
 import "@near-wallet-selector/modal-ui/styles.css"
 
 import "./global.css";
 
-const manrope = Manrope({
-  subsets: ["latin"],
-  weight: ["700", "800"],
-  variable: "--font-manrope",
+const menlo = localFont({
+  src: "../font/Menlo-Regular.ttf",
+  weight: "400",
+  variable: "--font-menlo",
 })
 
 export default function MyApp(props: AppProps) {
@@ -57,7 +57,7 @@ export default function MyApp(props: AppProps) {
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
         <WalletSelectorContextProvider>
-          <main className={`${manrope.variable} font-sans`}>
+          <main className={`${menlo.className} font-sans`}>
             <Component {...pageProps} />
           </main>
         </WalletSelectorContextProvider>
