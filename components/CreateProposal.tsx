@@ -83,45 +83,45 @@ const CreateProposal = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []); 
 
-    async function fetchGraphQL(
-        operationsDoc: string,
-        operationName: string,
-        variables: { limit: number; offset: number; where: {} }
-    ) {
-        setIsLoading(true);
-        return fetch(QUERYAPI_ENDPOINT, {
-            method: "POST",
-            headers: { "x-hasura-role": "bos_forum_potlock_near" },
-            body: JSON.stringify({
-                query: operationsDoc,
-                variables: variables,
-                operationName: operationName,
-            }),
-        })
-            .then((data) => data.json())
-            .then(async(result) => {
-                if (result.data) {
-                if (result.data) {
-                    const data = result.data?.[queryName];
-                    setProposals(data)
-                }
-            }
-        })
-        .finally(() => {
-            setIsLoading(false);
-        });
-    }
+    // async function fetchGraphQL(
+    //     operationsDoc: string,
+    //     operationName: string,
+    //     variables: { limit: number; offset: number; where: {} }
+    // ) {
+    //     setIsLoading(true);
+    //     return fetch(QUERYAPI_ENDPOINT, {
+    //         method: "POST",
+    //         headers: { "x-hasura-role": "bos_forum_potlock_near" },
+    //         body: JSON.stringify({
+    //             query: operationsDoc,
+    //             variables: variables,
+    //             operationName: operationName,
+    //         }),
+    //     })
+    //         .then((data) => data.json())
+    //         .then(async(result) => {
+    //             if (result.data) {
+    //             if (result.data) {
+    //                 const data = result.data?.[queryName];
+    //                 setProposals(data)
+    //             }
+    //         }
+    //     })
+    //     .finally(() => {
+    //         setIsLoading(false);
+    //     });
+    // }
 
 
-    useEffect(() => {
-        try {
-            fetchGraphQL(query, "GetLatestSnapshot", variables);
-        } catch (error) {
-            console.error(error);
-        }
-    }, []);
+    // useEffect(() => {
+    //     try {
+    //         fetchGraphQL(query, "GetLatestSnapshot", variables);
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }, []);
 
-    console.log(proposals)
+    // console.log(proposals)
 
     const handleProposalSelect = (proposal: ProposalTypes) => {
         setShowModal(false);
@@ -133,7 +133,7 @@ const CreateProposal = () => {
         setSearchTerm(searchTerm)
         setShowModal(true)
         if (searchTerm === "") {
-            fetchGraphQL(query, "GetLatestSnapshot", variables);
+            // fetchGraphQL(query, "GetLatestSnapshot", variables);
             setShowModal(false)
             
         } else {

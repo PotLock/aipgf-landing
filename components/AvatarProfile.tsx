@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Social } from '@builddao/near-social-js';
+import { NetworkIDEnum, Social } from '@builddao/near-social-js';
 import { ViewMethod } from '@/hook/near-method';
 import { AvatarProfileProps } from '@/types/types';
 import { NextPage } from 'next';
@@ -44,10 +44,12 @@ const AvatarProfile: NextPage<AvatarProfileProps> = ({ accountId, size = 40,styl
             if (accountId) {
                 const social = new Social({
                     contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
+                    network: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?NetworkIDEnum.Mainnet:NetworkIDEnum.Testnet,
                 });
                 try {
                 const result: any = await social.get({
                     keys: [`${accountId}/profile/**`],
+                    useApiServer:process.env.NEXT_PUBLIC_NETWORK=="mainnet"?true:false
                 });
                 const avatarUrl = result?.[accountId]?.profile?.image?.ipfs_cid;
                 // Check for NFT avatar
@@ -127,7 +129,7 @@ const AvatarProfile: NextPage<AvatarProfileProps> = ({ accountId, size = 40,styl
         <div className="avatar-profile">
         {avatar||image ? (
             <img
-            src={avatar||image}
+            src={avatar||image&&`https://ipfs.near.social/ipfs/${image}`}
             alt="User Avatar"
             width={size}
             height={size}
