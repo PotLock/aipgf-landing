@@ -1,10 +1,7 @@
 import { useState,useEffect } from "react";
-import NavBar from "@/components/nav-bar";
-import SectionCreate from "@/components/SectionCreate";
 import { useWalletSelector } from "@/context/WalletSelectorContext"
 import AvatarProfile from "@/components/AvatarProfile"
 import dynamic from "next/dynamic";
-import Footer from "@/components/footer";
 import { ProposalTypes } from "@/types/types";
 import { readableDate } from "@/lib/common";
 
@@ -51,7 +48,7 @@ const variables = {
 };
 
 const CreateProposal = () => {
-    const { accountId,selector } = useWalletSelector();
+    const {accountId} = useWalletSelector();
     const [isShowDropDown, setIsShowDropDown] = useState<boolean>(false)
     const [isShow, setIsShow] = useState<boolean>(false)
     const [selectReview, setSelectReview] = useState<boolean>(false)
@@ -151,10 +148,7 @@ const CreateProposal = () => {
     };
 
     return (
-        <div className="flex flex-col w-full h-full">
-            <NavBar/>
-            <SectionCreate title="Create Proposal" subtitle="Proposal"/>
-            <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch md:pb-[8rem]">
+        <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch md:pb-[8rem]">
                 <div className="flex flex-col-reverse md:flex-row w-full justify-between gap-10 md:gap-20 mt-10">
                     <div className="flex flex-row gap-4 w-full">
                         {
@@ -165,7 +159,7 @@ const CreateProposal = () => {
                             <div className="flex flex-col gap-4 w-full">
                                 <div className="flex flex-col gap-2">
                                     <span className="font-semibold text-xl">Category</span>
-                                    <small className="text-gray-500">Proposals seeking financial support from investors, donors, or grant-making organizations to fund specific projects or initiatives.</small>
+                                    <small className="text-gray-500">Select the relevant categories that best align with your contribution to the NEAR developer community.</small>
                                     <div className="w-full relative">
                                         <button onClick={()=>setIsShowDropDown((prv)=>!prv)} className="w-full bg-white focus:border-gray-100 shadow-sm cursor-pointer mt-2 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg flex flex-row justify-between px-3 py-2">
                                             <span className="text-sm md:text-base">Choose Category</span>
@@ -188,17 +182,17 @@ const CreateProposal = () => {
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <span className="font-semibold text-xl">Title</span>
-                                    <small className="text-gray-500">A proposal designed for quickly starting and executing a project with streamlined processes.</small>
+                                    <small className="text-gray-500">Highlight the essence of your proposal in a few words. This will appear on your proposal&#39;s detail page and the main proposal feed. Keep it short, please</small>
                                     <input className="w-full text-sm md:text-base rounded-lg px-3 py-2 outline-none border-[1px] border-aipgf-geyser box-border border-solid shadow-sm focus:border-gray-100" type="text" placeholder="Enter Title Here"/>
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <span className="font-semibold text-xl">Summary</span>
-                                    <small className="text-gray-500">A brief overview outlining key project goals, deliverables, and outcomes for a quick, efficient execution.</small>
+                                    <small className="text-gray-500">Explain your proposal briefly. This is your chance to make a good first impression on the community. Include what needs or goals your work will address, your solution, and the benefit for the NEAR developer community.</small>
                                     <textarea className="w-full text-sm md:text-base rounded-lg px-3 py-2 outline-none border-[1px] border-aipgf-geyser border-solid shadow-sm focus:border-gray-500 h-32 resize-none" placeholder="Enter Summary Here"/>
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <span className="font-semibold text-xl">Description</span>
-                                    <small className="text-gray-500">A concise summary outlining the key objectives and deliverables for a focused and efficient project execution.</small>
+                                    <small className="text-gray-500">Expand on your summary with any relevant details like your contribution timeline, key milestones, team background, and a clear breakdown of how the funds will be used. Proposals should be simple and clear (e.g. 1 month). For more complex projects, treat each milestone as a separate proposal.</small>
                                     <Editor/>
                                 </div>
                                 <div className="flex flex-col gap-2 mt-16">
@@ -442,8 +436,6 @@ const CreateProposal = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
-        </div>
     )
 }
 

@@ -33,7 +33,7 @@ const ProposalPost: NextPage<{proposal: ProposalTypes,setTotalReplies:any,replie
 
 
     const social = new Social({
-        contractId: 'social.near',
+        contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
     });
 
 
@@ -42,7 +42,7 @@ const ProposalPost: NextPage<{proposal: ProposalTypes,setTotalReplies:any,replie
             action: 'comment',
             key: {
                 type: "social",
-                path: `forum.potlock.near/post/main`,
+                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
                 blockHeight: proposal.blockHeight?parseInt(proposal.blockHeight.toString()):proposal.block_height,
             },
         });
@@ -57,7 +57,7 @@ const ProposalPost: NextPage<{proposal: ProposalTypes,setTotalReplies:any,replie
             action: 'like',
             key: {
                 type: "social",
-                path: `forum.potlock.near/post/main`,
+                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
                 blockHeight: proposal.blockHeight?parseInt(proposal.blockHeight.toString()):proposal.block_height,
             },
         });

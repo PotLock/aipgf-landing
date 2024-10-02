@@ -70,14 +70,14 @@ export const WalletSelectorContextProvider: NextPage<{
         setupHereWallet(),
         setupMeteorWallet(),
         setupBitteWallet({
-          walletUrl: process.env.NEXT_PUBLIC_WALLET_URL as string,
+          walletUrl: process.env.NEXT_PUBLIC_NETWORK as NetworkId == "mainnet" ? process.env.NEXT_PUBLIC_WALLET_URL as string : process.env.NEXT_PUBLIC_WALLET_URL_TESTNET as string,
           callbackUrl: process.env.NEXT_PUBLIC_CALLBACK_URL,
           deprecated: false,
       }),
       ],
     });
     const _modal = setupModal(_selector, {
-      contractId: process.env.NEXT_PUBLIC_NEAR_CONTRACT_ID as string,
+      contractId: process.env.NEXT_PUBLIC_NETWORK as NetworkId == "mainnet" ? process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT as string : process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET as string,
     });
     const state = _selector.store.getState();
     setAccounts(state.accounts);

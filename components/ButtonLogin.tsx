@@ -31,6 +31,7 @@ const ButtonLogin: NextPage = () => {
     const handleSignOut = async () => {
         const wallet = await selector.wallet();
         wallet.signOut();
+        window.location.reload();
     };
 
     if (!accountId) {
@@ -47,8 +48,8 @@ const ButtonLogin: NextPage = () => {
     const formatAccountId = (accountId: string) => {
         if (accountId.length === 64) {
             return `${accountId.slice(0, 6)}...${accountId.slice(-4)}`;
-        } else if (accountId.endsWith('.near')) {
-            return accountId.slice(0, -5); // Remove '.near'
+        } else if (accountId.endsWith('.near')||accountId.endsWith('.testnet')) {
+            return accountId.replace('.near', '').replace('.testnet', ''); // Remove '.near'
         }
         return accountId;
     };

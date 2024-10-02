@@ -8,12 +8,12 @@ import { VoteButtonProps } from "@/types/types";
 const VoteButton: NextPage<VoteButtonProps> = ({ proposalId, blockHeight, notifyAccountId, accountId }) => {
     const [hasLike, setHasLike] = useState<boolean>(false);
     const social = new Social({
-        contractId: 'social.near',
+        contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
     });
 
     const item ={
         type: "social",
-        path: `forum.potlock.near/post/main`,
+        path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
         blockHeight: blockHeight,
     };
 

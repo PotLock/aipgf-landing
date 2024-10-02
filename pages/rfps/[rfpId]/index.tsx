@@ -11,7 +11,7 @@ import Link from "next/link";
 import Markdown from 'markdown-to-jsx'
 import Tag from "@/components/tag";
 import AvatarProfile from '@/components/AvatarProfile';
-import { ViewMethod } from "@/hook/call-near-method";
+import { ViewMethod } from "@/hook/near-method";
 import { sliceAddress } from "@/lib/common";
 import TimelineConfigurator from "@/components/TimelineConfigurator";
 import LinkProposal from "@/components/LinkProposal";
@@ -207,7 +207,7 @@ const RFPsDetail: NextPage = () => {
     //console.log(approvedProposals)
 
     const social = new Social({
-        contractId: 'social.near',
+        contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
     });
 
     const getTotalComments = async () => {
@@ -215,7 +215,7 @@ const RFPsDetail: NextPage = () => {
             action: 'comment',
             key: {
                 type: "social",
-                path: `forum.potlock.near/post/main`,
+                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
                 blockHeight: rfp?.block_height,
             },
         });
@@ -228,7 +228,7 @@ const RFPsDetail: NextPage = () => {
             action: 'like',
             key: {
                 type: "social",
-                path: `forum.potlock.near/post/main`,
+                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
                 blockHeight: rfp?.block_height,
             },
         });

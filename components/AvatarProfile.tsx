@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Social } from '@builddao/near-social-js';
-import { ViewMethod } from '@/hook/call-near-method';
+import { ViewMethod } from '@/hook/near-method';
 import { AvatarProfileProps } from '@/types/types';
+import { NextPage } from 'next';
 
-const AvatarProfile: React.FC<AvatarProfileProps> = ({ accountId, size = 40,style }) => {
+const AvatarProfile: NextPage<AvatarProfileProps> = ({ accountId, size = 40,style, image }) => {
     const [avatar, setAvatar] = useState<string | null>(null);
     const [oldUrl, setOldUrl] = useState<string | null>(null);
     const [imageUrls, setImageUrl] = useState<string | null>(null);
@@ -42,7 +43,7 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({ accountId, size = 40,styl
         const getAvatarBySocial = async () => {
             if (accountId) {
                 const social = new Social({
-                    contractId: 'social.near',
+                    contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
                 });
                 try {
                 const result: any = await social.get({
@@ -124,13 +125,13 @@ const AvatarProfile: React.FC<AvatarProfileProps> = ({ accountId, size = 40,styl
 
     return (
         <div className="avatar-profile">
-        {avatar ? (
+        {avatar||image ? (
             <img
-            src={avatar}
+            src={avatar||image}
             alt="User Avatar"
             width={size}
             height={size}
-            className={`rounded-full ${style}`}
+            className={`rounded-full ${style} ${image && 'border-[1px] border-aipgf-geyser border-solid shadow-sm'}`}
             onError={() => replaceIpfs(img as string)}
             />
         ) : (

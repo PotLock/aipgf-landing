@@ -8,7 +8,7 @@ import { useEffect,useState } from "react";
 import RFPsCard from "@/components/RFPsCard";
 import NavBar from "@/components/nav-bar";
 import { RFPsTypes } from "@/types/types";
-import { ViewMethod } from "@/hook/call-near-method";
+import { ViewMethod } from "@/hook/near-method";
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 
 const rfpQueryName =

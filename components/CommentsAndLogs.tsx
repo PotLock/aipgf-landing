@@ -14,7 +14,7 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
     const [isDataReady, setIsDataReady] = useState(false);
 
     const social = new Social({
-        contractId: 'social.near',
+        contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
     });
 
     const getComments = async () => {

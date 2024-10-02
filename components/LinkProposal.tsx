@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { ViewMethod } from "@/hook/call-near-method";
+import { ViewMethod } from "@/hook/near-method";
 import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { readableDate } from "@/lib/common";

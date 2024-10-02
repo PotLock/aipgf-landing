@@ -17,7 +17,7 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
     });
 
     const social = new Social({
-        contractId: 'social.near',
+        contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
     });
 
     useEffect(() => {
@@ -33,29 +33,12 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
         return () => window.removeEventListener("resize", handleResize);
     }, []); 
 
-    const getAvatar = async () => {
-        try {
-            const response = await fetch(`https://dev.potlock.io/api/v1/accounts/${rfp?.author_id}`);
-            const data = await response.json();
-            const avatarUrl = data?.near_social_profile_data?.image?.nft
-                ? data?.near_social_profile_data?.image?.nft?.media
-                : data?.near_social_profile_data?.image?.ipfs_cid;
-            if (data?.near_social_profile_data?.image?.nft) {
-                setAvatar(avatarUrl);
-            }else{
-                setAvatar(`https://ipfs.near.social/ipfs/${avatarUrl}`);
-            }
-        } catch (error) {
-            console.error("Error fetching avatar:", error);
-        }
-    };
-
     const getTotalComments = async () => {
         const result:any = await social.index({
             action: 'comment',
             key: {
                 type: "social",
-                path: `forum.potlock.near/post/main`,
+                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
                 blockHeight: rfp?.block_height,
             },
         });
@@ -64,7 +47,6 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
     };
 
     useEffect(() => {
-        getAvatar();
         getTotalComments();
     }, []);
 

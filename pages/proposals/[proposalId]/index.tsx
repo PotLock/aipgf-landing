@@ -13,7 +13,7 @@ import TimeLine from "@/components/TimeLine";
 import Tag from "@/components/tag";
 import { proposalStatusOptions } from "@/lib/constant";
 import AvatarProfile from '@/components/AvatarProfile';
-import { ViewMethod } from "@/hook/call-near-method";
+import { ViewMethod } from "@/hook/near-method";
 import { sliceAddress } from "@/lib/common";
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 
@@ -57,6 +57,10 @@ const ProposalPage: NextPage = () => {
     const [blockHeight, setBlockHeight] = useState<number>(0);
     const [timestamp, setTimestamp] = useState<number>(0);
     const [history, setHistory] = useState<any>();
+
+    if(!proposalId){
+        return <div>Loading...</div>
+    }
 
     const variables = {
         where: {
@@ -133,6 +137,8 @@ const ProposalPage: NextPage = () => {
         }
     }, [proposalId]);
 
+    //console.log(proposal?.receiver_account)
+
     useEffect(() => {
         if (
         proposal?.receiver_account.length === 64 ||
@@ -140,27 +146,43 @@ const ProposalPage: NextPage = () => {
         (proposal?.receiver_account ?? "").includes(".tg")
         ) {
             fetch(
-            `https://neardevhub-kyc-proxy.shuttleapp.rs/kyc/${proposal?.receiver_account}`
-        ).then((data:any) => data.json())
-        .then((res:any) => {
-            let displayableText = "";
-            switch (res?.kyc_status) {
-                case "Approved":
-                    displayableText = "Verified";
-                    break;
-                case "Pending":
-                    displayableText = "Pending";
-                    break;
-                case "NotSubmitted":
-                case "Rejected":
-                    displayableText = "Not Verfied";
-                    break;
-                default:
-                    displayableText = "Failed to get status";
-                    break;
-            }
-            setVerificationStatus(displayableText);
-        });
+                `https://neardevhub-kyc-proxy.shuttleapp.rs/kyc/${proposal?.receiver_account}`,
+                {
+                    mode: 'cors',
+                    headers: {
+                        'Origin': window.location.origin
+                    }
+                }
+            )
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then((res: any) => {
+                let displayableText = "";
+                switch (res?.kyc_status) {
+                    case "Approved":
+                        displayableText = "Verified";
+                        break;
+                    case "Pending":
+                        displayableText = "Pending";
+                        break;
+                    case "NotSubmitted":
+                    case "Rejected":
+                        displayableText = "Not Verified";
+                        break;
+                    default:
+                        displayableText = "Failed to get status";
+                        break;
+                }
+                setVerificationStatus(displayableText);
+            })
+            .catch((error) => {
+                console.error('Error fetching KYC status:', error);
+                setVerificationStatus("Failed to get status");
+            });
         }
     }, [proposal?.receiver_account]);
 
@@ -174,7 +196,7 @@ const ProposalPage: NextPage = () => {
     ];
 
     const social = new Social({
-        contractId: 'social.near',
+        contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
     });
 
     const getTotalComments = async () => {
@@ -182,7 +204,7 @@ const ProposalPage: NextPage = () => {
             action: 'comment',
             key: {
                 type: "social",
-                path: `forum.potlock.near/post/main`,
+                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
                 blockHeight: proposal?.block_height,
             },
         });
@@ -195,7 +217,7 @@ const ProposalPage: NextPage = () => {
             action: 'like',
             key: {
                 type: "social",
-                path: `forum.potlock.near/post/main`,
+                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
                 blockHeight: proposal?.block_height,
             },
         });
@@ -407,20 +429,18 @@ const ProposalPage: NextPage = () => {
                                             <p className="text-[30px] font-semibold -mt-2 -mb-2">{proposal?.requested_sponsorship_usd_amount} USD</p>
                                             <p className="text-xs text-gray-500">Requested in {proposal?.requested_sponsorship_paid_in_currency}</p>
                                         </div>
-                                        <div className="border-b-[1px] border-aipgf-geyser border-solid box-border pb-2">
-                                            <h2 className="text-lg font-semibold">Recipient Verification Status</h2>
-                                            {
-                                                verificationStatus !== "Failed to get status" && (
-                                                    <div className="flex items-center space-x-2 mt-1">
-                                                        <img className="w-10 h-10 rounded-full p-2 bg-green-100" src="/assets/icon/verification.svg" alt="icon" />
-                                                        <div className="flex-1 -mt-2">
-                                                            <p className="text-sm text-gray-900">KYC {verificationStatus}</p>
-                                                            <p className="text-xs text-gray-500 -mt-2">Expires on Aug 24, 2024</p>
-                                                        </div>
+                                        {verificationStatus !== "Failed to get status" && (
+                                            <div className="border-b-[1px] border-aipgf-geyser border-solid box-border pb-2">
+                                                <h2 className="text-lg font-semibold">Recipient Verification Status</h2>
+                                                <div className="flex items-center space-x-2 mt-1">
+                                                    <img className="w-10 h-10 rounded-full p-2 bg-green-100" src="/assets/icon/verification.svg" alt="icon" />
+                                                    <div className="flex-1 -mt-2">
+                                                        <p className="text-sm text-gray-900">KYC {verificationStatus}</p>
+                                                        <p className="text-xs text-gray-500 -mt-2">Expires on Aug 24, 2024</p>
                                                     </div>
-                                                )
-                                            }
-                                        </div>
+                                                </div>
+                                            </div>
+                                        )}
                                         {/* <div className="border-b-[1px] border-aipgf-geyser border-solid box-border pb-2">
                                             <h2 className="text-lg font-semibold">Github Project Address</h2>
                                             <p className="text-sm text-gray-500">[Add GitHub Address]</p>

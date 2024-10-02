@@ -7,9 +7,9 @@ import ProposalPost from "@/components/ProposalPost";
 import Template from "@/components/Template";
 import Footer from "@/components/footer";
 import { ProposalTypes } from "@/types/types";
-import { ViewMethod } from "@/hook/call-near-method";
+import { ViewMethod } from "@/hook/near-method";
 
-const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
+const QUERYAPI_ENDPOINT = "https://near-queryapi.api.pagoda.co/v1/graphql"
 
 const queryName =
     "bos_forum_potlock_near_ai_pgf_indexer_proposals_with_latest_snapshot";
@@ -121,7 +121,7 @@ const Proposals: NextPage = () => {
 
     const loadProposal = async(proposalId:number) => {
         if(proposalId){
-            const proposal = await ViewMethod("forum.potlock.near", "get_proposal", {
+            const proposal = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet", "get_proposal", {
                 proposal_id: proposalId
             });
             return proposal
@@ -230,7 +230,7 @@ const Proposals: NextPage = () => {
                             </div>
                             {
                                 windowSize?.width > 768 &&(
-                                    <Link href={"/proposals/create-proposal"} className="flex flex-row gap-2 p-3 rounded-full bg-[#0969DA] text-white hover:bg-opacity-90 no-underline">
+                                    <Link href={"/create-proposal"} className="flex flex-row gap-2 p-3 rounded-full bg-[#0969DA] text-white hover:bg-opacity-90 no-underline">
                                         <img width={16} src="/assets/icon/add-white.svg" alt="icon" />
                                         <span>Submit Proposal</span>
                                     </Link>
@@ -244,7 +244,7 @@ const Proposals: NextPage = () => {
                                         <div className="animate-spin rounded-full h-10 w-10 border-t-[2px] border-b-[2px] border-solid border-gray-900"></div>
                                     </div>
                                 ) : (
-                                    <>
+                                    <div className="flex flex-col gap-5">
                                         {proposals.length > 0 && (
                                             proposals.map((proposal) => (
                                                 <ProposalPost key={proposal.proposal_id} proposal={proposal} setTotalReplies={setTotalReplies} replies={totalReplies}/>
@@ -260,7 +260,7 @@ const Proposals: NextPage = () => {
                                                 <span className="font-semibold">Load More</span>
                                             </button>
                                         </div>
-                                    </>
+                                    </div>
                                 )}
                             </div>
                             <div className="w-96 mq825:w-full flex flex-col gap-3 border-b border-gray-200 pb-10">
