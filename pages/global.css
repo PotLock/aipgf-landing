@@ -157,6 +157,17 @@ body {
   transform: rotate(45deg) scale(1);
 }
 
+#registerDao:checked ~ .cbx {
+  border-color: transparent;
+  background: #14926a;
+  animation: jelly 0.6s ease;
+}
+
+#registerDao:checked ~ .cbx:after {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+}
+
 .cntr {
   position: relative;
 }

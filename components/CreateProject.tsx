@@ -41,13 +41,13 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     const [fundingSources, setFundingSources] = useState<any>(null);
     const [existingHorizonProject, setExistingHorizonProject] = useState<any>(null);
     const [registeredProject, setRegisteredProject] = useState<any>(null);
-    const [proposals, setProposals] = useState<any>(null);
-    const [teamMember, setTeamMember] = useState<string>('');
     const [showFundingModal, setShowFundingModal] = useState<boolean>(false);
     const [projectName, setProjectName] = useState<string>("");
     const [originalCategories, setOriginalCategories] = useState<any>(null);
     const [categories, setCategories] = useState<any>([]);
     const [currentGithubRepo, setCurrentGithubRepo] = useState<string>('');
+    const [isRegisterDao, setIsRegisterDao] = useState<boolean>(false)
+    const [daoAddress, setDaoAddress] = useState<string|null>(null)
 
 
     const CHAIN_OPTIONS = {
@@ -292,10 +292,16 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     };
 
     useEffect(()=>{
-        if(accountId && !socialDataFetched){
-            loadSocialData(accountId, true);
+        if(daoAddress){
+            if(daoAddress && !socialDataFetched){
+                loadSocialData(daoAddress, true);
+            }
+        }else{
+            if(accountId && !socialDataFetched){
+                loadSocialData(accountId, true);
+            }
         }
-    },[accountId, socialDataFetched])
+    },[accountId, socialDataFetched,daoAddress])
 
     const isCreateProjectDisabled =
         !profileImage ||
@@ -436,17 +442,17 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
         const diff = deepObjectDiff(existingSocialData, socialDatas);
         const socialArgs = {
             data: {
-                [accountId as string]: diff,
+                [isRegisterDao?daoAddress as string:accountId as string]: diff,
             },
         };
         const potlockRegistryArgs = {
           list_id: 1, // hardcoding to potlock registry list for now
         };
         const horizonArgs = {
-            account_id: accountId,
+            account_id: isRegisterDao?daoAddress as string:accountId as string,
         };
         // first, we have to get the account from social.near to see if it exists. If it doesn't, we need to add 0.1N to the deposit
-        await ViewMethod( process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet", "get_account", {account_id: accountId}).then(async(account) => {
+        await ViewMethod( process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet", "get_account", {account_id: isRegisterDao?daoAddress as string:accountId as string}).then(async(account) => {
             const socialTransaction:any = {
                 receiverId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
                 actions: [
@@ -511,6 +517,33 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                     );
                 }
             }
+            if (isRegisterDao) {
+                transactions = transactions.map((tx) => ({
+                    ...tx,
+                    contractName: daoAddress,
+                    methodName: "add_proposal",
+                    args: {
+                        proposal: {
+                        description: edit
+                            ? "Update project on Potlock (via NEAR Social)"
+                            : "Create project on Potlock (3 steps: Register information on NEAR Social, register on Potlock, and register on NEAR Horizon)",
+                        kind: {
+                            FunctionCall: {
+                            receiver_id: tx.receiverId,
+                            actions: tx.actions.map((action:any) => ({
+                                method_name: action.params.methodName,
+                                gas: action.params.gas,
+                                deposit: action.params.deposit,
+                                args: Buffer.from(JSON.stringify(action.params.args), "utf-8").toString("base64"),
+                            })),
+                            },
+                        },
+                        },
+                    },
+                    deposit: "100000000000000000000000",
+                    gas: "300000000000000",
+                }));
+            }
             await wallet.signAndSendTransactions({
                 callbackUrl: `${window.location.origin}/create-proposal`,
                 transactions,
@@ -520,7 +553,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
 
     const loadRegisteredProject = useCallback(async () => {
         const registrations = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"lists.potlock.near":"lists.potlock.testnet", "get_registrations_for_registrant", {
-            registrant_id: accountId
+            registrant_id: isRegisterDao?daoAddress as string:accountId as string
         });
         if (registrations) {
             const registration = registrations.find(
@@ -533,9 +566,9 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                 }));
             }
         }
-    }, [accountId]);
+    }, [isRegisterDao,accountId]);
     useEffect(()=>{
-        if(accountId){
+        if(isRegisterDao){
             loadRegisteredProject()
         }
     },[loadRegisteredProject])
@@ -623,9 +656,14 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                     <small className="relative left-[-20px] text-base font-bold">Add member</small>
                                 </button>
                             </div>
+                            <div className="cntr flex flex-row items-start gap-2">
+                                <input type="checkbox" id="registerDao" className="hidden-xs-up" checked={isRegisterDao} onChange={(e)=>setIsRegisterDao(e.target.checked)}/>
+                                <label htmlFor="registerDao" className="cbx"></label>
+                                <span className="font-semibold">Register as DAO</span>
+                            </div>
                             <div className="flex flex-col gap-2">
-                                <span className="font-bold text-lg">Project ID</span>
-                                <input disabled value={accountId as string} type="text" placeholder="Enter title here" className="text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-800 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg" />
+                                <span className="font-bold text-lg">{isRegisterDao?"DAO Address":"Project ID"}</span>
+                                <input onChange={(e)=>setDaoAddress(e.target.value)} disabled={!isRegisterDao} value={!isRegisterDao?accountId as string:""} type="text" placeholder={isRegisterDao?"Enter DAO Address here":"Enter project ID here"} className="text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-800 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg" />
                             </div>
                             <div className="flex flex-col gap-2">
                                 <span className="font-bold text-lg">Project Name &#42;</span>

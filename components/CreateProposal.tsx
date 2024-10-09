@@ -1,9 +1,13 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useMemo } from "react";
 import { useWalletSelector } from "@/context/WalletSelectorContext"
 import AvatarProfile from "@/components/AvatarProfile"
 import dynamic from "next/dynamic";
 import { ProposalTypes } from "@/types/types";
 import { readableDate } from "@/lib/common";
+import { ViewMethod } from "@/hook/near-method";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
 
 const Editor = dynamic(()=>import("@/components/Editor"),{ssr:false})
 
@@ -48,7 +52,11 @@ const variables = {
 };
 
 const CreateProposal = () => {
-    const {accountId} = useWalletSelector();
+    const router = useRouter();
+    const { id, timestamp, rfpId } = router.query;
+    const isEditPage = typeof id === "string";
+    const {accountId,selector} = useWalletSelector();
+
     const [isShowDropDown, setIsShowDropDown] = useState<boolean>(false)
     const [isShow, setIsShow] = useState<boolean>(false)
     const [selectReview, setSelectReview] = useState<boolean>(false)
@@ -61,9 +69,51 @@ const CreateProposal = () => {
     const [showModal, setShowModal] = useState<boolean>(false);
     const [proposalSelected, setProposalSelected] = useState<ProposalTypes | null>(null);
     const [searchTerm, setSearchTerm] = useState<string|null>(null);
+    const [editProposalData, setEditProposalData] = useState<any| null>(null);
+    
+
+    const [linkedRfp, setLinkedRfp] = useState<number|null>(rfpId ? parseInt(rfpId as string) : null);
+    const [labels, setLabels] = useState<any>([]);
+    const [title, setTitle] = useState<any>(null);
+    const [description, setDescription] = useState<any>(null);
+    const [summary, setSummary] = useState<any>(null);
+    const [consent, setConsent] = useState({ toc: false, coc: false });
+    const [linkedProposals, setLinkedProposals] = useState<any>([]);
+    const [requestedSponsorshipAmount, setRequestedSponsorshipAmount] = useState<any>(null);
+    const [allowDraft, setAllowDraft] = useState<boolean>(true);
+    const [receiverAccount, setReceiverAccount] = useState<any>(null);
+
+    const [loading, setLoading] = useState<boolean>(true);
+    const [disabledSubmitBtn, setDisabledSubmitBtn] = useState<boolean>(false);
+    const [isDraftBtnOpen, setDraftBtnOpen] = useState<boolean>(false);
+    const [selectedStatus, setSelectedStatus] = useState<string>("draft");
+    const [isReviewModalOpen, setReviewModal] = useState<boolean>(false);
+    const [isCancelModalOpen, setCancelModal] = useState<boolean>(false);
+
+    const [showProposalViewModal, setShowProposalViewModal] = useState<boolean>(false); // when user creates/edit a proposal and confirm the txn, this is true
+    const [proposalId, setProposalId] = useState<any>(null);
+    const [proposalIdsArray, setProposalIdsArray] = useState<any>(null);
+    const [isTxnCreated, setCreateTxn] = useState<boolean>(false);
+    const [oldProposalData, setOldProposalData] = useState<any>(null);
+    const [supervisor, setSupervisor] = useState<any>(null);
+    const [isModerator, setIsModerator] = useState<boolean>(false);
+    const [draftProposalData, setDraftProposalData] = useState<any>(null);
+    const [transactionHashes, setTransactionHashes] = useState<string|null>(null);
 
     const categories = ["A Small Build","Bounty","MVP","Quick Start"]
-
+    const tokensOptions = [
+        { label: "NEAR", value: "NEAR" },
+        { label: "USDT", value: "USDT" },
+        {
+            label: "USDC", 
+            value: "USDC",
+        },
+        {
+            label: "Other",
+            value: "OTHER",
+        },
+    ];
+    const [selectedToken, setSelectedToken] = useState(tokensOptions[2]);    
 
     const [windowSize, setWindowSize] = useState<any>({
         width: null,
@@ -82,6 +132,146 @@ const CreateProposal = () => {
 
         return () => window.removeEventListener("resize", handleResize);
     }, []); 
+
+    useEffect(() => {
+        if (allowDraft) {
+            const draftProposalData = localStorage.getItem("AI_PGF_PROPOSAL_EDIT");
+            if (draftProposalData) {
+                setDraftProposalData(JSON.parse(draftProposalData));
+            }
+        }
+    }, [allowDraft]);
+
+    const loadProposal = async(proposalId:number) => {
+        if(proposalId){
+            const proposal = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet", "get_proposal", {
+                proposal_id: proposalId
+            });
+            return proposal
+        }
+    }
+
+    useEffect(() => {
+        if (isEditPage) {
+            try{
+                loadProposal(parseInt(id as string)).then(setEditProposalData);
+            }catch(error){
+                console.error(error)
+            }
+        }
+    }, [isEditPage, id]);
+
+    useEffect(() => {
+        if(accountId){
+            const loadIsModerator = async()=>{
+                const isModerator = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet", "is_allowed_to_write_rfps", {
+                    editor: accountId
+                });
+                setIsModerator(isModerator)
+            }
+            loadIsModerator()
+        }
+    }, [accountId]);
+
+    const memoizedDraftData = useMemo(
+        () => ({
+            id: editProposalData?.id ?? null,
+            snapshot: {
+                linked_rfp: linkedRfp,
+                name: title,
+                description: description,
+                labels: labels,
+                summary: summary,
+                requested_sponsorship_usd_amount: requestedSponsorshipAmount,
+                requested_sponsorship_paid_in_currency: selectedToken.value,
+                receiver_account: accountId,
+            },
+        }),
+        [
+            linkedRfp,
+            title,
+            summary,
+            description,
+            labels,
+            requestedSponsorshipAmount,
+            selectedToken,
+            accountId,
+        ],
+    );
+
+    useEffect(() => {
+        if (showProposalViewModal) {
+            return;
+        }
+        setDisabledSubmitBtn(
+            isTxnCreated ||
+            !title ||
+            !description ||
+            !summary ||
+            !(labels ?? []).length ||
+            !requestedSponsorshipAmount ||
+            !receiverAccount ||
+            !consent.toc ||
+            !consent.coc,
+        );
+        const handler = setTimeout(() => {
+            localStorage.setItem("AI_PGF_PROPOSAL_EDIT", JSON.stringify(memoizedDraftData));
+        }, 10000);
+        
+        return () => clearTimeout(handler);
+    }, [
+        memoizedDraftData,
+        draftProposalData,
+        consent,
+        isTxnCreated,
+        showProposalViewModal,
+    ]);
+
+    //console.log(draftProposalData)
+
+    useEffect(() => {
+        if (allowDraft) {
+            let data = editProposalData || draftProposalData;
+            let snapshot = data?.snapshot;
+            if (data) {
+                if (timestamp) {
+                snapshot =
+                    data?.snapshot_history.find((item:any) => item.timestamp === timestamp) ??
+                    data?.snapshot;
+                }
+                if (
+                draftProposalData &&
+                editProposalData &&
+                editProposalData.id === JSON.parse(draftProposalData).id
+                ) {
+                snapshot = {
+                    ...editProposalData.snapshot,
+                    ...JSON.parse(draftProposalData).snapshot,
+                };
+                }
+                if (!Number.isFinite(linkedRfp)) {
+                    setLinkedRfp(snapshot.linked_rfp);
+                }
+                    setLabels(snapshot.labels ?? []);
+                    setTitle(snapshot.name);
+                    setSummary(snapshot.summary);
+                    setDescription(snapshot.description);
+                    setReceiverAccount(snapshot.receiver_account);
+                    setRequestedSponsorshipAmount(snapshot.requested_sponsorship_usd_amount);
+                    setSupervisor(snapshot.supervisor);
+        
+                const token = tokensOptions.find(
+                (item) =>
+                    item.value === snapshot.requested_sponsorship_paid_in_currency,
+                );
+                setSelectedToken(token ?? tokensOptions[2]);
+                if (isEditPage) {
+                setConsent({ toc: true, coc: true });
+                }
+            }
+        }
+    }, [editProposalData, draftProposalData, allowDraft]);
+
 
     // async function fetchGraphQL(
     //     operationsDoc: string,
@@ -123,6 +313,212 @@ const CreateProposal = () => {
 
     // console.log(proposals)
 
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setAllowDraft(false);
+            setLoading(false);
+        }, 500);
+        return () => clearTimeout(handler);
+    }, []);
+
+
+      // set RFP labels, disable link rfp change when linked rfp is past accepting stage
+    const [disabledLinkRFP, setDisableLinkRFP] = useState(false);
+
+    useEffect(() => {
+        if (linkedRfp) {
+            ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet", "get_rfp", {
+                rfp_id: linkedRfp
+            }).then((i) => {
+                const timeline = JSON.parse(i.snapshot.timeline);
+                setDisableLinkRFP(
+                    !isModerator &&
+                    timeline.status !== 'ACCEPTING_SUBMISSIONS',
+                );
+                setLabels(i.snapshot.labels);
+            });
+        }
+    }, [linkedRfp, isModerator]);
+
+    useEffect(() => {
+        if (
+            editProposalData &&
+            editProposalData?.snapshot?.linked_proposals?.length > 0
+        ) {
+            editProposalData.snapshot.linked_proposals.forEach(async (item:any) => {
+                try {
+                    const proposal = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet", "get_proposal", {
+                        proposal_id: parseInt(item)
+                    });
+                    setLinkedProposals((prevProposals:any) => [
+                        ...prevProposals,
+                        {
+                            label: "# " + proposal.id + " : " + proposal.snapshot.name,
+                            value: proposal.id,
+                        },
+                    ]);
+                } catch (error) {
+                    console.error("Error fetching linked proposal:", error);
+                }
+            });
+        }
+    }, [editProposalData]);
+
+    // show proposal created after txn approval for popup wallet
+    useEffect(() => {
+        if (isTxnCreated) {
+            if (editProposalData) {
+                setOldProposalData(editProposalData);
+                if (
+                    editProposalData &&
+                    typeof editProposalData === "object" &&
+                    oldProposalData &&
+                    typeof oldProposalData === "object" &&
+                    JSON.stringify(editProposalData) !== JSON.stringify(oldProposalData)
+                ) {
+                    setCreateTxn(false);
+                    setProposalId(editProposalData.id);
+                    setShowProposalViewModal(true);
+                }
+            } else {
+                ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet", "get_all_proposal_ids", {})
+                    .then((proposalIds) => {
+                        if (Array.isArray(proposalIds) && !proposalIdsArray) {
+                            setProposalIdsArray(proposalIds);
+                        }
+                        if (
+                            Array.isArray(proposalIds) &&
+                            Array.isArray(proposalIdsArray) &&
+                            proposalIds.length !== proposalIdsArray.length
+                        ) {
+                            setCreateTxn(false);
+                            setProposalId(proposalIds[proposalIds.length - 1]);
+                            setShowProposalViewModal(true);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error("Error fetching proposal IDs:", error);
+                    });
+            }
+        }
+        setLoading(false);
+    }, [isTxnCreated, editProposalData, oldProposalData, proposalIdsArray]);
+
+    useEffect(() => {
+        if (transactionHashes) {
+            setLoading(true);
+            fetch(`${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"https://rpc.mainnet.near.org":"https://rpc.testnet.near.org"}`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                },
+                body: JSON.stringify({
+                    jsonrpc: "2.0",
+                    id: "dontcare",
+                    method: "tx",
+                    params: [transactionHashes, accountId],
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                const transaction_method_name = data?.result?.transaction?.actions[0]?.FunctionCall?.method_name;
+
+                const is_edit_or_add_post_transaction =
+                    transaction_method_name === "add_proposal" ||
+                    transaction_method_name === "edit_proposal";
+
+                if (is_edit_or_add_post_transaction) {
+                    setShowProposalViewModal(true);
+                    localStorage.removeItem("AI_PGF_PROPOSAL_EDIT");
+                }
+
+                if (transaction_method_name === "add_proposal") {
+                    ViewMethod(
+                        process.env.NEXT_PUBLIC_NETWORK === "mainnet" ? "forum.potlock.near" : "forum.potlock.testnet",
+                        "get_all_proposal_ids",
+                        {}
+                    )
+                    .then((proposalIdsArray) => {
+                        setProposalId(proposalIdsArray[proposalIdsArray.length - 1]);
+                    })
+                    .catch(error => {
+                        console.error("Error fetching proposal IDs:", error);
+                    });
+                } else {
+                    setProposalId(id);
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching transaction:", error);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+        } else if (showProposalViewModal) {
+            setShowProposalViewModal(false);
+        }
+    }, [transactionHashes, accountId, id]);
+
+    const onSubmit = async ({ isDraft, isCancel }: { isDraft: boolean; isCancel: boolean }) => {
+        setCreateTxn(true);
+        const wallet = await selector.wallet();
+        console.log("submitting transaction");
+        const linkedProposalsIds = linkedProposals.map((item: { value: string }) => item.value) ?? [];
+        const body = {
+            proposal_body_version: "V1",
+            linked_rfp: linkedRfp,
+            category: "AI PGF",
+            name: title,
+            description: description,
+            summary: summary,
+            linked_proposals: linkedProposalsIds,
+            requested_sponsorship_usd_amount: requestedSponsorshipAmount,
+            requested_sponsorship_paid_in_currency: selectedToken.value,
+            receiver_account: receiverAccount,
+            requested_sponsor: "impact.sputnik-dao.near",
+            supervisor: supervisor,
+            timeline: isCancel
+                ? {
+                    status: "CANCELLED",
+                    sponsor_requested_review: false,
+                    reviewer_completed_attestation: false,
+                }
+                : isDraft
+                    ? { status: "DRAFT" }
+                    : {
+                        status: "REVIEW",
+                        sponsor_requested_review: false,
+                        reviewer_completed_attestation: false,
+                    },
+        };
+        const args:any = {
+            labels: linkedRfp ? [] : (labels ?? []).map((i: { value: string }) => i.value ?? i),
+            body: body,
+        };
+        if (isEditPage && editProposalData) {
+            args['id'] = editProposalData.id;
+        }
+        
+        await wallet.signAndSendTransaction({
+            callbackUrl: `${window.location.origin}/create-proposal`,
+            actions: [
+                {
+                    type: "FunctionCall",
+                    params: {
+                        methodName: isEditPage ? "edit_proposal" : "add_proposal",
+                        args: args,
+                        gas: "270000000000000",
+                        deposit: "100000000000000000000000",
+                    }
+                }
+            ],
+        });
+    };
+
+    const cleanDraft = () => {
+        localStorage.removeItem("AI_PGF_PROPOSAL_EDIT");
+    }
+
     const handleProposalSelect = (proposal: ProposalTypes) => {
         setShowModal(false);
         setSearchTerm('')
@@ -146,6 +542,8 @@ const CreateProposal = () => {
             setProposals(filteredProposals);
         }
     };
+
+    
 
     return (
         <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch md:pb-[8rem]">
@@ -202,12 +600,12 @@ const CreateProposal = () => {
                                             <div className="cntr flex flex-row items-start gap-2">
                                                 <input type="checkbox" id="cbx" className="hidden-xs-up"/>
                                                 <label htmlFor="cbx" className="cbx"></label>
-                                                <span>I&#39;ve agree to AIPGF&#39;s <strong className="underline">Terms and Conditions</strong> and commit to honoring it</span>
+                                                <span>I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href={"https://aipgf.com/terms"} style={{color: "unset"}} className="no-underline hover:underline"><strong>Terms and Conditions</strong></Link> and commit to honoring it</span>
                                             </div>
                                             <div className="cntr flex flex-row items-start gap-2">
                                                 <input type="checkbox" id="cbx1" className="hidden-xs-up"/>
                                                 <label htmlFor="cbx1" className="cbx"></label>
-                                                <span>I&#39;ve agree to AIPGF&#39;s <strong className="underline">Code of Conduct</strong> and commit to honoring it</span>
+                                                <span>I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href="https://aipgf.com/conduct" style={{color: "unset"}} className="no-underline hover:underline"><strong>Code of Conduct</strong></Link> and commit to honoring it</span>
                                             </div>
                                             
                                         </div>
@@ -399,19 +797,31 @@ const CreateProposal = () => {
                                             <div className="flex flex-col gap-3">
                                                 <span>Currency</span>
                                                 <small className="text-xs text-gray-500">Select your preferred currency for receiving funds. Note: The exchange rate for NEAR tokens will be the closing rate at the day of the invoice.</small>
-                                                <button disabled className="border-[1px] border-aipgf-geyser border-solid bg-white items-center rounded-lg p-2 px-3 flex flex-row justify-between gap-3">
-                                                    <span className="text-[#6f7479] text-sm md:text-base">USDC</span>
-                                                    <img width={20} src="/assets/icon/arrow-down-gray.svg" alt="icon" />
-                                                </button>
-                                                {
-                                                    isShowDropDownCurrency&&(
-                                                        <div className="relative">
-                                                            <div className="w-full absolute -top-2 bg-white border-[1px] border-aipgf-geyser border-solid p-3 rounded-lg h-20 shadow-sm">
-
-                                                            </div>
+                                                <div className="relative">
+                                                    <button 
+                                                        onClick={() => setIsShowDropDownCurrency((prev) => !prev)} 
+                                                        className="w-full border-[1px] border-aipgf-geyser border-solid bg-white items-center rounded-lg p-2 px-3 flex flex-row justify-between gap-3"
+                                                    >
+                                                        <span className="text-[#6f7479] text-sm md:text-base">{selectedToken.label}</span>
+                                                        <img width={20} src="/assets/icon/arrow-down-gray.svg" alt="icon" />
+                                                    </button>
+                                                    {isShowDropDownCurrency && (
+                                                        <div className="absolute top-full left-0 w-full mt-1 bg-white border-[1px] border-aipgf-geyser rounded-lg shadow-lg p-2 z-10">
+                                                            {tokensOptions.map((token, index) => (
+                                                                <button 
+                                                                    key={index} 
+                                                                    className="w-full text-start text-sm md:text-base bg-white hover:bg-gray-100 hover:bg-opacity-10 rounded-lg p-2 cursor-pointer"
+                                                                    onClick={() => {
+                                                                        setSelectedToken(token);
+                                                                        setIsShowDropDownCurrency(false);
+                                                                    }}
+                                                                >
+                                                                    {token.label}
+                                                                </button>
+                                                            ))}
                                                         </div>
-                                                    )
-                                                }
+                                                    )}
+                                                </div>
                                             </div>
                                             <div className="flex flex-col gap-3">
                                                 <span>Requested Sponsor</span>
