@@ -37,7 +37,7 @@
     },
     {
       "source": "/backlog",
-      "destination": "https://github.com/orgs/PotLock/projects/16",
+      "destination": "https://github.com/orgs/PotLock/projects/20",
       "permanent": true
     },
     {
@@ -239,6 +239,11 @@
     {
       "source": "/copygiving-spec",
       "destination": "https://potlock.notion.site/CopyGiving-eba4858ad9bb4c769a2f22660ff35307?pvs=74",
+      "permanent": true
+    },
+    {
+      "source": "/forum-features",
+      "destination": "https://potlock.notion.site/AI-PGF-Forum-NextJS-Testing-100c1f4ba97e80a19774ded8c8af771e?pvs=4",
       "permanent": true
     },
     {
