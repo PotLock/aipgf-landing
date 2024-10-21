@@ -36,6 +36,11 @@
       "permanent": true
     },
     {
+      "source": "/lagos",
+      "destination": "https://docs.google.com/presentation/d/1iMgp6n9NGq1q_U3ZAZ8AmmBWiEhSGSZPtAnPc-zAYv0/edit?usp=sharing",
+      "permanent": true
+    },
+    {
       "source": "/backlog",
       "destination": "https://github.com/orgs/PotLock/projects/20",
       "permanent": true
