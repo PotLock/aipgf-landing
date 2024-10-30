@@ -86,7 +86,7 @@ const ProposalPost: NextPage<{proposal: ProposalTypes,setTotalReplies:any,replie
         return(
             <div 
                 key={proposal.proposal_id} 
-                className="w-full border-aipgf-geyser border-[1px] border-solid box-border md:h-44 rounded-lg shadow-sm p-3 md:p-5 no-underline"
+                className="w-full border-aipgf-geyser border-[1px] border-solid box-border md:h-52 rounded-lg shadow-sm p-3 md:p-5 no-underline"
                 style={{color: "unset"}}
                 >
                 <div className="flex md:flex-row flex-col gap-3 items-end md:items-center justify-between">
@@ -111,8 +111,9 @@ const ProposalPost: NextPage<{proposal: ProposalTypes,setTotalReplies:any,replie
                             className="flex flex-col gap-1">
                             {
                                 windowSize?.width > 768 &&(
-                                    <div className="flex flex-row gap-3">
+                                    <div className="flex flex-col gap-3">
                                         <span className="text-sm md:text-lg font-semibold">{proposal.name}</span>
+                                        <div className="flex flex-row gap-2">
                                         {proposal.labels?.map((data) => (
                                             <Tag
                                                 key={data}
@@ -127,8 +128,9 @@ const ProposalPost: NextPage<{proposal: ProposalTypes,setTotalReplies:any,replie
                                                     labelIcons[data]?.textColor ?? "#000"
                                                 }
                                                 cancelFontSize="0.75rem"
-                                            />
-                                        ))}
+                                                />
+                                            ))}
+                                        </div>
                                     </div>
                                 )
                             }
@@ -159,16 +161,18 @@ const ProposalPost: NextPage<{proposal: ProposalTypes,setTotalReplies:any,replie
                             borderColor:
                             timelineStyle[
                                 JSON.parse(proposal?.timeline)?.status
-                            ],
+                            ]?.color,
                         }}
                         className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
-                        {/* <img width={16} src="/assets/icon/pen.svg" alt="icon" /> */}
+                        <img width={13} src={timelineStyle[
+                            JSON.parse(proposal?.timeline)?.status
+                        ]?.icon} alt="icon" />
                         <small
                             style={{
                                 color:
                                 timelineStyle[
                                     JSON.parse(proposal?.timeline)?.status
-                                ],
+                                ]?.color,
                             }}
                         >
                             {proposal?.timeline &&

@@ -30,7 +30,7 @@ const CreateProposalPage = () => {
     }, [loadRegistrants])
 
     return (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full font-aipgf-manrope-semibold-1356">
             <NavBar/>
             {
                 accountId && !isExist ? (

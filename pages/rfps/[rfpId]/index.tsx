@@ -247,10 +247,10 @@ const RFPsDetail: NextPage = () => {
         <div className="flex flex-col w-full h-full">
             <NavBar />
             <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem]">
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center font-aipgf-manrope-semibold-1356">
                     {
                         rfp&&(
-                            <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20 flex flex-col gap-4">
+                            <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20 flex flex-col gap-4 font-aipgf-manrope-semibold-1356">
                                 <div className="p-6 rounded-lg shadow-sm border-aipgf-geyser border-[1px] border-solid box-border w-full">
                                     <button  
                                         style={{
@@ -356,6 +356,11 @@ const RFPsDetail: NextPage = () => {
                                                         <h2 className="text-sm font-semibold text-gray-700 border-b-[1px] border-aipgf-geyser border-solid box-border pb-2">DESCRIPTION</h2>
                                                         <Markdown options={{ 
                                                             overrides: {
+                                                                div: {
+                                                                    props: {
+                                                                        className: "font-aipgf-manrope-semibold-1356",
+                                                                    }
+                                                                },
                                                                 img: {
                                                                     props: {
                                                                         className: "w-full h-auto",

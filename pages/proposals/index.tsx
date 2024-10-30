@@ -209,15 +209,15 @@ const Proposals: NextPage = () => {
     return (
         <div className="flex flex-col w-full h-full">
             <NavBar/>
-            <Section title="Proposals" type="proposals" sortByStage={sortByStage} sortCategory={sortByCategory} sortBy={sortProposals} search={searchProposals}/>
+            <Section title="Proposals" description="Stay informed about the latest proposals and initiatives. Here, you can review, comment, and engage with projects that align with your interests." type="proposals" sortByStage={sortByStage} sortCategory={sortByCategory} sortBy={sortProposals} search={searchProposals}/>
             <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch">
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center font-aipgf-manrope-semibold-1356">
                     <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20">
                         <div className="flex flex-row justify-between w-full items-center">
                             <div className="flex flex-row mq825:gap-2 gap-4 mq825:text-xs text-2xl">
                                 <div className="flex flex-row gap-2 mq825:gap-1">
                                     <span className="font-semibold">{totalProposals}</span>
-                                    <span>Projects funded</span>
+                                    <span>{`Projects funded`}</span>
                                 </div>
                                 <div className="flex flex-row gap-2 mq825:gap-1">
                                     <span className="font-semibold">{totalReplies}</span>
@@ -257,7 +257,7 @@ const Proposals: NextPage = () => {
                                         )}
                                         <div className="mq825:mt-5 mt-10">
                                             <button onClick={loadMoreProposals} className="border-aipgf-geyser border-[1px] border-solid box-border cursor-pointer hover:bg-stone-50 bg-[#F6F8FA] p-3 text-center rounded-full w-full">
-                                                <span className="font-semibold">Load More</span>
+                                                <span className="font-semibold">{`Load More`}</span>
                                             </button>
                                         </div>
                                     </div>
@@ -317,7 +317,7 @@ const Proposals: NextPage = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full bg-[#F6F8FA] h-64 md:mb-14 mb-5 mt-3 flex flex-col md:flex-row justify-center md:gap-20 items-center px-5 md:px-0">
+            <div className="w-full bg-[#F6F8FA] h-64 md:mb-14 mb-5 mt-3 flex flex-col md:flex-row justify-center md:gap-20 items-center px-5 md:px-0 font-aipgf-manrope-semibold-1356">
                 {
                     windowSize?.width >768&&(
                         <img width={20} className="w-96 h-48" src="/assets/background/bannerFooter.png" alt="banner" />

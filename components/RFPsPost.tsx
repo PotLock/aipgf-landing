@@ -57,7 +57,6 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
         return str
     }
 
-
     const renderRFPs = () => {
         if (!rfp) {
             return <div>No RFPs found</div>;
@@ -66,7 +65,7 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
         return(
             <div 
                 key={rfp.rfp_id} 
-                className="w-full border-aipgf-geyser border-[1px] border-solid box-border md:h-44 rounded-lg shadow-sm p-3 md:p-5 no-underline"
+                className="w-full border-aipgf-geyser border-[1px] border-solid box-border md:h-52 rounded-lg shadow-sm p-3 md:p-5 no-underline"
                 style={{color: "unset"}}
                 >
                 <div className="flex md:flex-row flex-col gap-3 items-end md:items-center justify-between">
@@ -103,24 +102,26 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
                             className="flex flex-col gap-1">
                             {
                                 windowSize?.width > 768 &&(
-                                    <div className="flex flex-row gap-3">
+                                    <div className="flex flex-col gap-3">
                                         <span className="text-sm md:text-lg font-semibold">{rfp.name}</span>
+                                        <div className="flex flex-row gap-2">
                                             {rfp.labels?.map((data) => (
-                                            <Tag
-                                                key={data}
-                                                propBackgroundColor={
-                                                    labelIcons[data]?.color ?? "#b7b7b7"
-                                                }
-                                                propWidth="max-content"
-                                                x={labelIcons[data]?.icon ?? "icon.svg"}
-                                                cancel={data}
-                                                propFontWeight="unset"
-                                                propColor={
-                                                    labelIcons[data]?.textColor ?? "#000"
-                                                }
-                                                cancelFontSize="0.75rem"
-                                            />
-                                        ))}
+                                                <Tag
+                                                    key={data}
+                                                    propBackgroundColor={
+                                                        labelIcons[data]?.color ?? "#b7b7b7"
+                                                    }
+                                                    propWidth="max-content"
+                                                    x={labelIcons[data]?.icon ?? "icon.svg"}
+                                                    cancel={data}
+                                                    propFontWeight="unset"
+                                                    propColor={
+                                                        labelIcons[data]?.textColor ?? "#000"
+                                                    }
+                                                    cancelFontSize="0.75rem"
+                                                />
+                                            ))}
+                                        </div>
                                     </div>
                                 )
                             }
@@ -151,16 +152,18 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
                             borderColor:
                             timelineStyle[
                                 JSON.parse(rfp?.timeline)?.status
-                            ],
+                            ]?.color,
                         }}
                         className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
-                        {/* <img width={16} src="/assets/icon/pen.svg" alt="icon" /> */}
+                        <img width={16} src={timelineStyle[
+                            JSON.parse(rfp?.timeline)?.status
+                        ]?.icon} alt="icon" />
                         <small
                             style={{
                                 color:
                                 timelineStyle[
                                     JSON.parse(rfp?.timeline)?.status
-                                ],
+                                ]?.color,
                             }}
                         >
                             {rfp?.timeline &&

@@ -236,7 +236,7 @@ const ProposalPage: NextPage = () => {
         <div className="flex flex-col w-full h-full">
             <NavBar />
             <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem]">
-                <div className="flex justify-center items-center">
+                <div className="flex justify-center items-center font-aipgf-manrope-semibold-1356">
                     {
                         proposal&&(
                             <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20 flex flex-col gap-4">

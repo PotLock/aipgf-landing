@@ -630,7 +630,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     };
 
     return(
-        <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch">
+        <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch font-aipgf-manrope-semibold-1356">
             <div className="flex justify-center items-center">
                 <div className="w-full">
                     <div className="flex flex-col-reverse md:flex-row md:gap-20 justify-between py-5">

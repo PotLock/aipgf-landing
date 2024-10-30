@@ -59,7 +59,6 @@ const CreateProposal = () => {
 
     const [isShowDropDown, setIsShowDropDown] = useState<boolean>(false)
     const [isShow, setIsShow] = useState<boolean>(false)
-    const [selectReview, setSelectReview] = useState<boolean>(false)
     const [isShowDropDownCurrency,setIsShowDropDownCurrency] = useState<boolean>(false)
     const [viewAuthorDetails,setViewAuthorDetails] = useState<boolean>(false)
     const [viewFundingDetails,setViewFundingDetails] = useState<boolean>(false)
@@ -99,6 +98,22 @@ const CreateProposal = () => {
     const [isModerator, setIsModerator] = useState<boolean>(false);
     const [draftProposalData, setDraftProposalData] = useState<any>(null);
     const [transactionHashes, setTransactionHashes] = useState<string|null>(null);
+
+
+    const btnOptions = [
+        {
+            label: "Submit Draft",
+            description:
+                "The author can still edit the proposal and build consensus before sharing it with sponsors.",
+            value: "draft",
+        },
+        {
+            label: "Ready for Review",
+            description:
+                "Start the official review process with sponsors. This will lock the editing function, but comments are still open.",
+            value: "review",
+        },
+    ];
 
     const categories = ["A Small Build","Bounty","MVP","Quick Start"]
     const tokensOptions = [
@@ -338,7 +353,7 @@ const CreateProposal = () => {
                 setLabels(i.snapshot.labels);
             });
         }
-    }, [linkedRfp, isModerator]);
+    }, [linkedRfp, isModerator]);proposals
 
     useEffect(() => {
         if (
@@ -459,7 +474,7 @@ const CreateProposal = () => {
         }
     }, [transactionHashes, accountId, id]);
 
-    const onSubmit = async ({ isDraft, isCancel }: { isDraft: boolean; isCancel: boolean }) => {
+    const onSubmit = async ({ isDraft, isCancel }: { isDraft: boolean; isCancel?: boolean }) => {
         setCreateTxn(true);
         const wallet = await selector.wallet();
         console.log("submitting transaction");
@@ -531,7 +546,7 @@ const CreateProposal = () => {
         if (searchTerm === "") {
             // fetchGraphQL(query, "GetLatestSnapshot", variables);
             setShowModal(false)
-            
+
         } else {
             const filteredProposals = proposals.filter((proposal) => {
                 const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -543,7 +558,23 @@ const CreateProposal = () => {
         }
     };
 
-    
+    const handleOptionClick = (option: { value: string }) => {
+        setDraftBtnOpen(false);
+        setSelectedStatus(option.value);
+        handleSubmit(option.value);
+    };
+
+    const handleSubmit = (status: string) => {
+        const isDraft = status === "draft";
+        if (isDraft) {
+            onSubmit({ isDraft});
+            cleanDraft();
+        } else {
+            setReviewModal(true);
+        }
+    };
+
+    const selectedOption = btnOptions.find((i) => i.value === selectedStatus);
 
     return (
         <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch md:pb-[8rem]">
@@ -607,7 +638,7 @@ const CreateProposal = () => {
                                                 <label htmlFor="cbx1" className="cbx"></label>
                                                 <span>I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href="https://aipgf.com/conduct" style={{color: "unset"}} className="no-underline hover:underline"><strong>Code of Conduct</strong></Link> and commit to honoring it</span>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -616,62 +647,51 @@ const CreateProposal = () => {
                                         <span className="text-[#818181] font-semibold md:text-base text-sm">Discard Changes</span>
                                     </button>
                                     <div className="border-[1px] border-aipgf-geyser border-solid rounded-full flex flex-row">
-                                            <button className="flex md:text-base text-sm flex-row gap-2 px-3 py-2 items-center hover:bg-gray-100 hover:bg-opacity-30 rounded-l-full">
-                                                {
-                                                    selectReview?(
-                                                        <button className="flex flex-row items-center gap-2 bg-transparent cursor-pointer">
-                                                            <div className="w-2 h-2 bg-[#04A46E] rounded-full"/>
-                                                            <span>Ready for review</span>
-                                                        </button>
-                                                    ):
-                                                    (
-                                                        <button className="flex flex-row items-center gap-2 bg-transparent cursor-pointer">
-                                                            <div className="w-2 h-2 bg-[#979A9C] rounded-full"/>
-                                                            <span>Submit draft</span>
-                                                        </button>
-                                                    )
-                                                }
-                                            </button>
-                                            <button onClick={()=>setIsShow((prv)=>!prv)} className="border-l-[1px] border-aipgf-geyser border-solid px-3 py-2 hover:bg-gray-100 hover:bg-opacity-30 rounded-r-full">
-                                                <img width={20} src="/assets/icon/arrow-down-gray.svg" alt="icon" />
-                                            </button>
-                                        </div>
+                                        <button className="flex md:text-base text-sm flex-row gap-2 px-3 py-2 items-center hover:bg-gray-100 hover:bg-opacity-30 rounded-l-full">
+                                            {isDraftBtnOpen ? (
+                                                <button className="flex flex-row items-center gap-2 bg-transparent cursor-pointer">
+                                                    <div className="w-2 h-2 bg-[#04A46E] rounded-full"/>
+                                                    <span>Ready for review</span>
+                                                </button>
+                                            ) : (
+                                                <button className="flex flex-row items-center gap-2 bg-transparent cursor-pointer">
+                                                    <div className="w-2 h-2 bg-[#979A9C] rounded-full"/>
+                                                    <span>Submit draft</span>
+                                                </button>
+                                            )}
+                                        </button>
+                                        <button onClick={() => setIsShow((prev) => !prev)} className="border-l-[1px] border-aipgf-geyser border-solid px-3 py-2 hover:bg-gray-100 hover:bg-opacity-30 rounded-r-full">
+                                            <img width={20} src="/assets/icon/arrow-down-gray.svg" alt="icon" />
+                                        </button>
+                                    </div>
                                     <div className="relative">
-                                        {
-                                            isShow&&(
-                                                <div className="absolute top-6 right-0">
-                                                    <div className="border-[1px] border-aipgf-geyser border-solid  box-border shadow-sm p-3 rounded-lg w-64 bg-white md:text-base text-sm">
-                                                        <div className="flex flex-col gap-2">
-                                                            <button onClick={()=>{
-                                                                setIsShow(false)
-                                                                setSelectReview(false)
-                                                            }} className="flex flex-row gap-3 items-start text-start bg-white cursor-pointer hover:bg-gray-100 hover:bg-opacity-10 rounded-lg p-2">
+                                        {isShow && (
+                                            <div className="absolute top-6 right-0">
+                                                <div className="border-[1px] border-aipgf-geyser border-solid box-border shadow-sm p-3 rounded-lg w-64 bg-white md:text-base text-sm">
+                                                    <div className="flex flex-col gap-2">
+                                                        {btnOptions.map((option) => (
+                                                            <button
+                                                                key={option.value}
+                                                                onClick={() => {
+                                                                    setIsShow(false);
+                                                                    setDraftBtnOpen(option.value === "review");
+                                                                    handleOptionClick(option);
+                                                                }}
+                                                                className="flex flex-row gap-3 items-start text-start bg-white cursor-pointer hover:bg-gray-100 hover:bg-opacity-10 rounded-lg p-2"
+                                                            >
                                                                 <div className="h-2 w-2 mt-1">
-                                                                    <div className="w-2 h-2 bg-[#979A9C] rounded-full"/>
+                                                                    <div className={`w-2 h-2 bg-[${option.value === "draft" ? "#979A9C" : "#04A46E"}] rounded-full`}/>
                                                                 </div>
                                                                 <div className="flex flex-col">
-                                                                    <small className="font-semibold">Submit draft</small>
-                                                                    <p className="text-xs">The author can still edit the proposal and build consensus before sharing it with sponsors.</p>
+                                                                    <small className="font-semibold">{option.label}</small>
+                                                                    <p className="text-xs">{option.description}</p>
                                                                 </div>
                                                             </button>
-                                                            <div className="w-full border-[1px] border-aipgf-geyser border-solid h-[1px]"/>
-                                                            <button onClick={()=>{
-                                                                setIsShow(false)
-                                                                setSelectReview(true)
-                                                            }} className="flex flex-row gap-3 items-start text-start bg-white cursor-pointer hover:bg-gray-100 hover:bg-opacity-10 rounded-lg p-2">
-                                                                <div className="h-2 w-2 mt-1">
-                                                                    <div className="w-2 h-2 bg-[#04A46E] rounded-full"/>
-                                                                </div>
-                                                                <div className="flex flex-col">
-                                                                    <small className="font-semibold">Ready for review</small>
-                                                                    <p className="text-xs">Start the official review process with sponsors. This will lock the editing function, but comments are still open.</p>
-                                                                </div>
-                                                            </button>
-                                                        </div>
+                                                        ))}
                                                     </div>
                                                 </div>
-                                            )
-                                        }
+                                            </div>
+                                        )}
                                     </div>
 
                                 </div>

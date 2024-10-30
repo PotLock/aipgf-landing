@@ -104,29 +104,32 @@ const RFPsCard = ({rfp}:{rfp: RFPsTypes}) => {
                     </div>
                 </div>
                 <button  
-                    style={{
-                        borderColor:
-                        timelineStyle[
-                            JSON.parse(rfp?.timeline)?.status
-                        ],
-                    }}
-                    className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
-                    <small className="text-[11px]"
                         style={{
-                            color:
+                            borderColor:
                             timelineStyle[
                                 JSON.parse(rfp?.timeline)?.status
-                            ],
+                            ]?.color,
                         }}
-                    >
-                        {rfp?.timeline &&
-                            JSON.parse(rfp?.timeline)
-                                ?.status.replace("_", " ")
-                                .toLowerCase()
-                                .replace(/\b\w/g, (c: any) =>
-                                    c.toUpperCase()
-                                )}
-                    </small>
+                        className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
+                        <img width={13} src={timelineStyle[
+                            JSON.parse(rfp?.timeline)?.status
+                        ]?.icon} alt="icon" />
+                        <small
+                            style={{
+                                color:
+                                timelineStyle[
+                                    JSON.parse(rfp?.timeline)?.status
+                                ]?.color,
+                            }}
+                        >
+                            {rfp?.timeline &&
+                                JSON.parse(rfp?.timeline)
+                                    ?.status.replace("_", " ")
+                                    .toLowerCase()
+                                    .replace(/\b\w/g, (c: any) =>
+                                        c.toUpperCase()
+                                    )}
+                        </small>
                 </button>
             </div>
         </Link>

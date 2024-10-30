@@ -31,7 +31,7 @@ export interface RFPsTypes {
 };
 
 export interface DropdownProps {
-    options: string[];
+    options: { icon: string, label: string }[];
     defaultValue: string;
     onChange: (value: string) => void;
     buttonClassName?: string;
@@ -39,10 +39,12 @@ export interface DropdownProps {
     fullLabel?: string;
     iconSrc?: string;
     iconWidth?: number;
+    modalClassName?: string;
 }
 
 export interface SectionProps {
     title?: string;
+    description?: string;
     search?: (searchTerm: string) => void;
     sortBy?: (sortBy: string) => void;
     sortCategory?: (category: string) => void;

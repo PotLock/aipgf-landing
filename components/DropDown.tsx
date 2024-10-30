@@ -9,7 +9,8 @@ const Dropdown: React.FC<DropdownProps> = ({
     labelClassName,
     fullLabel,
     iconSrc,
-    iconWidth
+    iconWidth,
+    modalClassName
 }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOption, setSelectedOption] = useState(defaultValue);
@@ -22,8 +23,9 @@ const Dropdown: React.FC<DropdownProps> = ({
         setIsOpen(false);
     };
 
+
     return (
-        <div className="relative inline-block text-left">
+        <div className="relative inline-block text-left font-aipgf-manrope-semibold-1356">
             <div>
                 <button
                 type="button"
@@ -45,16 +47,24 @@ const Dropdown: React.FC<DropdownProps> = ({
             </div>
 
             {isOpen && (
-                <div className="origin-top-right absolute right-0 mt-2 w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+                <div className={`origin-top-right absolute right-0 mt-2 ${modalClassName?modalClassName:"w-44"} rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5`}>
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                        {options.map((option) => (
+                        {options&&options.map((option) => (
                         <span
-                            key={option}
-                            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-opacity-10 cursor-pointer"
+                            key={option.label}
+                            className="px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:bg-opacity-10 cursor-pointer flex items-center"
                             role="menuitem"
-                            onClick={() => handleOptionClick(option)}
+                            onClick={() => handleOptionClick(option.label)}
                         >
-                            {option}
+                            {option?.icon && (
+                                <img
+                                    src={option.icon}
+                                    alt="dropdown icon"
+                                    width={13}
+                                    className="mr-2"
+                                />
+                            )}
+                            {option.label}
                         </span>
                         ))}
                     </div>

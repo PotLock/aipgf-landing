@@ -140,7 +140,7 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
             accountId === accountId;
 
         return (
-            <div style={{ zIndex: 99, background: "white" }} className="md:-ml-14 mt-3">
+            <div style={{ zIndex: 99, background: "white" }} className="md:-ml-14 mt-3 font-aipgf-manrope-semibold-1356">
                 <div className="flex gap-2 flex-1">
                 <div className="hidden md:flex">
                     <AccountProfile accountId={accountId} size={40} />

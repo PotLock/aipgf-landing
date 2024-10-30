@@ -1,23 +1,25 @@
 export const labelIcons: any = {
-    MVP: { icon: "solarcrownbroken.svg", color: "#f0cf8e" },
-    Bounty: { icon: "bounty.svg", color: "#7b66dc", textColor: "#fff" },
+    MVP: { icon: "Crown.svg", color: "rgba(242, 46, 118, 0.08)", textColor: "rgba(242, 46, 118, 1)" },
+    Bounty: { icon: "bounty.svg", color: "rgba(4, 164, 110, 0.08)", textColor: "rgba(4, 164, 110, 1)" },
     "Quick Start": {
-        icon: "QuickStart.svg",
-        color: "#0646bc",
-        textColor: "#fff",
+        icon: "Timer.svg",
+        color: "rgba(241, 238, 254, 1)",
+        textColor: "rgba(109, 57, 228, 1)",
     },
+    "A small build": {icon: "small.svg", color: "rgba(255, 122, 0, 0.08)", textColor: "rgba(255, 122, 0, 1)"}
 };
 
 
 export const timelineStyle: any = {
-    DRAFT: "#757575",
-    REVIEW: "#1976d2",
-    APPROVED:"#43a047",
-    APPROVED_CONDITIONALLY: "#43a047",
-    FUNDED: "#43a047",
-    PAYMENT_PROCESSING: "#ff9800",
-    CANCELLED: "#f44336",
-    REJECTED:"#f44336"
+    DRAFT: {icon: "dart.svg", color: "#757575"},
+    REVIEW: {icon: "review.svg", color: "#2388FF"},
+    APPROVED:{icon: "check.svg", color: "#04A46E"},
+    APPROVED_CONDITIONALLY: {icon: "check.svg", color: "#04A46E"},
+    FUNDED: {icon: "check.svg", color: "#43a047"},
+    PAYMENT_PROCESSING: {icon: "processing.svg", color: "rgba(255, 207, 39, 1)"},
+    CANCELLED: {icon: "cancel.svg", color: "#F22E76"},
+    REJECTED:{icon: "rejected.svg", color: "#F22E76"},
+    ACCEPTING_SUBMISSIONS: {icon: "like.svg", color: "#2388FF"}
 }
 
 export const proposalStatusOptions = [
@@ -89,3 +91,37 @@ export const proposalStatusOptions = [
       },
     },
 ];
+
+export const sortOptions = [
+  {icon: "all.svg", label: "All"},
+  {icon: "recent.svg", label: "Most recent"},
+  {icon: "view.svg", label: "Most viewed"}
+]
+
+export const categoryOptions = [
+  {icon: "all.svg", label: "All"},
+  {icon: "draft-gray.svg", label: "Quick Start"},
+  {icon: "check-gray.svg", label: "A small build"},
+  {icon: "view.svg", label: "Bounty"},
+  {icon: "approved-gray.svg", label: "MVP"}
+]
+
+export const stageOptions = [
+  {icon: "all.svg", label: "All"},
+  {icon: "draft-gray.svg", label: "Draft"},
+  {icon: "view.svg", label: "Review"},
+  {icon: "approved-gray.svg", label: "Approved"},
+  {icon: "funded.svg", label: "Funded"},
+  {icon: "check-gray.svg", label: "Approved - Conditional"},
+  {icon: "rejected-gray.svg", label: "Rejected"},
+  {icon: "cancel-gray.svg", label: "Cancelled"},
+  {icon: "processing-gray.svg", label: "Payment - Processing"},
+]
+
+export const stageOptionsForRFPs = [
+  {icon: "all.svg", label: "All"},
+  {icon: "like-gray.svg", label: "Accepting Submissions"},
+  {icon: "evaluation.svg", label: "Evaluation"},
+  {icon: "approved-gray.svg", label: "Proposal Selected"},
+  {icon: "cancelled.svg", label: "Cancelled"},
+]
