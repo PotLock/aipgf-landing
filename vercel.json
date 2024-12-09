@@ -142,6 +142,11 @@
       "permanent": true
     },
     {
+      "source": "/lottopgf",
+      "destination": "https://potlock.notion.site/LottoPGF-Agents-12dc1f4ba97e8026815ffd4a21a2336e?pvs=4",
+      "permanent": true
+    },
+    {
       "source": "/lotto-spec",
       "destination": "https://potlock.notion.site/LottoPGF-Agents-12dc1f4ba97e8026815ffd4a21a2336e?pvs=4",
       "permanent": true
