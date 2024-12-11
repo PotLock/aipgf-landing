@@ -41,14 +41,7 @@ const WalletSelectorContext =
 
   export const Loading: NextPage = () => (
     <div style={{height: "100vh"}} className="flex justify-center items-center w-full">
-      <div className="spinner">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      </div>
+      <div className="loader"></div>
     </div>
   );
 

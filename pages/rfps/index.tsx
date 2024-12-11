@@ -9,6 +9,9 @@ import RFPsCard from "@/components/RFPsCard";
 import NavBar from "@/components/nav-bar";
 import { RFPsTypes } from "@/types/types";
 import { ViewMethod } from "@/hook/near-method";
+import PostSkeleton from "@/components/PostSkeleton";
+import RFPsCardSkeleton from "@/components/RFPsCardSkeleton";
+
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 
 const rfpQueryName =
@@ -246,9 +249,11 @@ const RFPs = () =>{
                             <div className="flex flex-col gap-5 w-full mt-10">
                                 <div className="flex flex-row gap-5 overflow-y-auto w-full">
                                     {
-                                        !isLoading && rfpsAll.slice(0,3).map((rfp) => (
+                                        !isLoading ? rfpsAll.slice(0,3).map((rfp) => (
                                             <RFPsCard rfp={rfp}/>
-                                        ))
+                                        )) : (
+                                            <RFPsCardSkeleton/>
+                                        )
                                     }
                                 </div>
                             </div>
@@ -256,7 +261,7 @@ const RFPs = () =>{
                                 <div className="w-full h-full flex flex-col gap-4">
                                     {
                                         isLoading ? (
-                                            <Loading/>
+                                            <PostSkeleton/>
                                         ) : (
                                             rfps.map((rfp) => (
                                                 <RFPsPost rfp={rfp}/>

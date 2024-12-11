@@ -1,13 +1,15 @@
 import type { NextPage } from "next"
 import NavBar from "@/components/nav-bar";
 import Section from "@/components/Section";
-import { useEffect, useState,useCallback } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import ProposalPost from "@/components/ProposalPost";
 import Template from "@/components/Template";
 import Footer from "@/components/footer";
 import { ProposalTypes } from "@/types/types";
 import { ViewMethod } from "@/hook/near-method";
+import ProposalPostSkeleton from "@/components/PostSkeleton";
+import { mockProposals } from "@/mocks/proposals";
 
 const QUERYAPI_ENDPOINT = "https://near-queryapi.api.pagoda.co/v1/graphql"
 
@@ -42,7 +44,7 @@ const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $wher
     }
 }`;
 
-const FETCH_LIMIT = 10;
+const FETCH_LIMIT = 5;
 const variables = {
     limit: FETCH_LIMIT,
     offset: 0,
@@ -81,50 +83,74 @@ const Proposals: NextPage = () => {
         variables: { limit: number; offset: number; where: {} }
     ) {
         setIsLoading(true);
-        return fetch(QUERYAPI_ENDPOINT, {
-            method: "POST",
-            headers: { "x-hasura-role": "bos_forum_potlock_near" },
-            body: JSON.stringify({
-                query: operationsDoc,
-                variables: variables,
-                operationName: operationName,
-            }),
-        })
-            .then((data) => data.json())
-            .then(async(result) => {
-                if (result.data) {
-                if (result.data) {
-                    const data = result.data?.[queryName];
-                    //console.log("data",data)
-                    const totalResult = result.data?.[`${queryName}_aggregate`];
-                    setTotalProposals(totalResult.aggregate.count)
-                    const filteredProposals: ProposalTypes[] = new Array(data.length);
-                    const uniqueUsers = new Set();
-                    await Promise.all(data.map(async (item: ProposalTypes, index: number) => {
-                        const proposal = await loadProposal(item.proposal_id);
-                        uniqueUsers.add(item.author_id);
-                        const new_proposal = { ...item, blockHeight: proposal?.social_db_post_block_height };
-                        filteredProposals[index] = new_proposal;
-                    }));
-                    setTotalUsers(uniqueUsers.size)
-                    //console.log(filteredProposals)
-                    setProposals(filteredProposals)
-                    setAllProposals(filteredProposals)
-                    // setAllProposals(data)
-                }
+        try {
+            if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true") {
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                const startIndex = variables.offset;
+                const endIndex = startIndex + variables.limit;
+                const paginatedProposals = mockProposals.slice(startIndex, endIndex);
+                
+                const uniqueUsers = new Set(paginatedProposals.map(p => p.author_id));
+                setTotalProposals(mockProposals.length);
+                setTotalUsers(uniqueUsers.size);
+                setProposals(paginatedProposals);
+                setAllProposals(mockProposals);
+                return;
             }
-        })
-        .finally(() => {
+
+            const response = await fetch(QUERYAPI_ENDPOINT, {
+                method: "POST",
+                headers: { "x-hasura-role": "bos_forum_potlock_near" },
+                body: JSON.stringify({
+                    query: operationsDoc,
+                    variables: variables,
+                    operationName: operationName,
+                }),
+            });
+            const result = await response.json();
+            
+            if (result.data) {
+                const data = result.data?.[queryName];
+                const totalResult = result.data?.[`${queryName}_aggregate`];
+                setTotalProposals(totalResult.aggregate.count);
+                
+                const filteredProposals: ProposalTypes[] = new Array(data.length);
+                const uniqueUsers = new Set();
+                
+                await Promise.all(data.map(async (item: ProposalTypes, index: number) => {
+                    const proposal = await loadProposal(item.proposal_id);
+                    uniqueUsers.add(item.author_id);
+                    const new_proposal = { ...item, blockHeight: proposal?.social_db_post_block_height };
+                    filteredProposals[index] = new_proposal;
+                }));
+                
+                setTotalUsers(uniqueUsers.size);
+                setProposals(filteredProposals);
+                setAllProposals(filteredProposals);
+            }
+        } catch (error) {
+            console.error("Error fetching GraphQL data:", error);
+        } finally {
             setIsLoading(false);
-        });
+        }
     }
 
     const loadProposal = async(proposalId:number) => {
-        if(proposalId){
-            const proposal = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet", "get_proposal", {
-                proposal_id: proposalId
-            });
-            return proposal
+        if(!proposalId) return;
+        
+        try {
+            const proposal = await ViewMethod(
+                process.env.NEXT_PUBLIC_NETWORK=="mainnet" ? 
+                "forum.potlock.near" : 
+                "forum.potlock.testnet", 
+                "get_proposal", 
+                { proposal_id: proposalId }
+            );
+            return proposal;
+        } catch (error) {
+            console.error("Error loading proposal:", error);
+            return null;
         }
     }
 
@@ -137,70 +163,87 @@ const Proposals: NextPage = () => {
     }, []);
 
     const searchProposals = (searchTerm: string) => {
-        if(searchTerm === ""){
-            setTotalReplies(0)
-            fetchGraphQL(query, "GetLatestSnapshot", variables);
-        }else{
-            const filteredProposals = proposals.filter((proposal) => {
-                const lowerCaseSearchTerm = searchTerm.toLowerCase();
-                const lowerCaseTitle = proposal.name.toLowerCase();
-                const lowerCaseSummary = proposal.summary.toLowerCase();
-                return lowerCaseTitle.includes(lowerCaseSearchTerm) || lowerCaseSummary.includes(lowerCaseSearchTerm);
-            });
-            setProposals(filteredProposals);
+        try {
+            if(searchTerm === "") {
+                setTotalReplies(0);
+                fetchGraphQL(query, "GetLatestSnapshot", variables);
+            } else {
+                const filteredProposals = proposals.filter((proposal) => {
+                    const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                    const lowerCaseTitle = proposal.name.toLowerCase();
+                    const lowerCaseSummary = proposal.summary.toLowerCase();
+                    return lowerCaseTitle.includes(lowerCaseSearchTerm) || 
+                           lowerCaseSummary.includes(lowerCaseSearchTerm);
+                });
+                setProposals(filteredProposals);
+            }
+        } catch (error) {
+            console.error("Error searching proposals:", error);
         }
     };
 
     const loadMoreProposals = () => {
         fetchGraphQL(query, "GetLatestSnapshot", {
             offset: proposals.length,
-            limit: 10,
+            limit: 5,
             where: {},
         })
     };
 
     const sortProposals = (sortBy: string) => {
-        let sortedProposals = [...allProposals];
-        switch (sortBy) {
-            case 'Most recent':
-                sortedProposals.sort((a, b) => b.ts - a.ts);
-                break;
-            case 'Most viewed':
-                sortedProposals.sort((a, b) => (b.views || 0) - (a.views || 0));
-                break;
-            case 'All':
-                sortedProposals.sort((a, b) => b.proposal_id - a.proposal_id);
-                break;
-            default:
-                setTotalReplies(0)
-                sortedProposals.sort((a, b) => b.proposal_id - a.proposal_id);
-                break;
+        try {
+            let sortedProposals = [...allProposals];
+            switch (sortBy) {
+                case 'Most recent':
+                    sortedProposals.sort((a, b) => b.ts - a.ts);
+                    break;
+                case 'Most viewed':
+                    sortedProposals.sort((a, b) => (b.views || 0) - (a.views || 0));
+                    break;
+                case 'All':
+                    sortedProposals.sort((a, b) => b.proposal_id - a.proposal_id);
+                    break;
+                default:
+                    setTotalReplies(0);
+                    sortedProposals.sort((a, b) => b.proposal_id - a.proposal_id);
+                    break;
+            }
+            setProposals(sortedProposals);
+        } catch (error) {
+            console.error("Error sorting proposals:", error);
         }
-        setProposals(sortedProposals);
     };
 
     const sortByCategory = (category: string) => {
-        if (category === "All") {
-            setTotalReplies(0)
-            fetchGraphQL(query, "GetLatestSnapshot", variables);
-        } else {
-            const filteredProposals = allProposals.filter((proposal) => {
-                return proposal.labels.includes(category);
-            });
-            setProposals(filteredProposals);
+        try {
+            if (category === "All") {
+                setTotalReplies(0);
+                fetchGraphQL(query, "GetLatestSnapshot", variables);
+            } else {
+                const filteredProposals = allProposals.filter((proposal) => {
+                    return proposal.labels.includes(category);
+                });
+                setProposals(filteredProposals);
+            }
+        } catch (error) {
+            console.error("Error sorting by category:", error);
         }
     };
 
 
     const sortByStage = (stage: string) => {
-        if (stage === "All") {
-            fetchGraphQL(query, "GetLatestSnapshot", variables);
-        } else {
-            const filteredProposals = allProposals.filter((proposal) => {
-                const timeline = JSON.parse(proposal.timeline);
-                return timeline.status === stage.toUpperCase();
-            });
-            setProposals(filteredProposals);
+        try {
+            if (stage === "All") {
+                fetchGraphQL(query, "GetLatestSnapshot", variables);
+            } else {
+                const filteredProposals = allProposals.filter((proposal) => {
+                    const timeline = JSON.parse(proposal.timeline);
+                    return timeline.status === stage.toUpperCase();
+                });
+                setProposals(filteredProposals);
+            }
+        } catch (error) {
+            console.error("Error sorting by stage:", error);
         }
     };
 
@@ -214,7 +257,7 @@ const Proposals: NextPage = () => {
                 <div className="flex justify-center items-center font-aipgf-manrope-semibold-1356">
                     <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20">
                         <div className="flex flex-row justify-between w-full items-center">
-                            <div className="flex flex-row mq825:gap-2 gap-4 mq825:text-xs text-2xl">
+                            <div className="flex flex-row mq825:gap-2 gap-4 mq825:text-xs text-xl">
                                 <div className="flex flex-row gap-2 mq825:gap-1">
                                     <span className="font-semibold">{totalProposals}</span>
                                     <span>{`Projects funded`}</span>
@@ -240,9 +283,7 @@ const Proposals: NextPage = () => {
                         <div className="mq825:mt-5 mt-10 flex mq825:flex-col flex-row justify-between gap-10">
                             <div className="w-full h-full flex flex-col gap-5 md:gap-4 ">
                                 {isLoading ? (
-                                    <div className="flex justify-center items-center">
-                                        <div className="animate-spin rounded-full h-10 w-10 border-t-[2px] border-b-[2px] border-solid border-gray-900"></div>
-                                    </div>
+                                    <ProposalPostSkeleton />
                                 ) : (
                                     <div className="flex flex-col gap-5">
                                         {proposals.length > 0 && (
@@ -255,11 +296,13 @@ const Proposals: NextPage = () => {
                                                 <span>No proposals found</span>
                                             </div>
                                         )}
-                                        <div className="mq825:mt-5 mt-10">
-                                            <button onClick={loadMoreProposals} className="border-aipgf-geyser border-[1px] border-solid box-border cursor-pointer hover:bg-stone-50 bg-[#F6F8FA] p-3 text-center rounded-full w-full">
-                                                <span className="font-semibold">{`Load More`}</span>
-                                            </button>
-                                        </div>
+                                        {proposals.length < totalProposals && (
+                                            <div className="mq825:mt-5 mt-10">
+                                                <button onClick={loadMoreProposals} className="border-aipgf-geyser border-[1px] border-solid box-border cursor-pointer hover:bg-stone-50 bg-[#F6F8FA] p-3 text-center rounded-full w-full">
+                                                    <span className="font-semibold">{`Load More`}</span>
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 )}
                             </div>

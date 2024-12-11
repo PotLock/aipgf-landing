@@ -6,7 +6,7 @@ export const labelIcons: any = {
         color: "rgba(241, 238, 254, 1)",
         textColor: "rgba(109, 57, 228, 1)",
     },
-    "A small build": {icon: "small.svg", color: "rgba(255, 122, 0, 0.08)", textColor: "rgba(255, 122, 0, 1)"}
+    "A small build": {icon: "small.svg", color: "rgba(254, 246, 238, 1)", textColor: "rgba(255, 122, 0, 1)"}
 };
 
 

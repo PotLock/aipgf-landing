@@ -156,34 +156,53 @@ const HeroProposals: NextPage<HeroProposalsType> = ({ className = "" }) => {
     operationName: string,
     variables: { limit: number; offset: number; where: {} }
   ) {
-    return fetch(QUERYAPI_ENDPOINT, {
-      method: "POST",
-      headers: { "x-hasura-role": "bos_forum_potlock_near" },
-      body: JSON.stringify({
-        query: operationsDoc,
-        variables: variables,
-        operationName: operationName,
-      }),
-    })
-      .then((data) => data.json())
-      .then((result) => {
-        if (result.data) {
-          if (result.data) {
-            const data = result.data?.[queryName];
-            let filteredData: ProposalTypes[] = [];
-            data.map((item: ProposalTypes) => {
-              if (Number(item.linked_rfp)) {
-                return;
-              } else {
-                filteredData.push(item);
-
-                return Promise.resolve(item);
-              }
-            });
-            setProposals(filteredData);
-          }
-        }
+    try {
+      const response = await fetch(QUERYAPI_ENDPOINT, {
+        method: "POST",
+        headers: { 
+          "x-hasura-role": "bos_forum_potlock_near",
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          // Add CORS headers
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "POST, OPTIONS",
+          "Access-Control-Allow-Headers": "Content-Type, x-hasura-role"
+        },
+        mode: "no-cors",
+        body: JSON.stringify({
+          query: operationsDoc,
+          variables: variables,
+          operationName: operationName,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (result.errors) {
+        throw new Error(result.errors[0]?.message || 'GraphQL Error');
+      }
+
+      if (result.data) {
+        const data = result.data?.[queryName];
+        let filteredData: ProposalTypes[] = [];
+        
+        data.forEach((item: ProposalTypes) => {
+          if (!Number(item.linked_rfp)) {
+            filteredData.push(item);
+          }
+        });
+        
+        setProposals(filteredData);
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch proposals';
+      console.log('Error fetching proposals:', errorMessage);
+      setProposals([]);
+    }
   }
 
   useEffect(() => {
