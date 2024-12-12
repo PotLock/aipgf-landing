@@ -12,6 +12,7 @@ import { ViewMethod } from "@/hook/near-method";
 import PostSkeleton from "@/components/PostSkeleton";
 import RFPsCardSkeleton from "@/components/RFPsCardSkeleton";
 
+
 const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
 
 const rfpQueryName =
@@ -59,7 +60,6 @@ const RFPs = () =>{
     const [rfpsAll, setRfpsAll] = useState<RFPsTypes[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [totalRfps, setTotalRfps] = useState<number>(0);
-    const [totalUsers, setTotalUsers] = useState<number>(0);
     const [windowSize, setWindowSize] = useState<any>({
         width: null,
         height: null
@@ -78,76 +78,10 @@ const RFPs = () =>{
         return () => window.removeEventListener("resize", handleResize);
     }, []); 
 
-    const Loading = () => {
-        return (
-            <div className="flex justify-center items-center">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-[2px] border-b-[2px] border-solid border-gray-900"></div>
-            </div>
-        );
-    };
-
-    async function fetchGraphQL(
-        operationsDoc: string,
-        operationName: string,
-        variables: { limit: number; offset: number; where: {} }
-    ) {
-        setIsLoading(true);
-        return fetch(QUERYAPI_ENDPOINT, {
-            method: "POST",
-            headers: { "x-hasura-role": "bos_forum_potlock_near" },
-            body: JSON.stringify({
-                query: operationsDoc,
-                variables: variables,
-                operationName: operationName,
-            }),
-        })
-            .then((data) => data.json())
-            .then(async(result) => {
-                if (result.data) {
-                if (result.data) {
-                    const data = result.data?.[rfpQueryName];
-                    //console.log("data",data)
-                    const totalResult = result.data?.[`${rfpQueryName}_aggregate`];
-                    setTotalRfps(totalResult.aggregate.count)
-                    const filteredRfps: RFPsTypes[] = new Array(data.length);
-                    await Promise.all(data.map(async (item: RFPsTypes, index: number) => {
-                        const rfp = await loadRfp(item.rfp_id);
-                        const new_rfp = { ...item, blockHeight: rfp?.social_db_post_block_height };
-                        filteredRfps[index] = new_rfp;
-                    }));
-                    //console.log(filteredRfps)
-                    setRfps(filteredRfps)
-                    setRfpsAll(filteredRfps)
-                }
-            }
-        })
-        .finally(() => {
-            setIsLoading(false);
-        });
-    }
-
-    const loadRfp = async(rfpId:number) => {
-        if(rfpId){
-            const rfp = await ViewMethod("forum.potlock.near", "get_rfp", {
-                rfp_id: rfpId
-            });
-            return rfp
-        }
-    }
-
-    console.log(rfps)
-
-    useEffect(() => {
-        try {
-            fetchGraphQL(rfpQuery, "GetLatestSnapshot", variables);
-        } catch (error) {
-            console.error(error);
-        }
-    }, []);
 
     const searchRFPs = (searchTerm: string) => {
         if(searchTerm === ""){
-            fetchGraphQL(rfpQuery, "GetLatestSnapshot", variables);
+
         }else{
             const filteredRFPs = rfpsAll.filter((rfp) => {
                 const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -157,14 +91,6 @@ const RFPs = () =>{
             });
             setRfps(filteredRFPs);
         }
-    };
-
-    const loadMoreRFPs = () => {
-        fetchGraphQL(rfpQuery, "GetLatestSnapshot", {
-            offset: rfps.length,
-            limit: 10,
-            where: {},
-        })
     };
 
     const sortRFPs = (sortBy: string) => {
@@ -188,7 +114,7 @@ const RFPs = () =>{
 
     const sortByCategory = (category: string) => {
         if (category === "All") {
-            fetchGraphQL(rfpQuery, "GetLatestSnapshot", variables);
+
         } else {
             const filteredRFPs = rfpsAll.filter((rfp) => {
                 return rfp.labels.includes(category);
@@ -200,7 +126,7 @@ const RFPs = () =>{
 
     const sortByStage = (stage: string) => {
         if (stage === "All") {
-            fetchGraphQL(rfpQuery, "GetLatestSnapshot", variables);
+
         } else {
             const filteredRFPs = rfpsAll.filter((rfp) => {
                 const timeline = JSON.parse(rfp?.timeline)
@@ -278,7 +204,7 @@ const RFPs = () =>{
                                     {
                                         !isLoading && rfps.length > 0 && (
                                             <div className="mt-5 md:mt-10">
-                                                <button onClick={loadMoreRFPs} className="border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full w-full">
+                                                <button onClick={()=>{}} className="border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full w-full">
                                                     <span className="font-semibold">Load More</span>
                                                 </button>
                                             </div>

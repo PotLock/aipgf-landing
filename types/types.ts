@@ -1,6 +1,10 @@
 export interface ProposalTypes {
     name: string;
-    timeline: string;
+    timeline: {
+        status: string;
+        sponsor_requested_review: boolean;
+        reviewer_completed_attestation: boolean;
+    };
     summary: string;
     labels: Array<string>;
     author_id: string;

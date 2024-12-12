@@ -1,109 +1,114 @@
 import { RFPsTypes } from "@/types/types"
-import Tag from "./tag";
-import { readableDate, timeAgo } from "@/lib/common";
-import { labelIcons, timelineStyle } from "@/lib/constant";
-import { Social } from '@builddao/near-social-js';
-import { useEffect, useState } from "react";
-import AvatarProfile from "./AvatarProfile";
-import Link from "next/link";
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { Social } from '@builddao/near-social-js'
+import { readableDate, timeAgo } from "@/lib/common"
+import { labelIcons, timelineStyle } from "@/lib/constant"
+import AvatarProfile from "./AvatarProfile"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import Tag from "./tag"
+import { Button } from "./ui/button"
 
-const RFPsCard = ({rfp}:{rfp: RFPsTypes}) => {
-    const [avatar, setAvatar] = useState<string>("");
-    const [totalComments, setTotalComments] = useState<number>(0);
-    if(!rfp){
-        return(
-            <small>No RFPs</small>
-        );
-    };
-    const truncateString = (str: string,numberSlice: number) =>{
-        if(str.length > numberSlice){
-            return str.slice(0,numberSlice)+"..."
+const RFPsCard = ({ rfp }: { rfp: RFPsTypes }) => {
+    const [totalComments, setTotalComments] = useState<number>(0)
+
+    if (!rfp) {
+        return <small>No RFPs</small>
+    }
+
+    const truncateString = (str: string, numberSlice: number) => {
+        if (str.length > numberSlice) {
+            return str.slice(0, numberSlice) + "..."
         }
         return str
     }
 
     const social = new Social({
-        contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
-    });
+        contractId: process.env.NEXT_PUBLIC_NETWORK == "mainnet" ? "social.near" : "v1.social08.testnet",
+    })
 
     const getTotalComments = async () => {
-        const result:any = await social.index({
+        const result: any = await social.index({
             action: 'comment',
             key: {
                 type: "social",
-                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
-                blockHeight: rfp.blockHeight?parseInt(rfp.blockHeight.toString()):rfp.block_height,
+                path: `${process.env.NEXT_PUBLIC_NETWORK == "mainnet" ? "forum.potlock.near" : "forum.potlock.testnet"}/post/main`,
+                blockHeight: rfp.blockHeight ? parseInt(rfp.blockHeight.toString()) : rfp.block_height,
             },
-        });
-        setTotalComments(result?.length);
-        //console.log(result)
-    };
+        })
+        setTotalComments(result?.length)
+    }
 
     useEffect(() => {
-        getTotalComments();
-    }, []);
+        getTotalComments()
+    }, [])
 
-    return(
-        <Link
-            href={`/rfps/${rfp.rfp_id}`}
-            style={{textDecoration: "none", color: "unset"}}
-            className="flex flex-col gap-3 min-w-[350px] md:w-[550px] p-3 md:p-4 border-aipgf-geyser border-[1px] border-solid box-border rounded-lg shadow-sm relative"
-        >
-            <div className="flex gap-3 flex-col md:flex-col justify-between items-start">
-                <div className="flex flex-row gap-3 items-center">
-                    <div className="w-[41px] h-[41px] rounded-full">
-                        <AvatarProfile size={41} accountId={rfp.author_id}/>
+    const timelineStatus = JSON.parse(rfp?.timeline)?.status
+
+    return (
+        <Link href={`/rfps/${rfp.rfp_id}`} className="block no-underline border-[1px] border-solid border-aipgf-geyser rounded-lg">
+            <Card className="hover:shadow-md transition-shadow">
+                <CardHeader className="space-y-4">
+                    <div className="flex items-center gap-3">
+                        <div className="w-[41px] h-[41px] rounded-full overflow-hidden">
+                            <AvatarProfile size={41} accountId={rfp.author_id} />
+                        </div>
+                        <span className="font-bold">{rfp.name}</span>
                     </div>
-                    <span className="font-bold w-full">{rfp.name}</span>
-                </div>
-                <div className="flex flex-row gap-1">
-                    {rfp.labels?.map((label) => (
-                        <Tag
-                            key={label}
-                            propBackgroundColor={labelIcons[label]?.color ?? "#b7b7b7"}
-                            propWidth="max-content"
-                            x={labelIcons[label]?.icon ?? "icon.svg"}
-                            cancel={label}
-                            propFontWeight="unset"
-                            propColor={labelIcons[label]?.textColor ?? "#000"}
-                            cancelFontSize="0.75rem"
-                        />
-                    ))}
-                </div>
-            </div>
-            <small className="mt-2 text-[15px]">{truncateString(rfp.summary,100)}</small>
-            <div className="flex flex-col md:flex-row justify-between md:items-center gap-2 md:gap-0 mt-3">
-                <div className="flex flex-row gap-3 items-center md:items-start md:gap-2 md:flex-col">
-                    <small className="text-xs">Submission Deadline</small>
-                    <span className="font-semibold text-sm">{readableDate(rfp.submission_deadline/1000000)}</span>
-                </div>
-                <div className="flex flex-row gap-2 items-center">
-                    <div className="p-1 border-aipgf-geyser border-[1px] border-solid box-border rounded-full md:h-5 md:w-8 h-7 w-10 flex items-center justify-center">
-                        <span className="text-gray-400 text-[12px] mt-1"># {rfp.rfp_id}</span>
+                    <div className="flex flex-wrap gap-2">
+                        {rfp.labels?.map((label) => (
+                            <Tag
+                                key={label}
+                                propBackgroundColor={labelIcons[label]?.color ?? "#b7b7b7"}
+                                propWidth="max-content"
+                                x={labelIcons[label]?.icon ?? "icon.svg"}
+                                cancel={label}
+                                propFontWeight="unset"
+                                propColor={labelIcons[label]?.textColor ?? "#000"}
+                                cancelFontSize="0.75rem"
+                            />
+                        ))}
                     </div>
-                    <div className="flex gap-1 items-center text-[15px]">
-                        <small>By</small>
-                        <div className="flex gap-1 items-center">
-                            <div className="flex gap-1">
-                                <small className="font-semibold">{rfp.author_id}</small>
-                                <small>| {timeAgo(rfp.ts)}</small>
-                            </div>
+                </CardHeader>
+
+                <CardContent className="-mt-4">
+                    <p className="text-sm text-muted-foreground">
+                        {truncateString(rfp.summary, 100)}
+                    </p>
+                    
+                    <div className="flex flex-col md:flex-row justify-between gap-2">
+                        <div className="space-y-1">
+                            <p className="text-xs text-muted-foreground">Submission Deadline</p>
+                            <p className="font-semibold text-sm">
+                                {readableDate(rfp.submission_deadline/1000000)}
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm">
+                            <Badge variant="outline" className="rounded-full">
+                                #{rfp.rfp_id}
+                            </Badge>
+                            <span className="text-muted-foreground">By</span>
+                            <span className="font-semibold">{rfp.author_id}</span>
+                            <span className="text-muted-foreground">|</span>
+                            <span className="text-muted-foreground">{timeAgo(rfp.ts)}</span>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div className="flex justify-between bg-aipgf-geyser bg-opacity-25 items-center p-3 mt-3">
-                <div className="flex flex-row gap-5 items-center">
-                    <div className="flex flex-row gap-1 items-center">
-                        <img width={16} src="/assets/icon/list-blue.svg" alt="icon" />
-                        <small className="text-[#0969DA] font-semibold text-sm">{rfp.linked_proposals[0]??0} Proposals</small>
+                </CardContent>
+
+                <CardFooter className="bg-muted/50 p-4 flex justify-between items-center">
+                    <div className="flex flex-row gap-5 items-center">
+                        <div className="flex flex-row gap-1 items-center">
+                            <img width={16} src="/assets/icon/list-blue.svg" alt="icon" />
+                            <small className="text-[#0969DA] font-semibold text-sm">{rfp.linked_proposals[0]??0} Proposals</small>
+                        </div>
+                        <div className="flex flex-row gap-1 items-center">
+                            <img width={16} src="/assets/icon/reply.svg" alt="icon" />
+                            <small className="text-[#04A46E] font-semibold text-sm">{totalComments} replies</small>
+                        </div>
                     </div>
-                    <div className="flex flex-row gap-1 items-center">
-                        <img width={16} src="/assets/icon/reply.svg" alt="icon" />
-                        <small className="text-[#04A46E] font-semibold text-sm">{totalComments} replies</small>
-                    </div>
-                </div>
-                <button  
+                    
+                    <Button  
                         style={{
                             borderColor:
                             timelineStyle[
@@ -130,10 +135,11 @@ const RFPsCard = ({rfp}:{rfp: RFPsTypes}) => {
                                         c.toUpperCase()
                                     )}
                         </small>
-                </button>
-            </div>
+                    </Button>
+                </CardFooter>
+            </Card>
         </Link>
     )
 }
 
-export default RFPsCard;
+export default RFPsCard

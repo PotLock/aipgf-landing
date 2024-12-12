@@ -155,7 +155,7 @@ const ProposalPost: NextPage<{
                       : proposal?.author_id}
                     <span className="font-thin">| {timeAgo(proposal.ts)}</span>
                   </small>
-                  <span className="md:text-base text-xs">{truncateString(proposal.summary)}</span>
+                  <span className="md:text-base text-xs">{truncateString(proposal?.summary)}</span>
                 </div>
 
                 <div className="flex flex-row gap-5 mt-3 items-center">
@@ -180,24 +180,23 @@ const ProposalPost: NextPage<{
                 style={{
                     borderColor:
                     timelineStyle[
-                        JSON.parse(proposal?.timeline)?.status
+                        proposal?.timeline?.status
                     ]?.color,
                 }}
                 className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
                 <img width={13} src={timelineStyle[
-                    JSON.parse(proposal?.timeline)?.status
+                  proposal?.timeline?.status
                 ]?.icon} alt="icon" />
                 <small
                     style={{
                         color:
                         timelineStyle[
-                            JSON.parse(proposal?.timeline)?.status
+                            proposal?.timeline?.status
                         ]?.color,
                     }}
                 >
                     {proposal?.timeline &&
-                        JSON.parse(proposal?.timeline)
-                            ?.status.replace("_", " ")
+                        proposal?.timeline?.status.replace("_", " ")
                             .toLowerCase()
                             .replace(/\b\w/g, (c: any) =>
                                 c.toUpperCase()

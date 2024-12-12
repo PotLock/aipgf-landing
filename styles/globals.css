@@ -74,3 +74,51 @@
     @apply bg-background text-foreground;
   }
 } 
+
+.tiptap {
+  @apply text-gray-900;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  @apply text-gray-400/90;
+  content: "Write your comment here...";
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.prose {
+  @apply max-w-none;
+}
+
+.prose p {
+  @apply my-1.5 leading-relaxed;
+}
+
+/* Add smooth focus styles */
+.tiptap:focus {
+  @apply ring-0 ring-offset-0;
+}
+
+/* Improve typography */
+.prose {
+  @apply prose-headings:font-semibold prose-headings:text-gray-900
+         prose-h1:text-2xl prose-h2:text-xl prose-h3:text-lg
+         prose-p:text-gray-700 prose-strong:text-gray-900 prose-strong:font-semibold
+         prose-code:text-gray-900 prose-code:bg-gray-100/75 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md
+         prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline;
+}
+
+/* Add these styles */
+.tiptap h1 {
+  @apply text-2xl font-semibold;
+}
+
+.tiptap h2 {
+  @apply text-xl font-semibold;
+}
+
+.tiptap h3 {
+  @apply text-lg font-semibold;
+}
+  

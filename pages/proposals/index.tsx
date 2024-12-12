@@ -1,7 +1,7 @@
 import type { NextPage } from "next"
 import NavBar from "@/components/nav-bar";
 import Section from "@/components/Section";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import ProposalPost from "@/components/ProposalPost";
 import Template from "@/components/Template";
@@ -9,47 +9,6 @@ import Footer from "@/components/footer";
 import { ProposalTypes } from "@/types/types";
 import { ViewMethod } from "@/hook/near-method";
 import ProposalPostSkeleton from "@/components/PostSkeleton";
-import { mockProposals } from "@/mocks/proposals";
-
-const QUERYAPI_ENDPOINT = "https://near-queryapi.api.pagoda.co/v1/graphql"
-
-const queryName =
-    "bos_forum_potlock_near_ai_pgf_indexer_proposals_with_latest_snapshot";
-const query = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${queryName}_bool_exp = {}) {
-    ${queryName}(
-    offset: $offset
-    limit: $limit
-    order_by: {proposal_id: desc}
-    where: $where
-    ) {
-    author_id
-    block_height
-    name
-    labels
-    summary
-    editor_id
-    proposal_id
-    ts
-    timeline
-    views
-    linked_rfp
-    }
-    ${queryName}_aggregate(
-    order_by: {proposal_id: desc}
-    where: $where
-    )  {
-    aggregate {
-        count
-    }
-    }
-}`;
-
-const FETCH_LIMIT = 5;
-const variables = {
-    limit: FETCH_LIMIT,
-    offset: 0,
-    where: {},
-};
 
 const Proposals: NextPage = () => {
     const [proposals, setProposals] = useState<ProposalTypes[]>([]);
@@ -58,6 +17,8 @@ const Proposals: NextPage = () => {
     const [totalReplies, setTotalReplies] = useState<number>(0);
     const [totalUsers, setTotalUsers] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const ITEMS_PER_PAGE = 5;
 
     const [windowSize, setWindowSize] = useState<any>({
         width: null,
@@ -77,96 +38,49 @@ const Proposals: NextPage = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []); 
 
-    async function fetchGraphQL(
-        operationsDoc: string,
-        operationName: string,
-        variables: { limit: number; offset: number; where: {} }
-    ) {
-        setIsLoading(true);
+    const loadProposals = useCallback(async () => {
         try {
-            if (process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true") {
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                const startIndex = variables.offset;
-                const endIndex = startIndex + variables.limit;
-                const paginatedProposals = mockProposals.slice(startIndex, endIndex);
-                
-                const uniqueUsers = new Set(paginatedProposals.map(p => p.author_id));
-                setTotalProposals(mockProposals.length);
-                setTotalUsers(uniqueUsers.size);
-                setProposals(paginatedProposals);
-                setAllProposals(mockProposals);
-                return;
-            }
+            const proposals = await ViewMethod("forum.potlock.near", "get_proposals", {});
+            const proposalsWithSnapshot = proposals.map((proposal: any) => ({
+                name: proposal.snapshot.name,
+                timeline: proposal.snapshot.timeline,
+                summary: proposal.snapshot.summary,
+                labels: proposal.snapshot.labels,
+                author_id: proposal.author_id,
+                submission_deadline: proposal.snapshot.timeline,
+                linked_rfp: proposal.snapshot.linked_rfp,
+                proposal_id: proposal.id,
+                ts: proposal.snapshot.timestamp,
+                views: proposal.snapshot.views,
+                linked_proposals: proposal.snapshot.linked_proposals,
+                block_height: proposal.social_db_post_block_height,
+                blockHeight: proposal.social_db_post_block_height,
+            }));
 
-            const response = await fetch(QUERYAPI_ENDPOINT, {
-                method: "POST",
-                headers: { "x-hasura-role": "bos_forum_potlock_near" },
-                body: JSON.stringify({
-                    query: operationsDoc,
-                    variables: variables,
-                    operationName: operationName,
-                }),
-            });
-            const result = await response.json();
-            
-            if (result.data) {
-                const data = result.data?.[queryName];
-                const totalResult = result.data?.[`${queryName}_aggregate`];
-                setTotalProposals(totalResult.aggregate.count);
-                
-                const filteredProposals: ProposalTypes[] = new Array(data.length);
-                const uniqueUsers = new Set();
-                
-                await Promise.all(data.map(async (item: ProposalTypes, index: number) => {
-                    const proposal = await loadProposal(item.proposal_id);
-                    uniqueUsers.add(item.author_id);
-                    const new_proposal = { ...item, blockHeight: proposal?.social_db_post_block_height };
-                    filteredProposals[index] = new_proposal;
-                }));
-                
-                setTotalUsers(uniqueUsers.size);
-                setProposals(filteredProposals);
-                setAllProposals(filteredProposals);
-            }
+            const uniqueUsers = new Set(proposalsWithSnapshot.map((p: any) => p.author_id));
+
+            setTotalProposals(proposalsWithSnapshot.length);
+            setTotalUsers(uniqueUsers.size);
+            setAllProposals(proposalsWithSnapshot);
+            setProposals(proposalsWithSnapshot.slice(0, ITEMS_PER_PAGE));
         } catch (error) {
-            console.error("Error fetching GraphQL data:", error);
+            console.error("Error loading proposals:", error);
         } finally {
             setIsLoading(false);
         }
-    }
-
-    const loadProposal = async(proposalId:number) => {
-        if(!proposalId) return;
-        
-        try {
-            const proposal = await ViewMethod(
-                process.env.NEXT_PUBLIC_NETWORK=="mainnet" ? 
-                "forum.potlock.near" : 
-                "forum.potlock.testnet", 
-                "get_proposal", 
-                { proposal_id: proposalId }
-            );
-            return proposal;
-        } catch (error) {
-            console.error("Error loading proposal:", error);
-            return null;
-        }
-    }
+    }, [])
 
     useEffect(() => {
-        try {
-            fetchGraphQL(query, "GetLatestSnapshot", variables);
-        } catch (error) {
-            console.error(error);
-        }
-    }, []);
+        loadProposals();
+    }, [loadProposals]);
+
+
 
     const searchProposals = (searchTerm: string) => {
         try {
             if(searchTerm === "") {
                 setTotalReplies(0);
-                fetchGraphQL(query, "GetLatestSnapshot", variables);
+                setProposals(allProposals.slice(0, ITEMS_PER_PAGE));
             } else {
                 const filteredProposals = proposals.filter((proposal) => {
                     const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -175,20 +89,13 @@ const Proposals: NextPage = () => {
                     return lowerCaseTitle.includes(lowerCaseSearchTerm) || 
                            lowerCaseSummary.includes(lowerCaseSearchTerm);
                 });
-                setProposals(filteredProposals);
+                setProposals(filteredProposals.slice(0, ITEMS_PER_PAGE));
             }
         } catch (error) {
             console.error("Error searching proposals:", error);
         }
     };
 
-    const loadMoreProposals = () => {
-        fetchGraphQL(query, "GetLatestSnapshot", {
-            offset: proposals.length,
-            limit: 5,
-            where: {},
-        })
-    };
 
     const sortProposals = (sortBy: string) => {
         try {
@@ -208,7 +115,7 @@ const Proposals: NextPage = () => {
                     sortedProposals.sort((a, b) => b.proposal_id - a.proposal_id);
                     break;
             }
-            setProposals(sortedProposals);
+            setProposals(sortedProposals.slice(0, ITEMS_PER_PAGE));
         } catch (error) {
             console.error("Error sorting proposals:", error);
         }
@@ -218,12 +125,12 @@ const Proposals: NextPage = () => {
         try {
             if (category === "All") {
                 setTotalReplies(0);
-                fetchGraphQL(query, "GetLatestSnapshot", variables);
+                setProposals(allProposals.slice(0, ITEMS_PER_PAGE));
             } else {
                 const filteredProposals = allProposals.filter((proposal) => {
                     return proposal.labels.includes(category);
                 });
-                setProposals(filteredProposals);
+                setProposals(filteredProposals.slice(0, ITEMS_PER_PAGE));
             }
         } catch (error) {
             console.error("Error sorting by category:", error);
@@ -234,18 +141,28 @@ const Proposals: NextPage = () => {
     const sortByStage = (stage: string) => {
         try {
             if (stage === "All") {
-                fetchGraphQL(query, "GetLatestSnapshot", variables);
+                setProposals(allProposals.slice(0, ITEMS_PER_PAGE));
             } else {
                 const filteredProposals = allProposals.filter((proposal) => {
-                    const timeline = JSON.parse(proposal.timeline);
+                    const timeline = proposal.timeline;
                     return timeline.status === stage.toUpperCase();
                 });
-                setProposals(filteredProposals);
+                setProposals(filteredProposals.slice(0, ITEMS_PER_PAGE));
             }
         } catch (error) {
             console.error("Error sorting by stage:", error);
         }
     };
+
+    const loadMoreProposals = () => {
+        const nextPage = currentPage + 1;
+        const start = nextPage * ITEMS_PER_PAGE;
+        const end = start + ITEMS_PER_PAGE;
+        
+        const newProposals = allProposals.slice(0, end);
+        setProposals(newProposals);
+        setCurrentPage(nextPage);
+    }
 
     //console.log(totalComments)
 
