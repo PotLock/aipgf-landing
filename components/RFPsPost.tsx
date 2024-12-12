@@ -151,24 +151,24 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
                         style={{
                             borderColor:
                             timelineStyle[
-                                JSON.parse(rfp?.timeline)?.status
+                                rfp?.timeline?.status
                             ]?.color,
                         }}
                         className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
                         <img width={16} src={timelineStyle[
-                            JSON.parse(rfp?.timeline)?.status
+                            rfp?.timeline?.status
                         ]?.icon} alt="icon" />
                         <small
                             style={{
                                 color:
                                 timelineStyle[
-                                    JSON.parse(rfp?.timeline)?.status
+                                    rfp?.timeline?.status
                                 ]?.color,
                             }}
                         >
                             {rfp?.timeline &&
-                                JSON.parse(rfp?.timeline)
-                                    ?.status.replace("_", " ")
+                                rfp?.timeline?.status
+                                    ?.replace("_", " ")
                                     .toLowerCase()
                                     .replace(/\b\w/g, (c: any) =>
                                         c.toUpperCase()

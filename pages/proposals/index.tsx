@@ -6,7 +6,7 @@ import Link from "next/link";
 import ProposalPost from "@/components/ProposalPost";
 import Template from "@/components/Template";
 import Footer from "@/components/footer";
-import { ProposalTypes } from "@/types/types";
+import { ProposalSnapshot, ProposalTypes } from "@/types/types";
 import { ViewMethod } from "@/hook/near-method";
 import ProposalPostSkeleton from "@/components/PostSkeleton";
 
@@ -41,8 +41,8 @@ const Proposals: NextPage = () => {
     const loadProposals = useCallback(async () => {
         try {
             const proposals = await ViewMethod("forum.potlock.near", "get_proposals", {});
-            // console.log(proposals)
-            const proposalsWithSnapshot = proposals.map((proposal: any) => ({
+            //console.log(proposals)
+            const proposalsWithSnapshot = proposals.map((proposal: ProposalSnapshot) => ({
                 name: proposal.snapshot.name,
                 timeline: proposal.snapshot.timeline,
                 summary: proposal.snapshot.summary,
@@ -74,8 +74,6 @@ const Proposals: NextPage = () => {
     useEffect(() => {
         loadProposals();
     }, [loadProposals]);
-
-
 
     const searchProposals = (searchTerm: string) => {
         try {

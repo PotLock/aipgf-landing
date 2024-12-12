@@ -1,5 +1,5 @@
 import { NearRpcProvider } from 'near-rpc-providers';
-import { useWalletSelector } from "../context/WalletSelectorContext";
+import { useWalletSelector } from "@/context/WalletSelectorContext";
 
 const getRpcProvider = () => {
   const networkId = process.env.NEXT_PUBLIC_NETWORK || "";

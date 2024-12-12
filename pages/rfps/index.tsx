@@ -4,56 +4,14 @@ import RFPsPost from "@/components/RFPsPost";
 import Template from "@/components/Template";
 import Section from "@/components/Section";
 import Link from "next/link";
-import { useEffect,useState } from "react";
+import { useCallback, useEffect,useState } from "react";
 import RFPsCard from "@/components/RFPsCard";
 import NavBar from "@/components/nav-bar";
-import { RFPsTypes } from "@/types/types";
+import { RFPsSnapshot, RFPsTypes } from "@/types/types";
 import { ViewMethod } from "@/hook/near-method";
 import PostSkeleton from "@/components/PostSkeleton";
 import RFPsCardSkeleton from "@/components/RFPsCardSkeleton";
-
-
-const QUERYAPI_ENDPOINT = `https://near-queryapi.api.pagoda.co/v1/graphql`;
-
-const rfpQueryName =
-    "bos_forum_potlock_near_ai_pgf_indexer_rfps_with_latest_snapshot";
-const rfpQuery = `query GetLatestSnapshot($offset: Int = 0, $limit: Int = 10, $where: ${rfpQueryName}_bool_exp = {}) {
-    ${rfpQueryName}(
-        offset: $offset
-        limit: $limit
-        order_by: {rfp_id: desc}
-        where: $where
-    ) {
-        author_id
-        block_height
-        name
-        summary
-        editor_id
-        rfp_id
-        timeline
-        views
-        labels
-        submission_deadline
-        linked_proposals
-        ts
-        linked_proposals
-    }
-    ${rfpQueryName}_aggregate(
-        order_by: {rfp_id: desc}
-        where: $where
-        )  {
-        aggregate {
-            count
-        }
-        }
-    }`;
-
-const FETCH_LIMIT = 10;
-const variables = {
-    limit: FETCH_LIMIT,
-    offset: 0,
-    where: {},
-};
+import { Button } from "@/components/ui/button";
 
 const RFPs = () =>{
     const [rfps, setRfps] = useState<RFPsTypes[]>([]);
@@ -64,6 +22,9 @@ const RFPs = () =>{
         width: null,
         height: null
     });
+
+    const [currentPage, setCurrentPage] = useState<number>(0);
+    const ITEMS_PER_PAGE = 5;
 
     useEffect(() => {
         function handleResize() {
@@ -79,9 +40,43 @@ const RFPs = () =>{
     }, []); 
 
 
+    const loadRFPs = useCallback(async () => {
+        try {
+            const rfps = await ViewMethod("forum.potlock.near", "get_rfps", {});
+            //console.log('rfps', rfps)
+            const rfpWithSnapshot = rfps.map((rfp: RFPsSnapshot) => ({
+                name: rfp.snapshot.name,
+                timeline: rfp.snapshot.timeline,
+                summary: rfp.snapshot.summary,
+                labels: rfp.snapshot.labels,
+                author_id: rfp.author_id,
+                submission_deadline: rfp.snapshot.timeline,
+                linked_rfp: rfp.snapshot.linked_rfp,
+                rfp_id: rfp.id,
+                ts: rfp.snapshot.timestamp,
+                views: rfp.snapshot.views,
+                linked_proposals: rfp.snapshot.linked_proposals,
+                block_height: rfp.snapshot.block_height,
+                blockHeight: rfp.social_db_post_block_height,
+            }));
+
+            setTotalRfps(rfpWithSnapshot.length);
+            setRfpsAll(rfpWithSnapshot.slice(0, ITEMS_PER_PAGE));
+            setRfps(rfpWithSnapshot.slice(0, ITEMS_PER_PAGE));
+        } catch (error) {
+            console.error("Error loading proposals:", error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [])
+
+    useEffect(() => {
+        loadRFPs();
+    }, [loadRFPs]);
+
     const searchRFPs = (searchTerm: string) => {
         if(searchTerm === ""){
-
+            setRfps(rfpsAll.slice(0, ITEMS_PER_PAGE));
         }else{
             const filteredRFPs = rfpsAll.filter((rfp) => {
                 const lowerCaseSearchTerm = searchTerm.toLowerCase();
@@ -89,7 +84,7 @@ const RFPs = () =>{
                 const lowerCaseSummary = rfp.summary.toLowerCase();
                 return lowerCaseTitle.includes(lowerCaseSearchTerm) || lowerCaseSummary.includes(lowerCaseSearchTerm);
             });
-            setRfps(filteredRFPs);
+            setRfps(filteredRFPs.slice(0, ITEMS_PER_PAGE));
         }
     };
 
@@ -109,37 +104,47 @@ const RFPs = () =>{
                 sortedRFPs.sort((a, b) => b.rfp_id - a.rfp_id);
                 break;
         }
-        setRfps(sortedRFPs);
+        setRfps(sortedRFPs.slice(0, ITEMS_PER_PAGE));
     };
 
     const sortByCategory = (category: string) => {
         if (category === "All") {
-
+            setRfps(rfpsAll.slice(0, ITEMS_PER_PAGE));
         } else {
             const filteredRFPs = rfpsAll.filter((rfp) => {
                 return rfp.labels.includes(category);
             });
-            setRfps(filteredRFPs);
+            setRfps(filteredRFPs.slice(0, ITEMS_PER_PAGE));
         }
     };
 
 
     const sortByStage = (stage: string) => {
         if (stage === "All") {
-
+            setRfps(rfpsAll.slice(0, ITEMS_PER_PAGE));
         } else {
             const filteredRFPs = rfpsAll.filter((rfp) => {
-                const timeline = JSON.parse(rfp?.timeline)
-                    ?.status.replace("_", " ")
+                const timeline = rfp?.timeline?.status
+                    ?.replace("_", " ")
                     .toLowerCase()
                     .replace(/\b\w/g, (c: any) =>
                         c.toUpperCase()
                     )
                 return timeline === stage;
             });
-            setRfps(filteredRFPs);
+            setRfps(filteredRFPs.slice(0, ITEMS_PER_PAGE));
         }
     };
+
+    const loadMoreRFPs = () => {
+        const nextPage = currentPage + 1;
+        const start = nextPage * ITEMS_PER_PAGE;
+        const end = start + ITEMS_PER_PAGE;
+        
+        const newRFPs = rfpsAll.slice(0, end);
+        setRfps(newRFPs.slice(0, ITEMS_PER_PAGE));
+        setCurrentPage(nextPage);
+    }
 
     return(
         <div className="flex flex-col w-full h-full">
@@ -204,9 +209,9 @@ const RFPs = () =>{
                                     {
                                         !isLoading && rfps.length > 0 && (
                                             <div className="mt-5 md:mt-10">
-                                                <button onClick={()=>{}} className="border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full w-full">
+                                                <Button variant="outline" onClick={loadMoreRFPs} className="border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full w-full cursor-pointer">
                                                     <span className="font-semibold">Load More</span>
-                                                </button>
+                                                </Button>
                                             </div>
                                         )
                                     }

@@ -1,3 +1,11 @@
+export interface ProposalSnapshot {
+    author_id: string;
+    id: number;
+    proposal_version: string;
+    snapshot: ProposalTypes;
+    snapshot_history: ProposalTypes[];
+    social_db_post_block_height: number;
+}
 export interface ProposalTypes {
     name: string;
     timeline: {
@@ -16,11 +24,23 @@ export interface ProposalTypes {
     linked_proposals: Array<number>;
     block_height: number;
     blockHeight?:number;
+    timestamp: number;
 };
+
+export interface RFPsSnapshot {
+    author_id: string;
+    id: number;
+    rfp_version: string;
+    snapshot: RFPsTypes;
+    snapshot_history: RFPsTypes[];
+    social_db_post_block_height: number;
+}
 
 export interface RFPsTypes {
     name: string;
-    timeline: string;
+    timeline: {
+        status: string;
+    };
     summary: string;
     labels: Array<string>;
     author_id: string;
@@ -32,6 +52,7 @@ export interface RFPsTypes {
     linked_proposals: Array<number>;
     block_height: number;
     blockHeight?:number;
+    timestamp: number;
 };
 
 export interface DropdownProps {
