@@ -37,6 +37,7 @@
     "lucide-react": "^0.468.0",
     "markdown-to-jsx": "^7.5.0",
     "markdown-to-text": "^0.1.1",
+    "near-rpc-providers": "^0.1.0",
     "next": "^14.2.5",
     "node-telegram-bot-api": "^0.66.0",
     "openai": "^4.56.0",

@@ -41,6 +41,7 @@ const Proposals: NextPage = () => {
     const loadProposals = useCallback(async () => {
         try {
             const proposals = await ViewMethod("forum.potlock.near", "get_proposals", {});
+            // console.log(proposals)
             const proposalsWithSnapshot = proposals.map((proposal: any) => ({
                 name: proposal.snapshot.name,
                 timeline: proposal.snapshot.timeline,
