@@ -3,25 +3,18 @@ import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import Markdown from 'markdown-to-jsx';
 import { Social } from "@builddao/near-social-js";
-
-// Shadcn imports
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-// Custom components
 import NavBar from "@/components/nav-bar";
 import CommentsAndLogs from "@/components/CommentsAndLogs";
 import TimeLine from "@/components/TimeLine";
 import AvatarProfile from '@/components/AvatarProfile';
 import TiptapEditor from "@/components/TiptapEditor"
-
-// Types & Utils
 import { ProposalDetailTypes } from "@/types/types";
 import { readableDate, timeAgo, sliceAddress } from "@/lib/common";
 import { timelineStyle, proposalStatusOptions } from "@/lib/constant";
 import { ViewMethod } from "@/hook/near-method";
 import TagProposal from "@/components/TagProposal";
-
-//Icons
 import { ChatsCircle, Link as LinkIcon, ShareNetwork, Heart, Plus } from "@phosphor-icons/react";
 
 
@@ -43,15 +36,6 @@ const ProposalPage = () => {
         return <div>Loading...</div>
     }
     
-
-    const variables = {
-        where: {
-        proposal_id: {
-            _eq: proposalId as string
-        }
-        },
-    };
-
     const loadProposal = useCallback(async () => {
         if(proposalId){
         const proposal = await ViewMethod("forum.potlock.near", "get_proposal", {
@@ -223,7 +207,7 @@ const ProposalPage = () => {
 
                     {/* Main Content */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Left Column - Main Content */}
+                        {/* Left Column - Main Content */}
                         <div className="flex flex-col gap-4 md:col-span-2 space-y-6">
                             <div className="flex flex-row gap-2 border-b-[2px] border-aipgf-geyser border-solid box-border pb-4">
                                 <div className="h-14 w-14">

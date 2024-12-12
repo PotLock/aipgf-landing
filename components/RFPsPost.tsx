@@ -1,14 +1,17 @@
 import type { NextPage } from "next";
 import Link from "next/link";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Tag from "./tag";
 import { RFPsTypes } from "@/types/types";
 import { timeAgo } from "@/lib/common";
-import { labelIcons,timelineStyle } from "@/lib/constant";
+import { labelIcons, timelineStyle } from "@/lib/constant";
 import { Social } from "@builddao/near-social-js";
 import AvatarProfile from "./AvatarProfile";
+import { Button } from "./ui/button";
+import { Card, CardContent, CardHeader } from "./ui/card";
+import { MessageSquare, GitPullRequest } from "lucide-react";
 
-const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
+const RFPsPost: NextPage<{ rfp?: RFPsTypes }> = ({ rfp }) => {
     const [avatar, setAvatar] = useState<string>("");
     const [totalComments, setTotalComments] = useState<number>(0);
     const [windowSize, setWindowSize] = useState<any>({
@@ -62,49 +65,17 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
             return <div>No RFPs found</div>;
         }
 
-        return(
-            <div 
-                key={rfp.rfp_id} 
-                className="w-full border-aipgf-geyser border-[1px] border-solid box-border md:h-52 rounded-lg shadow-sm p-3 md:p-5 no-underline"
-                style={{color: "unset"}}
-                >
-                <div className="flex md:flex-row flex-col gap-3 items-end md:items-center justify-between">
-                    <div className="flex flex-col md:flex-row md:gap-3 gap-1">
-                        <div className="flex flex-row gap-2 items-center md:items-start">
-                            <AvatarProfile accountId={rfp?.author_id} size={30} />
-                            {
-                                windowSize?.width <= 768&&(
+        return (
+            <Card className="w-full border-aipgf-geyser border-[1px] border-solid box-border">
+                <CardContent className="p-6">
+                    <div className="flex md:flex-row flex-col gap-2 items-end md:items-center justify-between">
+                        <div className="flex flex-col md:flex-row md:gap-3 gap-1 flex-1">
+                            <div className="flex flex-row gap-2 items-center md:items-start">
+                                <AvatarProfile accountId={rfp?.author_id} size={30} />
+                                {windowSize?.width <= 768 && (
                                     <div className="flex flex-row gap-3">
                                         <span className="text-sm md:text-lg font-semibold">{rfp.name}</span>
-                                            {rfp.labels?.map((data) => (
-                                                <Tag
-                                                    key={data}
-                                                    propBackgroundColor={
-                                                        labelIcons[data]?.color ?? "#b7b7b7"
-                                                    }
-                                                    propWidth="max-content"
-                                                    x={labelIcons[data]?.icon ?? "icon.svg"}
-                                                    cancel={data}
-                                                    propFontWeight="unset"
-                                                    propColor={
-                                                        labelIcons[data]?.textColor ?? "#000"
-                                                    }
-                                                    cancelFontSize="0.75rem"
-                                                />
-                                            ))}
-                                    </div>
-                                )
-                            }
-                        </div>
-                        <Link 
-                            style={{color: "unset", textDecoration: "none"}}
-                            href={`/rfps/${rfp.rfp_id}`} 
-                            className="flex flex-col gap-1">
-                            {
-                                windowSize?.width > 768 &&(
-                                    <div className="flex flex-col gap-3">
-                                        <span className="text-sm md:text-lg font-semibold">{rfp.name}</span>
-                                        <div className="flex flex-row gap-2">
+                                        <div className="flex flex-wrap gap-2">
                                             {rfp.labels?.map((data) => (
                                                 <Tag
                                                     key={data}
@@ -123,69 +94,104 @@ const RFPsPost: NextPage<{rfp?: RFPsTypes}> = ({rfp}) => {
                                             ))}
                                         </div>
                                     </div>
-                                )
-                            }
-                            <div className="flex flex-col gap-2">
-                                <small className="font-semibold flex flex-row gap-1 items-center mt-2">
-                                    By{" "}
-                                    {rfp?.author_id?.length > 20
-                                        ? `${rfp?.author_id?.slice(0, 20)}...`
-                                            : rfp?.author_id}
-                                    <span className="font-thin">| {timeAgo(rfp.ts)}</span>
-                                </small>
-                                <span className="md:text-base text-xs">{truncateString(rfp.summary)}</span>
+                                )}
                             </div>
-                            <div className="flex flex-row gap-5 mt-3 items-center">
-                                <div className="flex flex-row gap-1 items-center">
-                                    <img width={16} src="/assets/icon/list-blue.svg" alt="icon" />
-                                    <small className="text-[#0969DA] font-semibold text-sm">{rfp.linked_proposals[0]??0} Proposals</small>
+
+                            <Link 
+                                href={`/rfps/${rfp.rfp_id}`}
+                                className="flex flex-col gap-1 flex-1 text-black no-underline"
+                            >
+                                {windowSize?.width > 768 && (
+                                    <div className="flex flex-col gap-3">
+                                        <span className="text-sm md:text-lg font-semibold">{rfp.name}</span>
+                                        <div className="flex flex-wrap gap-2">
+                                            {rfp.labels?.map((data) => (
+                                                <Tag
+                                                    key={data}
+                                                    propBackgroundColor={
+                                                        labelIcons[data]?.color ?? "#b7b7b7"
+                                                    }
+                                                    propWidth="max-content"
+                                                    x={labelIcons[data]?.icon ?? "icon.svg"}
+                                                    cancel={data}
+                                                    propFontWeight="unset"
+                                                    propColor={
+                                                        labelIcons[data]?.textColor ?? "#000"
+                                                    }
+                                                    cancelFontSize="0.75rem"
+                                                />
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="flex flex-col gap-2">
+                                    <small className="text-muted-foreground flex flex-row gap-1 items-center mt-2">
+                                        By{" "}
+                                        <span className="font-medium">
+                                            {rfp?.author_id?.length > 20
+                                                ? `${rfp?.author_id?.slice(0, 20)}...`
+                                                : rfp?.author_id}
+                                        </span>
+                                        <span className="text-muted-foreground">| {timeAgo(rfp.ts)}</span>
+                                    </small>
+                                    <p className="md:text-base text-xs text-muted-foreground">
+                                        {truncateString(rfp.summary)}
+                                    </p>
                                 </div>
-                                <div className="flex flex-row gap-1 items-center">
-                                    <img width={16} src="/assets/icon/reply.svg" alt="icon" />
-                                    <small className="text-[#04A46E] font-semibold text-sm">{totalComments} replies</small>
+
+                                <div className="flex flex-row gap-5 mt-3 items-center">
+                                    <div className="flex flex-row gap-1 items-center">
+                                        <img width={16} src="/assets/icon/list-blue.svg" alt="icon" />
+                                        <small className="text-[#0969DA] font-semibold text-sm">{rfp.linked_proposals[0]??0} Proposals</small>
+                                    </div>
+                                    <div className="flex flex-row gap-1 items-center">
+                                        <img width={16} src="/assets/icon/reply.svg" alt="icon" />
+                                        <small className="text-[#04A46E] font-semibold text-sm">{totalComments} replies</small>
+                                    </div>
                                 </div>
-                            </div>
-                        </Link>
-                    </div>
-                    <button  
-                        style={{
-                            borderColor:
-                            timelineStyle[
-                                rfp?.timeline?.status
-                            ]?.color,
-                        }}
-                        className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
-                        <img width={16} src={timelineStyle[
-                            rfp?.timeline?.status
-                        ]?.icon} alt="icon" />
-                        <small
+                            </Link>
+                        </div>
+
+                        <Button  
                             style={{
-                                color:
+                                borderColor:
                                 timelineStyle[
                                     rfp?.timeline?.status
                                 ]?.color,
                             }}
-                        >
-                            {rfp?.timeline &&
+                            className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
+                            <img width={16} src={timelineStyle[
                                 rfp?.timeline?.status
-                                    ?.replace("_", " ")
-                                    .toLowerCase()
-                                    .replace(/\b\w/g, (c: any) =>
-                                        c.toUpperCase()
-                                    )}
-                        </small>
-                    </button>
-                </div>
-            </div>
-        )
-    
-    }
+                            ]?.icon} alt="icon" />
+                            <small
+                                style={{
+                                    color:
+                                    timelineStyle[
+                                        rfp?.timeline?.status
+                                    ]?.color,
+                                }}
+                            >
+                                {rfp?.timeline &&
+                                    rfp?.timeline?.status
+                                        ?.replace("_", " ")
+                                        .toLowerCase()
+                                        .replace(/\b\w/g, (c: any) =>
+                                            c.toUpperCase()
+                                        )}
+                            </small>
+                        </Button>
+                    </div>
+                </CardContent>
+            </Card>
+        );
+    };
 
-    return(
+    return (
         <div className="flex flex-col gap-3">
             {renderRFPs()}
         </div>
-    )
-}
+    );
+};
 
 export default RFPsPost;
