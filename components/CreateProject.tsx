@@ -8,6 +8,13 @@ import { ViewMethod,CallMethod } from "@/hook/near-method";
 import { Social,NetworkIDEnum } from "@builddao/near-social-js";
 import { getTeamMembersFromSocialProfileData } from "@/lib/common";
 import Big from 'big.js';
+import { Label } from "./ui/label";
+import { Button } from "./ui/button";
+import { Checkbox } from "./ui/checkbox";
+import { Input } from "./ui/input";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Textarea } from "./ui/textarea";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
 
 
 const Editor = dynamic(()=>import("./Editor"),{ssr:false})
@@ -638,69 +645,83 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                             <div className="w-full h-full gap-5 flex md:flex-col flex-row justify-start md:justify-center items-center">
                                 <div className="flex">
                                     <AvatarProfile accountId={accountId as string} size={120} image={profileImage as string} />
-                                    <label htmlFor="imageUpload" className="bg-white cursor-pointer">
+                                    <Label htmlFor="imageUpload" className="bg-white cursor-pointer">
                                         <img className="translate-x-[-0px] translate-y-[40px] md:translate-x-[-40px] md:translate-y-[80px] md:w-[40px] w-[19px]" src="/assets/icon/camera.svg" alt="icon" />
-                                        <input
+                                        <Input
                                             id="imageUpload"
                                             type="file"
                                             accept="image/*"
                                             onChange={handleImageUpload}
                                             className="hidden"
                                         />
-                                    </label>
+                                    </Label>
                                 </div>
-                                <button 
-                                    className="bg-white cursor-pointer"
+                                <Button 
+                                    variant="outline"
+                                    className="bg-transparent border-0 hover:bg-transparent shadow-none cursor-pointer"
                                     onClick={() => setIsAddMemberModalOpen(true)}
                                 >
                                     <small className="relative left-[-20px] text-base font-bold">Add member</small>
-                                </button>
+                                </Button>
                             </div>
-                            <div className="cntr flex flex-row items-start gap-2">
-                                <input type="checkbox" id="registerDao" className="hidden-xs-up" checked={isRegisterDao} onChange={(e)=>setIsRegisterDao(e.target.checked)}/>
-                                <label htmlFor="registerDao" className="cbx"></label>
-                                <span className="font-semibold">Register as DAO</span>
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <span className="font-bold text-lg">{isRegisterDao?"DAO Address":"Project ID"}</span>
-                                <input onChange={(e)=>setDaoAddress(e.target.value)} disabled={!isRegisterDao} value={!isRegisterDao?accountId as string:""} type="text" placeholder={isRegisterDao?"Enter DAO Address here":"Enter project ID here"} className="text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-800 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg" />
+                            <div className="cntr flex flex-row items-center gap-2">
+                                <Input type="checkbox" id="registerDao" className="hidden-xs-up" checked={isRegisterDao} onChange={(e)=>setIsRegisterDao(e.target.checked)}/>
+                                <Label htmlFor="registerDao" className="cbx"></Label>
+                                <Label className="font-semibold text-lg">Register as DAO</Label>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <span className="font-bold text-lg">Project Name &#42;</span>
-                                <input 
+                                <Label className="font-bold text-lg">{isRegisterDao?"DAO Address":"Project ID"}</Label>
+                                <Input 
+                                    onChange={(e)=>setDaoAddress(e.target.value)} 
+                                    disabled={!isRegisterDao} 
+                                    value={!isRegisterDao?accountId as string:""} 
+                                    type="text" 
+                                    placeholder={isRegisterDao?"Enter DAO Address here":"Enter project ID here"} 
+                                    className="text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-800 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg font-aipgf-manrope-semibold-1356" 
+                                />
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <Label className="font-bold text-lg">Project Name <strong className="text-red-600">&#42;</strong></Label>
+                                <Input 
                                     type="text" 
                                     placeholder="Enter project here" 
-                                    className="text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-800 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg" 
+                                    className="text-sm px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-800 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg font-aipgf-manrope-semibold-1356" 
                                     value={projectName}
                                     onChange={handleProjectNameChange}
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <span className="font-bold text-lg">Category &#40;select multiple&#41; &#42;</span>
-                                <div className="w-full relative">
-                                    <div onClick={()=>setIsShowDropDown((prv)=>!prv)} className="w-full bg-white focus:border-gray-100 shadow-sm cursor-pointer mt-2 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg flex flex-row justify-between px-3 py-2">
-                                        <input type="text" placeholder="Choose Category" className="w-full focus:outline-none bg-white" value={categories.join(', ')} />
-                                        <img width={20} src="/assets/icon/arrow-down-gray.svg" alt="icon" />
-                                    </div>
-                                    {
-                                        isShowDropDown&&(
-                                            <div className="w-full absolute top-12 bg-white border-[1px] border-aipgf-geyser box-border border-solid p-3 rounded-lg h-50 z-20 shadow-lg flex flex-col gap-2">
-                                                {
-                                                    Object.values(CATEGORIES).map((category,index)=>(
-                                                        <button onClick={()=>handleChangeCategory(category)} key={index} className="w-full text-start text-sm md:text-base bg-white hover:bg-gray-100 hover:bg-opacity-10 rounded-lg p-2 cursor-pointer">
-                                                            {category}
-                                                        </button>
-                                                    ))
-                                                }
-                                            </div>
-                                        )
-                                    }
-                                </div>
+                                <Label className="font-bold text-lg">Category &#40;select multiple&#41; <strong className="text-red-600">&#42;</strong></Label>
+                                <DropdownMenu>
+                                    <DropdownMenuTrigger asChild>
+                                        <div className="w-full bg-white focus:border-gray-100 shadow-sm cursor-pointer mt-2 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg flex flex-row justify-between pr-2">
+                                            <Input 
+                                                type="text" 
+                                                placeholder="Choose Category" 
+                                                className="w-full focus:outline-none bg-transparent outline-none border-0 shadow-none focus:border-0 focus:ring-0 font-aipgf-manrope-semibold-1356" 
+                                                value={categories.join(', ')} 
+                                                readOnly
+                                            />
+                                            <img width={20} src="/assets/icon/arrow-down-gray.svg" alt="icon" />
+                                        </div>
+                                    </DropdownMenuTrigger>
+                                    <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width] max-h-[200px] overflow-y-auto">
+                                        {Object.values(CATEGORIES).map((category, index) => (
+                                            <DropdownMenuItem 
+                                                key={index} 
+                                                className={`cursor-pointer ${categories.includes(category) ? 'bg-gray-100 bg-opacity-40' : ''}`}
+                                                onClick={() => handleChangeCategory(category)}
+                                            >
+                                                {category}
+                                            </DropdownMenuItem>
+                                        ))}
+                                    </DropdownMenuContent>
+                                </DropdownMenu>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <span className="font-bold text-lg">Why is this project a public good? &#42;</span>
-                                <textarea
-                                    className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
+                                <Label className="font-bold text-lg">Why is this project a public good? <strong className="text-red-600">&#42;</strong></Label>
+                                <Textarea
+                                    className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black font-aipgf-manrope-semibold-1356"
                                     rows={4}
                                     value={publicGoodReason}
                                     onChange={handlePublicGoodReasonChange}
@@ -708,9 +729,9 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 />
                             </div>
                             <div className="flex flex-col gap-2 pb-16 md:pb-10">
-                                <span className="font-bold text-lg">Overview &#42;</span>
-                                <textarea
-                                    className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black"
+                                <Label className="font-bold text-lg">Overview <strong className="text-red-600">&#42;</strong></Label>
+                                <Textarea
+                                    className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black font-aipgf-manrope-semibold-1356"
                                     rows={6}
                                     value={description}
                                     onChange={handleDescriptionChange}
@@ -718,25 +739,25 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <span className="font-semibold text-xl">Final Consent</span>
+                                <Label className="font-semibold text-xl">Final Consent <strong className="text-red-600">&#42;</strong></Label>
                                 <div className="flex flex-col gap-1 mt-2">
                                     <div className="flex flex-col gap-4">
                                         <div className="cntr flex flex-row items-start gap-2">
-                                            <input type="checkbox" id="cbx" className="hidden-xs-up"/>
-                                            <label htmlFor="cbx" className="cbx"></label>
-                                            <span>I&#39;ve agree to AIPGF&#39;s <strong className="underline">Terms and Conditions</strong> and commit to honoring it</span>
+                                            <Input type="checkbox" id="cbx" className="hidden-xs-up"/>
+                                            <Label htmlFor="cbx" className="cbx"></Label>
+                                            <Label>I&#39;ve agree to AIPGF&#39;s <strong className="underline">Terms and Conditions</strong> and commit to honoring it</Label>
                                         </div>
                                         <div className="cntr flex flex-row items-start gap-2">
-                                            <input type="checkbox" id="cbx1" className="hidden-xs-up"/>
-                                            <label htmlFor="cbx1" className="cbx"></label>
-                                            <span>I&#39;ve agree to AIPGF&#39;s <strong className="underline">Code of Conduct</strong> and commit to honoring it</span>
+                                            <Input type="checkbox" id="cbx1" className="hidden-xs-up"/>
+                                            <Label htmlFor="cbx1" className="cbx"></Label>
+                                            <Label>I&#39;ve agree to AIPGF&#39;s <strong className="underline">Code of Conduct</strong> and commit to honoring it</Label>
                                         </div>
                                         
                                     </div>
                                 </div>
                             </div>
                             <div className="flex flex-row justify-between w-full md:justify-end items-center md:gap-10 mt-10 pb-20">
-                                <button onClick={handleCreateOrUpdateProject} className="flex md:text-base text-sm flex-row gap-2 px-5 py-3 items-center hover:bg-gray-100 hover:bg-opacity-30 cursor-pointer rounded-full">
+                                <Button onClick={handleCreateOrUpdateProject} className="flex md:text-base text-sm flex-row gap-2 px-5 py-3 items-center cursor-pointer rounded-full">
                                     {
                                         selectReview?(
                                             <div className="flex flex-row items-center gap-2">
@@ -749,17 +770,15 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                             </div>
                                         )
                                     }
-                                </button>
+                                </Button>
 
                             </div>
                         </div>
                         <div className="w-full md:w-[30rem] flex gap-3 flex-col"> 
                             <div className="flex flex-col border-b-[1px] border-solid border-aipgf-geyser">
-                                <span className="text-gray-600 text-lg font-bold mt-2">Author Details</span>
+                                <Label className="text-gray-600 text-lg font-bold mt-2">Author Details</Label>
                                 <div className="flex flex-col py-3 gap-4">
-                                    <span className="">
-                                        Author
-                                    </span>
+                                    <Label>Author</Label>
                                     <div className="flex flex-row gap-2 items-center">
                                         <AvatarProfile accountId={accountId as string} size={40}/>
                                         <span className="text-sm font-bold">{accountId}</span>
@@ -768,71 +787,77 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                             </div>
                             <div className="flex flex-col gap-4 mt-2">
                                 <div className="flex flex-col gap-3">
-                                    <div className="cntr flex flex-row items-start gap-2 pb-2">
-                                        <input
+                                    <div className="flex items-center gap-1">
+                                        <Input
                                             type="checkbox"
                                             id="hasSmartContracts"
-                                            checked={hasSmartContracts}
-                                            onChange={(e) => setHasSmartContracts(e.target.checked)}
                                             className="hidden-xs-up"
+                                            onChange={(e) => {
+                                                setHasSmartContracts(e.target.checked);
+                                            }}
+                                            checked={hasSmartContracts}
                                         />
-                                        <label htmlFor="hasSmartContracts" className="cbx"></label>
-                                        <span>Yes, my project has smart contracts</span>
+                                        <Label htmlFor="hasSmartContracts" className="cbx"></Label>
+                                        <Label htmlFor="hasSmartContracts" className="lbl">
+                                        Yes, my project has smart contracts
+                                        </Label>
                                     </div>
                                     {hasSmartContracts && (
                                         <div className="flex flex-col gap-4 border-t-[1px] border-aipgf-geyser border-solid pt-4">
                                             <div className="flex flex-col gap-3 border-b-[1px] border-aipgf-geyser border-solid pb-5">
-                                                <span className="text-gray-600 text-lg font-bold mt-2">
+                                                <Label className="text-gray-600 text-lg font-bold mt-2">
                                                     Smart Contract Address
-                                                </span>
+                                                </Label>
                                                 <div className="flex flex-col gap-2">
-                                                    <span>Wallet Addresses</span>
-                                                    <span className="text-sm text-gray-600">Enter the addresses where your smart contracts are saved.</span>
+                                                    <Label>Wallet Addresses</Label>
+                                                    <Label className="text-xs text-gray-600">Enter the addresses where your smart contracts are saved.</Label>
                                                     {smartContracts.map((contract: any, index: number) => (
                                                         <div key={index} className="flex flex-row gap-1 items-center">
                                                             <div className="flex gap-2 p-1 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg items-center focus:ring-1 focus:ring-gray-800">
                                                                 <div className="relative w-[220px] border-r-[1px] border-aipgf-geyser border-solid">
-                                                                    <select
-                                                                        className="appearance-none w-full bg-white p-2 rounded-l-lg leading-tight focus:outline-none focus:bg-white focus:border-gray-500 cursor-pointer"
-                                                                        value={contract[0]}
-                                                                        onChange={(e) => handleSmartContractChange(index, 'chain', e.target.value)}
-                                                                    >
-                                                                        <option value={""}>Select a chain</option>
-                                                                        {Object.entries(CHAIN_OPTIONS).map(([chain, { isEVM }]) => (
-                                                                            <option key={chain} value={chain}>
-                                                                                {chain}
-                                                                            </option>
-                                                                        ))}
-                                                                    </select>
-                                                                    <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                                                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                                            <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                                                                        </svg>
-                                                                    </div>
+                                                                    <DropdownMenu>
+                                                                        <DropdownMenuTrigger asChild>
+                                                                            <Button variant="ghost" className="w-full justify-between font-aipgf-manrope-semibold-1356 bg-transparent hover:bg-transparent cursor-pointer">
+                                                                                {contract[0] || "Select a chain"}
+                                                                                <img width={15} src="/assets/icon/arrow-down-gray.svg" alt="icon" className="ml-2" />
+                                                                            </Button>
+                                                                        </DropdownMenuTrigger>
+                                                                        <DropdownMenuContent className="w-[--radix-dropdown-menu-trigger-width] max-h-[300px] overflow-y-auto">
+                                                                            {Object.entries(CHAIN_OPTIONS).map(([chain]) => (
+                                                                                <DropdownMenuItem 
+                                                                                    key={chain} 
+                                                                                    onSelect={() => handleSmartContractChange(index, 'chain', chain)}
+                                                                                    className="cursor-pointer"
+                                                                                >
+                                                                                    {chain}
+                                                                                </DropdownMenuItem>
+                                                                            ))}
+                                                                        </DropdownMenuContent>
+                                                                    </DropdownMenu>
                                                                 </div>
-                                                                <input 
+                                                                <Input 
                                                                     type="text" 
                                                                     placeholder="Enter Address" 
-                                                                    className="outline-none focus:outline-none h-5 text-sm w-full p-2"
+                                                                    className="outline-none focus:outline-none h-full bg-transparent border-0 shadow-none focus:border-0 focus:ring-0 text-sm w-full p-2 font-aipgf-manrope-semibold-1356"
                                                                     value={contract[1]}
                                                                     onChange={(e) => handleSmartContractChange(index, 'address', e.target.value)}
                                                                 />
                                                                 
                                                             </div>
                                                             
-                                                            <button onClick={() => handleRemoveSmartContract(index)} className="bg-white cursor-pointer">
+                                                            <Button onClick={() => handleRemoveSmartContract(index)} className="bg-transparent shadow-none border-0 hover:bg-transparent cursor-pointer">
                                                                 <img width={15} src="/assets/icon/delete.svg" alt="icon" />
-                                                            </button>
+                                                            </Button>
                                                             
                                                         </div>
                                                     ))}
                                                 </div>
-                                                <button 
+                                                <Button 
                                                     onClick={handleAddSmartContract}
                                                     className="flex items-center cursor-pointer font-semibold justify-center px-4 py-2 border border-transparent text-sm rounded-md text-white bg-black hover:bg-opacity-90 focus:outline-none"
                                                 >
                                                     <span>Add another contract</span>
-                                                </button>
+                                                </Button>
                                             </div>
                                         </div>
                                     )}
@@ -853,17 +878,17 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                                         >
                                                             {repo[0]}
                                                         </Link>
-                                                        <button onClick={() => removeGithubRepo(index)} className="bg-white cursor-pointer">
+                                                        <Button onClick={() => removeGithubRepo(index)} className="bg-transparent shadow-none border-0 hover:bg-transparent cursor-pointer">
                                                             <img src="/assets/icon/delete.svg" alt="Remove repo" width="15" height="15" />
-                                                        </button>
+                                                        </Button>
                                                     </div>
                                                 </div>
                                             ))}
                                             <div className="flex gap-2 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg items-center focus:ring-1 focus:ring-gray-800">
                                                 <span className="text-gray-500 border-r-[1px] border-solid border-aipgf-geyser px-2 py-2">https://github.com/</span>
-                                                <input 
+                                                <Input 
                                                     type="text" 
-                                                    className="focus:outline-none h-5 text-sm w-full px-1 py-2"
+                                                    className="focus:outline-none h-full bg-transparent shadow-none border-0 rounded-r-md outline-none text-sm w-full px-1 py-2"
                                                     value={currentGithubRepo}
                                                     onChange={handleGithubRepoChange}
                                                     onKeyUp={handleGithubRepoKeyPress}
@@ -875,7 +900,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 )}
                                 <div className="flex flex-col gap-4 border-b-[1px] border-aipgf-geyser border-solid pb-5">
                                     <div className="flex items-center gap-1">
-                                        <input
+                                        <Input
                                             type="checkbox"
                                             id="hasReceivedFunding"
                                             className="hidden-xs-up"
@@ -884,87 +909,43 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                             }}
                                             checked={hasReceivedFunding}
                                         />
-                                        <label htmlFor="hasReceivedFunding" className="cbx"></label>
-                                        <label htmlFor="hasReceivedFunding" className="lbl">
+                                        <Label htmlFor="hasReceivedFunding" className="cbx"></Label>
+                                        <Label htmlFor="hasReceivedFunding" className="lbl">
                                             Yes, my project has received funding
-                                        </label>
+                                        </Label>
                                     </div>
                                     {
                                         hasReceivedFunding&&(
                                             <div className="flex flex-col gap-4 border-t-[1px] border-aipgf-geyser border-solid pt-4">
                                                 <div className="flex flex-col gap-2">
-                                                    <span className="text-gray-600 text-lg font-bold mt-2">
+                                                    <Label className="text-gray-600 text-lg font-bold mt-2">
                                                     Funding sources
-                                                    </span>
-                                                    <span className="text-sm text-gray-600">Add any previous funding you have received.</span>
+                                                    </Label>
+                                                    <Label className="text-sm text-gray-600">Add any previous funding you have received.</Label>
                                                 </div>
-                                                <button
+                                                <Button
                                                     type="button"
                                                     onClick={() => setShowFundingModal(true)}
                                                     className="flex items-center cursor-pointer font-semibold justify-center px-4 py-2 border border-transparent text-sm rounded-md text-white bg-black hover:bg-opacity-90 focus:outline-none"
                                                 >
                                                     Add Funding Source
-                                                </button>
+                                                </Button>
                                             </div>
                                         )
                                     }
                                 </div>
-                                {showFundingModal && (
-                                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                                        <div className="bg-white rounded-lg shadow-lg p-6 pt-3 w-full max-w-md">
-                                            <div className="flex justify-between items-center mb-4">
-                                                <h2 className="text-lg font-semibold flex flex-row items-center">
-                                                    <img width={30} src="/assets/icon/dolar.svg" alt="icon" /> Add Past Funding Source
-                                                </h2>
-                                                <button className="bg-white rounded-full p-1 cursor-pointer" onClick={() => setShowFundingModal(false)}>
-                                                    <img width={30} src="/assets/icon/close-x.svg" alt="icon" />
-                                                </button>
-                                            </div>
-                                            <div className="flex flex-col gap-4">
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-700">Name of investor</label>
-                                                    <input type="text" placeholder="Enter investor name" className="mt-1 block w-full px-3 py-2 border-aipgf-geyser border-[1px] border-solid rounded-md focus:outline-none focus:ring-1 focus:ring-black sm:text-sm" />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-700">Date (optional)</label>
-                                                    <div className="relative mt-1">
-                                                        <input type="text" placeholder="mm/dd/yyyy" className="block w-full px-3 py-2 border-aipgf-geyser border-[1px] border-solid rounded-md focus:outline-none focus:ring-1 focus:ring-black sm:text-sm" />
-                                                        <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                                                            <i className="fas fa-calendar-alt text-gray-400"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-700">Description</label>
-                                                    <textarea placeholder="Type description" className="mt-1 block w-full min-h-20 px-3 py-2 border-aipgf-geyser border-[1px] border-solid rounded-md focus:outline-none focus:ring-1 focus:ring-black sm:text-sm"></textarea>
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-700">Denomination of investment</label>
-                                                    <input type="text" placeholder="e.g. NEAR, USD, USDC, etc." className="mt-1 block w-full px-3 py-2 border-aipgf-geyser border-[1px] border-solid rounded-md focus:outline-none focus:ring-1 focus:ring-black sm:text-sm" />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-700">Investment amount</label>
-                                                    <input type="text" placeholder="e.g. 1000" className="mt-1 block w-full px-3 py-2 border-aipgf-geyser border-[1px] border-solid rounded-md focus:outline-none focus:ring-1 focus:ring-black sm:text-sm" />
-                                                </div>
-                                                <div className="flex justify-end">
-                                                    <button type="button" className="px-4 py-2 bg-black text-white font-semibold hover:bg-opacity-80 cursor-pointer  rounded-md focus:outline-none">Add Funding Source</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                )}
                                 <div className="flex flex-col gap-4 border-b-[1px] border-aipgf-geyser border-solid pb-5">
                                     <div className="flex flex-col gap-2">
-                                        <span className="text-lg font-bold text-gray-700">Social Links (optional)</span>
-                                        <span className="text-sm text-gray-400">At least one link is required</span>
+                                        <Label className="text-lg font-bold text-gray-700">Social Links (optional)</Label>
+                                        <Label className="text-sm text-gray-400">At least one link is required</Label>
                                     </div>
                                     <div className="flex flex-col gap-2">
-                                        <span>Website</span>
+                                        <Label>Website</Label>
                                         <div className="flex gap-2 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg items-center focus:ring-1 focus:ring-gray-800">
                                             <span className="text-gray-500 border-r-[1px] border-solid border-aipgf-geyser p-2">https://</span>
-                                            <input 
+                                            <Input 
                                                 type="text" 
-                                                className="focus:outline-none h-5 text-sm p-2 px-1 w-full"
+                                                className="focus:outline-none h-full bg-transparent border-0 shadow-none focus:border-0 focus:ring-0 text-sm p-2 px-1 w-full"
                                                 value={socialLinks.website}
                                                 onChange={handleSocialLinkChange('website')}
                                                 onKeyUp={handleSocialLinkKeyPress('website')}
@@ -972,12 +953,12 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-2">
-                                        <span>Twitter</span>
+                                        <Label>Twitter</Label>
                                         <div className="flex gap-2 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg items-center focus:ring-1 focus:ring-gray-800">
                                             <span className="text-gray-500 border-r-[1px] border-solid border-aipgf-geyser p-2">@</span>
-                                            <input 
+                                            <Input 
                                                 type="text" 
-                                                className="focus:outline-none h-5 text-sm w-full"
+                                                className="focus:outline-none h-full bg-transparent border-0 shadow-none focus:border-0 focus:ring-0 text-sm w-full"
                                                 value={socialLinks.twitter}
                                                 onChange={handleSocialLinkChange('twitter')}
                                                 onKeyUp={handleSocialLinkKeyPress('twitter')}
@@ -985,12 +966,12 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-2">
-                                        <span>Telegram</span>
+                                        <Label>Telegram</Label>
                                         <div className="flex gap-2 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg items-center focus:ring-1 focus:ring-gray-800">
                                             <span className="text-gray-500 border-r-[1px] border-solid border-aipgf-geyser p-2">@</span>
-                                            <input 
+                                            <Input 
                                                 type="text" 
-                                                className="focus:outline-none w-full h-5 text-sm p-2 px-1"
+                                                className="focus:outline-none w-full h-full bg-transparent border-0 shadow-none focus:border-0 focus:ring-0 text-sm p-2 px-1"
                                                 value={socialLinks.telegram}
                                                 onChange={handleSocialLinkChange('telegram')}
                                                 onKeyUp={handleSocialLinkKeyPress('telegram')}
@@ -998,12 +979,12 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-2">
-                                        <span>Github</span>
+                                        <Label>Github</Label>
                                         <div className="flex gap-2 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg items-center focus:outline-none focus:ring-1 focus:ring-gray-800">
                                             <span className="text-gray-500 border-r-[1px] border-solid border-aipgf-geyser p-2">https://github.com/</span>
-                                            <input 
+                                            <Input 
                                                 type="text" 
-                                                className="focus:outline-none h-5 text-sm p-2 px-1"
+                                                className="focus:outline-none h-full bg-transparent border-0 shadow-none focus:border-0 focus:ring-0 text-sm p-2 px-1"
                                                 value={socialLinks.github}
                                                 onChange={handleSocialLinkChange('github')}
                                                 onKeyUp={handleSocialLinkKeyPress('github')}
@@ -1024,6 +1005,64 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                 onRemoveMember={handleRemoveTeamMember}
                 existingMembers={teamMembers}
             />
+            <Dialog open={showFundingModal} onOpenChange={setShowFundingModal}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="flex items-center gap-2">
+                            <img width={30} src="/assets/icon/dolar.svg" alt="icon" />
+                            Add Past Funding Source
+                        </DialogTitle>
+                    </DialogHeader>
+                    <div className="flex flex-col gap-4">
+                        <div>
+                            <Label className="block text-sm font-medium text-gray-700">Name of investor</Label>
+                            <Input 
+                                type="text" 
+                                placeholder="Enter investor name" 
+                                className="mt-1 border-aipgf-geyser border-solid border-[1px] rounded-md"
+                            />
+                        </div>
+                        <div>
+                            <Label className="block text-sm font-medium text-gray-700">Date (optional)</Label>
+                            <div className="relative mt-1">
+                                <Input 
+                                    type="text" 
+                                    placeholder="mm/dd/yyyy" 
+                                    className="border-aipgf-geyser border-solid border-[1px] rounded-md"
+                                />
+                            </div>
+                        </div>
+                        <div>
+                            <Label className="block text-sm font-medium text-gray-700">Description</Label>
+                            <Textarea 
+                                placeholder="Type description" 
+                                className="mt-1 border-aipgf-geyser border-solid border-[1px] rounded-md font-aipgf-manrope-semibold-1356"
+                            />
+                        </div>
+                        <div>
+                            <Label className="block text-sm font-medium text-gray-700">Denomination of investment</Label>
+                            <Input 
+                                type="text" 
+                                placeholder="e.g. NEAR, USD, USDC, etc." 
+                                className="mt-1 border-aipgf-geyser border-solid border-[1px] rounded-md"
+                            />
+                        </div>
+                        <div>
+                            <Label className="block text-sm font-medium text-gray-700">Investment amount</Label>
+                            <Input 
+                                type="text" 
+                                placeholder="e.g. 1000" 
+                                className="mt-1 border-aipgf-geyser border-solid border-[1px] rounded-md"
+                            />
+                        </div>
+                        <div className="flex justify-end">
+                            <Button type="button" className="cursor-pointer">
+                                Add Funding Source
+                            </Button>
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
         </div>
         
     )

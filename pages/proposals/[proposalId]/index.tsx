@@ -15,7 +15,15 @@ import { readableDate, timeAgo, sliceAddress } from "@/lib/common";
 import { timelineStyle, proposalStatusOptions } from "@/lib/constant";
 import { ViewMethod } from "@/hook/near-method";
 import TagProposal from "@/components/TagProposal";
-import { ChatsCircle, Link as LinkIcon, ShareNetwork, Heart, Plus } from "@phosphor-icons/react";
+import { ChatsCircle, Link as LinkIcon, ShareNetwork, Heart, Plus,Warning } from "@phosphor-icons/react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ArrowSquareOut } from "@phosphor-icons/react";
+import { useWalletSelector } from "@/context/WalletSelectorContext";
 
 
 const ProposalPage = () => {
@@ -29,8 +37,11 @@ const ProposalPage = () => {
     const [timestamp, setTimestamp] = useState<number>(0);
     const [history, setHistory] = useState<any>();
     const [author, setAuthor] = useState<string|null>(null);
-    const [isLiked, setIsLiked] = useState(false);
-    const [commentContent, setCommentContent] = useState("")
+    const [isLiked, setIsLiked] = useState<boolean>(false);
+    const [commentContent, setCommentContent] = useState<string|null>(null);
+    const { accountId } = useWalletSelector();
+
+    //console.log('accountId',accountId)
 
     if(!proposalId){
         return <div>Loading...</div>
@@ -61,7 +72,6 @@ const ProposalPage = () => {
         navigator.clipboard.writeText(currentUrl).then(() => {
         //setCopySuccess(true);
         alert("Copied to clipboard");
-        //setTimeout(() => setCopySuccess(false), 2000);
         });
     };
 
@@ -74,10 +84,10 @@ const ProposalPage = () => {
         fetch(
             `https://neardevhub-kyc-proxy.shuttleapp.rs/kyc/${proposal?.receiver_account}`,
             {
-            mode: 'cors',
-            headers: {
-                'Origin': window.location.origin
-            }
+                mode: 'cors',
+                headers: {
+                    'Origin': window.location.origin
+                }
             }
         )
         .then((response) => {
@@ -149,13 +159,48 @@ const ProposalPage = () => {
 
     const handleLike = () => {
         setIsLiked(!isLiked);
-        // Here you would typically also make an API call to update the like status
     };
+
+
+    const VerificationBtn = () => {
+        return (
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <button className="bg-black text-white rounded-lg px-3 py-2 flex flex-row gap-2 items-center cursor-pointer">
+                        <span className="text-sm">Get Verified</span>
+                        <ArrowSquareOut className="w-4 h-4" />
+                    </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-[300px]">
+                    <DropdownMenuItem className="cursor-pointer">
+                        <div className="flex items-center gap-2">
+                            <img src="/assets/icon/kyc.svg" alt="KYC" className="w-8 h-8" />
+                            <Link href="https://go.fractal.id/near-social-kyc" target="_blank" className="flex flex-col no-underline text-black">
+                                <span>KYC</span>
+                                <small className="text-gray-500">Choose this if you are an individual.</small>
+                            </Link>
+                        </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="cursor-pointer">
+                        <div className="flex items-center gap-2">
+                            <img src="/assets/icon/kyb.svg" alt="KYB" className="w-8 h-8" />
+                            <Link href="https://go.fractal.id/near-social-kyb" target="_blank" className="flex flex-col no-underline text-black">
+                                <span>KYB</span>
+                                <small className="text-gray-500">Choose this if you are a business or corporate entity.</small>
+                            </Link>
+                        </div>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        );
+    };
+
+    //console.log('proposal',proposal)
 
     return (
         <div className="min-h-screen bg-background">
             <NavBar />
-            <main className="container mx-auto px-4 py-6 max-w-7xl">
+            <main className="w-full max-w-[1700px] mx-auto relative bg-background overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem]">
                 {proposal && (
                 <div className="space-y-6">
                     {/* Header Card */}
@@ -309,7 +354,7 @@ const ProposalPage = () => {
                                     <div className="w-full flex flex-col gap-2">
                                         <span className="font-semibold text-lg">Reply</span>
                                         <TiptapEditor
-                                            content={commentContent}
+                                            content={commentContent ?? ""}
                                             onChange={setCommentContent}
                                             onCancel={() => setCommentContent("")}
                                             onSubmit={() => {
@@ -393,11 +438,29 @@ const ProposalPage = () => {
                                 <div className="border-b-[1px] border-aipgf-geyser border-solid box-border pb-2">
                                     <h2 className="text-lg font-semibold">Recipient Verification Status</h2>
                                     <div className="flex items-center space-x-2 mt-1">
-                                        <img className="w-10 h-10 rounded-full p-2 bg-green-100" src="/assets/icon/verification.svg" alt="icon" />
-                                        <div className="flex-1 -mt-2">
-                                            <p className="text-sm text-gray-900">KYC {verificationStatus}</p>
-                                            <p className="text-xs text-gray-500 -mt-2">Expires on Aug 24, 2024</p>
-                                        </div>
+                                        {
+                                            verificationStatus == "Verified" ?(
+                                                <div className="flex flex-row space-x-2 items-center">
+                                                    <img className="w-10 h-10 rounded-full p-2 bg-green-100" src="/assets/icon/verification.svg" alt="icon" />
+                                                    <div className="flex-1 -mt-2">
+                                                        <p className="text-sm text-gray-900">Fractal</p>
+                                                        <p className="text-xs text-gray-500 -mt-2">{verificationStatus}</p>
+                                                    </div>
+                                                </div>
+                                            ):(
+                                                <div className="flex flex-row justify-between w-full items-center">
+                                                    <div className="flex flex-row space-x-3 items-center">
+                                                        <Warning className="w-7 h-7" color="red" />
+                                                        <div className="flex-1 -mt-2">
+                                                            <p className="text-sm text-gray-900">Fractal</p>
+                                                            <p className="text-xs text-gray-500 -mt-2">{verificationStatus == "Pending" ? "Waiting for verification" : "Not verified"}</p>
+                                                        </div>
+                                                    </div>
+                                                    {accountId==proposal?.receiver_account || accountId==author && <VerificationBtn />}
+                                                </div>
+                                            )
+                                        }
+                                        
                                     </div>
                                 </div>
                             )}
