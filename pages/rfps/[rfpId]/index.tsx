@@ -43,7 +43,7 @@ const RFPsDetail: NextPage = () => {
 
     const loadRFP = useCallback(async () => {
         if(rfpId){
-            const rfp = await ViewMethod("forum.potlock.near", "get_rfp", {
+            const rfp = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK === "mainnet" ? process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT as string : process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET as string, "get_rfp", {
                 rfp_id: parseInt(rfpId as string)
             });
             //console.log(rfp)
@@ -81,7 +81,7 @@ const RFPsDetail: NextPage = () => {
             action: 'comment',
             key: {
                 type: "social",
-                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
+                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT:process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET}/post/main`,
                 blockHeight: rfp?.block_height,
             },
         });
@@ -94,7 +94,7 @@ const RFPsDetail: NextPage = () => {
             action: 'like',
             key: {
                 type: "social",
-                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"forum.potlock.near":"forum.potlock.testnet"}/post/main`,
+                path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT:process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET}/post/main`,
                 blockHeight: rfp?.block_height,
             },
         });

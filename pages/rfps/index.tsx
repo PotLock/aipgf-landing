@@ -42,7 +42,7 @@ const RFPs = () =>{
 
     const loadRFPs = useCallback(async () => {
         try {
-            const rfps = await ViewMethod("forum.potlock.near", "get_rfps", {});
+            const rfps = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK === "mainnet" ? process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT as string : process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET as string, "get_rfps", {});
             //console.log('rfps', rfps)
             const rfpWithSnapshot = rfps.map((rfp: RFPsSnapshot) => ({
                 name: rfp.snapshot.name,

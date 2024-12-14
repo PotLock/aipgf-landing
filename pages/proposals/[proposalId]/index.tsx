@@ -49,9 +49,9 @@ const ProposalPage = () => {
     
     const loadProposal = useCallback(async () => {
         if(proposalId){
-        const proposal = await ViewMethod("forum.potlock.near", "get_proposal", {
-            proposal_id: parseInt(proposalId as string)
-        });
+            const proposal = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK === "mainnet" ? process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT as string : process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET as string, "get_proposal", {
+                proposal_id: parseInt(proposalId as string)
+            });
 
         setAuthor(proposal.author_id)
         setHistory(proposal.snapshot_history)

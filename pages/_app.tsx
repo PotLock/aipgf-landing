@@ -8,6 +8,7 @@ import { WalletSelectorContextProvider } from "@/context/WalletSelectorContext"
 import "./global.css";
 
 import "@near-wallet-selector/modal-ui/styles.css"
+import { Toaster } from 'react-hot-toast';
 
 
 
@@ -55,6 +56,7 @@ export default function MyApp(props: AppProps) {
           <Component {...pageProps} />
         </WalletSelectorContextProvider>
       </ThemeProvider>
+      <Toaster position="top-center" />
     </Fragment>
   );
 }

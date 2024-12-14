@@ -40,8 +40,8 @@ const Proposals: NextPage = () => {
 
     const loadProposals = useCallback(async () => {
         try {
-            const proposals = await ViewMethod("forum.potlock.near", "get_proposals", {});
-            //console.log(proposals)
+            const proposals = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK === "mainnet" ? process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT as string : process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET as string, "get_proposals", {});
+            console.log(proposals)
             const proposalsWithSnapshot = proposals.map((proposal: ProposalSnapshot) => ({
                 name: proposal.snapshot.name,
                 timeline: proposal.snapshot.timeline,

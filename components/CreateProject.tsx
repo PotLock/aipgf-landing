@@ -6,18 +6,15 @@ import AvatarProfile from "./AvatarProfile";
 import AddMemberModal from './AddMemberModal';
 import { ViewMethod,CallMethod } from "@/hook/near-method";
 import { Social,NetworkIDEnum } from "@builddao/near-social-js";
-import { getTeamMembersFromSocialProfileData } from "@/lib/common";
+import { doesUserHaveDaoFunctionCallProposalPermissions, getTeamMembersFromSocialProfileData } from "@/lib/common";
 import Big from 'big.js';
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
 import { Input } from "./ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Textarea } from "./ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
-
-
-const Editor = dynamic(()=>import("./Editor"),{ssr:false})
+import { toast } from 'react-hot-toast';
 
 const CreateProject = ({edit}:{edit?:boolean}) =>{
     const {accountId,selector} = useWalletSelector()
@@ -55,7 +52,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     const [currentGithubRepo, setCurrentGithubRepo] = useState<string>('');
     const [isRegisterDao, setIsRegisterDao] = useState<boolean>(false)
     const [daoAddress, setDaoAddress] = useState<string|null>(null)
-
+    const [userHasPermissions, setUserHasPermissions] = useState<boolean>(false)
 
     const CHAIN_OPTIONS = {
         NEAR: { isEVM: false },
@@ -86,23 +83,23 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
         Metis: { isEVM: true },
     };
 
-    const checkExistingProject = async() => {
-        try{
-            await ViewMethod("nearhorizon.near","get_project",{
-                account_id: accountId
-            })
-            // console.log(existingHorizonProject)
-            setExistingHorizonProject(true)
-        }catch(error){
-            setExistingHorizonProject(false)
-        }
-    }
+    // const checkExistingProject = async() => {
+    //     try{
+    //         await ViewMethod("nearhorizon.near","get_project",{
+    //             account_id: accountId
+    //         })
+    //         // console.log(existingHorizonProject)
+    //         setExistingHorizonProject(true)
+    //     }catch(error){
+    //         setExistingHorizonProject(false)
+    //     }
+    // }
 
-    useEffect(()=>{
-        if(accountId){
-            checkExistingProject()
-        }
-    },[accountId])
+    // useEffect(()=>{
+    //     if(accountId){
+    //         checkExistingProject()
+    //     }
+    // },[accountId])
 
 
     const CATEGORIES = {
@@ -138,9 +135,26 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     };
 
     const social = new Social({
-        contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
+        contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?process.env.NEXT_PUBLIC_SOCIAL_CONTRACT:process.env.NEXT_PUBLIC_SOCIAL_CONTRACT_TESTNET,
         network: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?NetworkIDEnum.Mainnet:NetworkIDEnum.Testnet,
     });
+
+
+    const CheckUserHasPermissions = useCallback(async() => {
+        const policy = await ViewMethod(daoAddress ?? accountId ?? "","get_policy",{
+            account_id: daoAddress ?? accountId 
+        })
+        console.log(policy)
+        const userHasPermissions = policy == null
+            ? false
+            : policy == undefined ||
+            doesUserHaveDaoFunctionCallProposalPermissions(accountId ?? "", policy)
+        setUserHasPermissions(userHasPermissions)
+    },[accountId,daoAddress])
+
+    useEffect(()=>{
+        CheckUserHasPermissions()
+    },[CheckUserHasPermissions])
 
 
     const handleChangeCategory = (category: string) => {
@@ -169,6 +183,10 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     const handleImageUpload = async(event: ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
+            const loadingToastId = toast.loading('Uploading image...', {
+                position: 'top-center'
+            });
+
             try {
                 const res = await fetch("https://ipfs.near.social/add", {
                     method: "POST",
@@ -177,10 +195,24 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                     },
                     body: file,
                 });
+                
+                if (!res.ok) {
+                    throw new Error('Upload failed');
+                }
+
                 const { cid } = await res.json();
-                setProfileImage(cid)
+                setProfileImage(cid);
+
+                toast.success('Image uploaded successfully', {
+                    id: loadingToastId,
+                    duration: 2000
+                });
             } catch (e) {
-                console.log(e);
+                console.error(e);
+                toast.error('Failed to upload image. Please try again.', {
+                    id: loadingToastId,
+                    duration: 2000
+                });
             }
         }
     };
@@ -365,201 +397,265 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     };
 
     const handleCreateOrUpdateProject = async (e:any) => {
-        if (isCreateProjectDisabled) return console.log("Not create project");
+        if (isCreateProjectDisabled) {
+            toast.error('Please fill in all required fields!', {
+                position: 'top-center',
+                duration: 3000,
+            });
+            return;
+        }
         e.preventDefault();
-        const wallet = await selector.wallet();
-        // format smart contracts
-        const formattedSmartContracts = smartContracts?.reduce(
-            (accumulator:any, [chain, contractAddress]:any) => {
-                if (!chain || !contractAddress) return accumulator; // Skip empty entries
-                // If the chain doesn't exist in the accumulator, initialize it with an empty object
-                if (!accumulator[chain]) {
-                accumulator[chain] = {};
-                }
-                // Add the contractAddress with an empty string as its value under the chain
-                accumulator[chain][contractAddress] = "";
-                return accumulator; // Return the updated accumulator for the next iteration
-            },
-            {}
+
+        const loadingToastId = toast.loading(
+            edit ? 'Updating project...' : 'Creating project...', 
+            { position: 'top-center' }
         );
-        const socialDatas = {
-          // basic profile details
-            profile: {
-                name: projectName,
-                plCategories: JSON.stringify(categories),
-                description: description,
-                plPublicGoodReason: publicGoodReason,
-                plSmartContracts: hasSmartContracts
-                ? JSON.stringify(formattedSmartContracts)
-                : null,
-                plGithubRepos:githubRepos?.length>0? JSON.stringify(
-                    githubRepos?.map((repo:any) => repo[0]).filter((val:any) => val)
-                ):"[]",
-                plFundingSources: fundingSources?.length>0? JSON.stringify(fundingSources):"[]"  ,
-                linktree: {
-                    website: socialLinks.website,
-                    twitter: socialLinks.twitter,
-                    telegram: socialLinks.telegram,
-                    github: socialLinks.github,
+
+        try {
+            const wallet = await selector.wallet();
+            // format smart contracts
+            const formattedSmartContracts = smartContracts?.reduce(
+                (accumulator:any, [chain, contractAddress]:any) => {
+                    if (!chain || !contractAddress) return accumulator; // Skip empty entries
+                    // If the chain doesn't exist in the accumulator, initialize it with an empty object
+                    if (!accumulator[chain]) {
+                    accumulator[chain] = {};
+                    }
+                    // Add the contractAddress with an empty string as its value under the chain
+                    accumulator[chain][contractAddress] = "";
+                    return accumulator; // Return the updated accumulator for the next iteration
                 },
-                plTeam: JSON.stringify(teamMembers),
-                image:{
-                    ipfs_cid: profileImage
+                {}
+            );
+            
+            const socialDatas = {
+              // basic profile details
+                profile: {
+                    name: projectName,
+                    plCategories: JSON.stringify(categories),
+                    description: description,
+                    plPublicGoodReason: publicGoodReason,
+                    plSmartContracts: hasSmartContracts
+                    ? JSON.stringify(formattedSmartContracts)
+                    : null,
+                    plGithubRepos:githubRepos?.length>0? JSON.stringify(
+                        githubRepos?.map((repo:any) => repo[0]).filter((val:any) => val)
+                    ):"[]",
+                    plFundingSources: fundingSources?.length>0? JSON.stringify(fundingSources):"[]"  ,
+                    linktree: {
+                        website: socialLinks.website,
+                        twitter: socialLinks.twitter,
+                        telegram: socialLinks.telegram,
+                        github: socialLinks.github,
+                    },
+                    plTeam: JSON.stringify(teamMembers),
+                    image:{
+                        ipfs_cid: profileImage
+                    },
+                    backgroundImage: {
+                        ipfs_cid: "bafkreihaernx7oqhyfkl6kde55ktudfxznnsuk5oyhe52m2hn3imprycq4"
+                    },
                 },
-                backgroundImage: {
-                    ipfs_cid: "bafkreihaernx7oqhyfkl6kde55ktudfxznnsuk5oyhe52m2hn3imprycq4"
-                },
-            },
-            // follow & star Potlock
-            index: {
-                star: {
-                key: {
-                    type: "social",
-                    path: "old.potlock.near/widget/Index",
-                },
-                value: {
-                    type: "star",
-                },
-                },
-                notify: {
-                    key: "old.potlock.near",
+                // follow & star Potlock
+                index: {
+                    star: {
+                    key: {
+                        type: "social",
+                        path: process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                            ?`${process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT}/widget/Index`
+                            :`${process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET}/widget/Index`,
+                    },
                     value: {
                         type: "star",
-                        item: {
-                        type: "social",
-                        path: "old.potlock.near/widget/Index",
+                    },
+                    },
+                    notify: {
+                        key: process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                            ?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT
+                            :process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET,
+                        value: {
+                            type: "star",
+                            item: {
+                            type: "social",
+                            path: process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                                ?`${process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT}/widget/Index`
+                                :`${process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET}/widget/Index`,
+                            },
                         },
                     },
                 },
-            },
-            graph: {
-                star: {
-                ["old.potlock.near"]: {
-                    widget: {
-                    Index: "",
+                graph: {
+                    star: {
+                    [process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                        ?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT??""
+                        :process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET??""]: {
+                        widget: {
+                            Index: "",
+                        },
+                    },
+                    },
+                    follow: {
+                    [process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                        ?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT??""
+                        :process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET??""]: "",
                     },
                 },
-                },
-                follow: {
-                ["old.potlock.near"]: "",
-                },
-            },
-        };
-
-        const diff = deepObjectDiff(existingSocialData, socialDatas);
-        const socialArgs = {
-            data: {
-                [isRegisterDao?daoAddress as string:accountId as string]: diff,
-            },
-        };
-        const potlockRegistryArgs = {
-          list_id: 1, // hardcoding to potlock registry list for now
-        };
-        const horizonArgs = {
-            account_id: isRegisterDao?daoAddress as string:accountId as string,
-        };
-        // first, we have to get the account from social.near to see if it exists. If it doesn't, we need to add 0.1N to the deposit
-        await ViewMethod( process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet", "get_account", {account_id: isRegisterDao?daoAddress as string:accountId as string}).then(async(account) => {
-            const socialTransaction:any = {
-                receiverId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
-                actions: [
-                    {
-                        type: "FunctionCall",
-                        params: {
-                            methodName: "set",
-                            args: socialArgs,
-                            gas: "30000000000000",
-                            deposit: (() => {
-                                let depositFloat = JSON.stringify(socialArgs).length * 0.00015;
-                                if (!account) {
-                                    depositFloat += 0.1;
-                                }
-                                // Convert to yoctoNEAR (1 NEAR = 10^24 yoctoNEAR) and round to the nearest integer
-                                const yoctoNEAR = Big(depositFloat).mul(Big(10).pow(24)).round(0);
-                                // Convert to string and remove any decimal point
-                                return yoctoNEAR.toFixed().replace('.', '');
-                            })()
-                        }
-                    }
-                ]
             };
-            // instantiate transactions array that we will be passing to Near.call()
-            let transactions = [socialTransaction];
-            // if this is a creation action, we need to add the registry and horizon transactions
-            if (!edit) {
-                transactions.push(
-                    // register project on potlock
-                    {
-                        receiverId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"lists.potlock.near":"lists.potlock.testnet",
-                        actions: [
-                            {
-                                type: "FunctionCall",
-                                params: {
-                                    methodName: "register_batch",
-                                    args: potlockRegistryArgs,
-                                    gas: "30000000000000",
-                                    deposit: Big(0.05).mul(Big(10).pow(24)).toString()
-                                }
-                            }
-                        ]
-                    }
-                );
-                if (!existingHorizonProject) {
-                    transactions.push(
-                        // register on NEAR Horizon
+
+            const diff = deepObjectDiff(existingSocialData, socialDatas);
+            const socialArgs = {
+                data: {
+                    [isRegisterDao?daoAddress as string:accountId as string]: diff,
+                },
+            };
+            const potlockRegistryArgs = {
+              list_id: 1, // hardcoding to potlock registry list for now
+            };
+            const horizonArgs = {
+                account_id: isRegisterDao?daoAddress as string:accountId as string,
+            };
+            // first, we have to get the account from social.near to see if it exists. If it doesn't, we need to add 0.1N to the deposit
+            await ViewMethod(
+                process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                    ?process.env.NEXT_PUBLIC_SOCIAL_CONTRACT ?? ""
+                    :process.env.NEXT_PUBLIC_SOCIAL_CONTRACT_TESTNET ?? "", 
+                "get_account",
+                {account_id: isRegisterDao?daoAddress as string:accountId as string}
+            ).then(async(account) => {
+                const socialTransaction:any = {
+                    receiverId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                    ?process.env.NEXT_PUBLIC_SOCIAL_CONTRACT ?? ""
+                    :process.env.NEXT_PUBLIC_SOCIAL_CONTRACT_TESTNET ?? "",
+                    actions: [
                         {
-                            receiverId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"nearhorizon.near":"nearhorizon.testnet",
+                            type: "FunctionCall",
+                            params: {
+                                methodName: "set",
+                                args: socialArgs,
+                                gas: "30000000000000",
+                                deposit: (() => {
+                                    try {
+                                        let depositFloat = JSON.stringify(socialArgs).length * 0.00015;
+                                        if (!account) {
+                                            depositFloat += 0.1;
+                                        }
+                                        // Convert to yoctoNEAR using string operations to avoid scientific notation
+                                        const yoctoNEAR = Big(depositFloat).times(Big(10).pow(24));
+                                        return yoctoNEAR.toFixed(0); // Use toFixed(0) to get a string without decimal points
+                                    } catch (error) {
+                                        console.error("Error calculating deposit:", error);
+                                        // Fallback to a safe minimum deposit if calculation fails
+                                        return "100000000000000000000000"; // 0.1 NEAR in yoctoNEAR
+                                    }
+                                })()
+                            }
+                        }
+                    ]
+                };
+                // instantiate transactions array that we will be passing to Near.call()
+                let transactions = [socialTransaction];
+                // if this is a creation action, we need to add the registry and horizon transactions
+                if (!edit) {
+                    transactions.push(
+                        // register project on potlock
+                        {
+                            receiverId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                            ?process.env.NEXT_PUBLIC_LISTS_CONTRACT
+                            :process.env.NEXT_PUBLIC_LISTS_CONTRACT_TESTNET,
                             actions: [
                                 {
                                     type: "FunctionCall",
                                     params: {
-                                        methodName: "add_project",
-                                        args: horizonArgs,
+                                        methodName: "register_batch",
+                                        args: potlockRegistryArgs,
                                         gas: "30000000000000",
-                                        deposit: "0"
+                                        deposit: (() => {
+                                            try {
+                                                return Big(0.05).times(Big(10).pow(24)).toFixed(0);
+                                            } catch (error) {
+                                                console.error("Error calculating registry deposit:", error);
+                                                return "50000000000000000000000"; // 0.05 NEAR in yoctoNEAR
+                                            }
+                                        })()
                                     }
                                 }
                             ]
                         }
                     );
+                    if (!existingHorizonProject && process.env.NEXT_PUBLIC_NETWORK=="mainnet") {
+                        transactions.push(
+                            // register on NEAR Horizon
+                            {
+                                receiverId: "horizon.near",
+                                actions: [
+                                    {
+                                        type: "FunctionCall",
+                                        params: {
+                                            methodName: "add_project",
+                                            args: horizonArgs,
+                                            gas: "30000000000000",
+                                            deposit: "0"
+                                        }
+                                    }
+                                ]
+                            }
+                        );
+                    }
                 }
-            }
-            if (isRegisterDao) {
-                transactions = transactions.map((tx) => ({
-                    ...tx,
-                    contractName: daoAddress,
-                    methodName: "add_proposal",
-                    args: {
-                        proposal: {
-                        description: edit
-                            ? "Update project on Potlock (via NEAR Social)"
-                            : "Create project on Potlock (3 steps: Register information on NEAR Social, register on Potlock, and register on NEAR Horizon)",
-                        kind: {
-                            FunctionCall: {
-                            receiver_id: tx.receiverId,
-                            actions: tx.actions.map((action:any) => ({
-                                method_name: action.params.methodName,
-                                gas: action.params.gas,
-                                deposit: action.params.deposit,
-                                args: Buffer.from(JSON.stringify(action.params.args), "utf-8").toString("base64"),
-                            })),
+                if (isRegisterDao) {
+                    transactions = transactions.map((tx) => ({
+                        ...tx,
+                        contractName: daoAddress,
+                        methodName: "add_proposal",
+                        args: {
+                            proposal: {
+                            description: edit
+                                ? "Update project on Potlock (via NEAR Social)"
+                                : "Create project on Potlock (3 steps: Register information on NEAR Social, register on Potlock, and register on NEAR Horizon)",
+                            kind: {
+                                FunctionCall: {
+                                receiver_id: tx.receiverId,
+                                actions: tx.actions.map((action:any) => ({
+                                    method_name: action.params.methodName,
+                                    gas: action.params.gas,
+                                    deposit: action.params.deposit,
+                                    args: Buffer.from(JSON.stringify(action.params.args), "utf-8").toString("base64"),
+                                })),
+                                },
+                            },
                             },
                         },
-                        },
-                    },
-                    deposit: "100000000000000000000000",
-                    gas: "300000000000000",
-                }));
-            }
-            await wallet.signAndSendTransactions({
-                callbackUrl: `${window.location.origin}/create-proposal`,
-                transactions,
+                        deposit: "100000000000000000000000",
+                        gas: "300000000000000",
+                    }));
+                }
+                await wallet.signAndSendTransactions({
+                    callbackUrl: `${window.location.origin}/create-proposal`,
+                    transactions,
+                });
+
+                toast.success(
+                    edit ? 'Project updated loading...' : 'Project created loading...', 
+                    { id: loadingToastId, duration: 2000 }
+                );
             });
-        })
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error(
+                edit 
+                    ? 'Failed to update project. Please try again.' 
+                    : 'Failed to create project. Please try again.', 
+                { id: loadingToastId, duration: 3000 }
+            );
+        }
     };
 
     const loadRegisteredProject = useCallback(async () => {
-        const registrations = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"lists.potlock.near":"lists.potlock.testnet", "get_registrations_for_registrant", {
+        const registrations = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+        ?process.env.NEXT_PUBLIC_LISTS_CONTRACT ?? ""
+        :process.env.NEXT_PUBLIC_LISTS_CONTRACT_TESTNET ?? "", 
+        "get_registrations_for_registrant", 
+        {
             registrant_id: isRegisterDao?daoAddress as string:accountId as string
         });
         if (registrations) {
@@ -568,12 +664,17 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                     registration.list_id === 1
             );
             if (registration) {
-                setRegisteredProject(await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"lists.potlock.near":"lists.potlock.testnet", "get_registration", {
+                setRegisteredProject(await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                ?process.env.NEXT_PUBLIC_LISTS_CONTRACT ?? ""
+                :process.env.NEXT_PUBLIC_LISTS_CONTRACT_TESTNET ?? "", 
+                "get_registration", 
+                {
                     registration_id: registration.id
                 }));
             }
         }
     }, [isRegisterDao,accountId]);
+    
     useEffect(()=>{
         if(isRegisterDao){
             loadRegisteredProject()
@@ -646,7 +747,9 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 <div className="flex">
                                     <AvatarProfile accountId={accountId as string} size={120} image={profileImage as string} />
                                     <Label htmlFor="imageUpload" className="bg-white cursor-pointer">
-                                        <img className="translate-x-[-0px] translate-y-[40px] md:translate-x-[-40px] md:translate-y-[80px] md:w-[40px] w-[19px]" src="/assets/icon/camera.svg" alt="icon" />
+                                        <div className="translate-x-[-0px] translate-y-[40px] md:translate-x-[-40px] md:translate-y-[80px] md:w-[40px] w-[19px] bg-white p-2 rounded-full border-[1px] border-aipgf-geyser border-solid">
+                                            <img className="w-[19px] md:w-[22px]" src="/assets/icon/add-photo.png" alt="icon" />
+                                        </div>
                                         <Input
                                             id="imageUpload"
                                             type="file"
@@ -1060,7 +1163,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 Add Funding Source
                             </Button>
                         </div>
-                    </div>
+                    </div>  
                 </DialogContent>
             </Dialog>
         </div>
