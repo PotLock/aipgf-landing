@@ -42,9 +42,15 @@ const CreateProposalPage = () => {
 
     const loadRegistrants = useCallback(async () => {
         try {
-            const registrants = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"?process.env.NEXT_PUBLIC_LISTS_CONTRACT ?? "":process.env.NEXT_PUBLIC_LISTS_CONTRACT_TESTNET ?? "","get_registrations_for_list",{
-                list_id: 1
-            })
+            const registrants = await ViewMethod(
+                process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                ?process.env.NEXT_PUBLIC_LISTS_CONTRACT ?? ""
+                :process.env.NEXT_PUBLIC_LISTS_CONTRACT_TESTNET ?? "",
+                "get_registrations_for_list",
+                {
+                    list_id: 1
+                }
+            )
             const potlockRegistrants = registrants && registrants.map((item:any) => item.registrant_id);
             setIsExist(potlockRegistrants?.includes(accountId || ""))
         } catch (error) {

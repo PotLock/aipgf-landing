@@ -1,10 +1,9 @@
 import Link from "next/link"
-import { useState, KeyboardEvent,ChangeEvent,useEffect, useMemo, useCallback } from "react";
-import dynamic from "next/dynamic";
+import { useState, KeyboardEvent,ChangeEvent,useEffect, useCallback } from "react";
 import { useWalletSelector } from "@/context/WalletSelectorContext"
 import AvatarProfile from "./AvatarProfile";
 import AddMemberModal from './AddMemberModal';
-import { ViewMethod,CallMethod } from "@/hook/near-method";
+import { ViewMethod } from "@/hook/near-method";
 import { Social,NetworkIDEnum } from "@builddao/near-social-js";
 import { doesUserHaveDaoFunctionCallProposalPermissions, getTeamMembersFromSocialProfileData } from "@/lib/common";
 import Big from 'big.js';
@@ -13,16 +12,13 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { Textarea } from "./ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
 import { toast } from 'react-hot-toast';
 
 const CreateProject = ({edit}:{edit?:boolean}) =>{
     const {accountId,selector} = useWalletSelector()
     const [description, setDescription] = useState<string>('');
-    const [isShowDropDown, setIsShowDropDown] = useState<boolean>(false)
     const [selectReview, setSelectReview] = useState<boolean>(false)
-    const [isShow,setIsShow] = useState<boolean>(false)
-    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
     const [profileImage, setProfileImage] = useState<string | null>(null);
     const [socialLinks, setSocialLinks] = useState({
         website: '',
@@ -41,7 +37,6 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     const [originalGithubRepos, setOriginalGithubRepos] = useState<any>(null);
     const [githubRepos, setGithubRepos] = useState<any>(null);
     const [hasReceivedFunding, setHasReceivedFunding] = useState<boolean>(false);
-    const [originalFundingSources, setOriginalFundingSources] = useState<any>(null);
     const [fundingSources, setFundingSources] = useState<any>(null);
     const [existingHorizonProject, setExistingHorizonProject] = useState<any>(null);
     const [registeredProject, setRegisteredProject] = useState<any>(null);

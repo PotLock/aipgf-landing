@@ -8,7 +8,7 @@ interface EditorProps{
 
 const Editor = ({onDescriptionChange,value}:EditorProps) =>{
     return(
-        <ReactQuill theme="snow" className="h-44 text-sm md:text-bases" value={value?value:""} onChange={onDescriptionChange} />
+        <ReactQuill theme="snow" className="h-44 text-sm md:text-bases font-aipgf-manrope-semibold-1356" value={value?value:""} onChange={onDescriptionChange} />
     )
 }
 
