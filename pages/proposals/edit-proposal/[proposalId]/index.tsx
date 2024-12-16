@@ -8,8 +8,8 @@ import { ViewMethod, CallMethod } from "@/hook/near-method";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { toast } from 'react-hot-toast';
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -17,13 +17,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { ArrowSquareOut } from "@phosphor-icons/react";
+import NavBar from "@/components/nav-bar";
+import Footer from "@/components/footer";
+import SectionCreate from "@/components/SectionCreate";
 
 const Editor = dynamic(()=>import("@/components/Editor"),{ssr:false})
 
-const CreateProposal = () => {
+const EditProposal = () => {
     const router = useRouter();
     const { id, timestamp, rfpId } = router.query;
     const isEditPage = typeof id === "string";
@@ -169,7 +172,6 @@ const CreateProposal = () => {
                         editor: accountId
                     }
                 );
-                console.log('isModerator', isModerator)
                 setIsModerator(isModerator)
             }
             loadIsModerator()
@@ -612,7 +614,10 @@ const CreateProposal = () => {
     };
 
     return (
-        <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch md:pb-[8rem] font-aipgf-manrope-semibold-1356">
+        <div className="flex flex-col w-full h-full font-aipgf-manrope-semibold-1356">
+            <NavBar/>
+            <SectionCreate title="Edit Proposal" subtitle="Proposal"/>
+            <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch md:pb-[8rem] font-aipgf-manrope-semibold-1356">
                 <div className="flex flex-col-reverse md:flex-row w-full justify-between gap-10 md:gap-20 mt-10">
                     <div className="flex flex-row gap-4 w-full">
                         {
@@ -944,7 +949,9 @@ const CreateProposal = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>   
+        </div>
     )
 }
 
-export default CreateProposal;
+export default EditProposal;

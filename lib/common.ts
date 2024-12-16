@@ -1,3 +1,5 @@
+import { ViewMethod } from "@/hook/near-method";
+
 export const timeAgo = (blockTimestamp:number): string => {
     const now = Date.now(); // Current timestamp in milliseconds
     const blockTimestampMs = Math.floor(blockTimestamp / 1000000); // Convert nanoseconds to milliseconds
@@ -90,3 +92,33 @@ export const doesUserHaveDaoFunctionCallProposalPermissions = (accountId:string,
     });
     return allowed;
 }
+
+export const getGlobalLabels = async () => {
+    try {
+        const labels = await ViewMethod(
+            process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+            ?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT ?? ""
+            :process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET ?? "",
+            'get_global_labels',
+            {}
+        );
+        
+        if (labels) {
+            return ensureOtherIsLast(labels);
+        }
+        return null;
+    } catch (error) {
+        console.error('Error fetching global labels:', error);
+        return null;
+    }
+};
+
+
+const ensureOtherIsLast = (labels: string[]) => {
+    const otherIndex = labels.findIndex(label => label.toLowerCase() === 'other');
+    if (otherIndex !== -1) {
+        const other = labels.splice(otherIndex, 1)[0];
+        labels.push(other);
+    }
+    return labels;
+};

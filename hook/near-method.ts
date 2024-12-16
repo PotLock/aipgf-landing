@@ -1,6 +1,8 @@
 import { NearRpcProvider } from 'near-rpc-providers';
 import { useWalletSelector } from "@/context/WalletSelectorContext";
 
+
+
 const getRpcProvider = () => {
   const networkId = process.env.NEXT_PUBLIC_NETWORK || "";
   const provider = new NearRpcProvider(networkId === "mainnet" ? "near" : "neartestnet");
@@ -43,25 +45,27 @@ export const ViewMethod = async (contractId: string, method: string, args: any) 
   }
 };
 
-export const CallMethod = async (contractId: string, method: string, args: any) => {
+export const CallMethod = async (accountId:string,selector:any,contractId: string, method: string, args: any, options?: {
+  gas?: string;
+  deposit?: string;
+  callbackUrl?: string;
+}) => {
   try {
-    const { selector, accountId } = useWalletSelector();
+    
     if (!accountId) {
       throw new Error("Please connect wallet first");
     }
-
     const wallet = await selector.wallet();
-    
-
     const transaction = {
       receiverId: contractId,
+      callbackUrl: options?.callbackUrl,
       actions: [{
         type: 'FunctionCall',
         params: {
           methodName: method,
           args: args,
-          gas: '30000000000000',
-          deposit: '0'
+          gas: options?.gas || '30000000000000',
+          deposit: options?.deposit || '0'
         }
       }]
     };

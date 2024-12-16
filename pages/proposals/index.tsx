@@ -189,7 +189,7 @@ const Proposals: NextPage = () => {
                             </div>
                             {
                                 windowSize?.width > 768 &&(
-                                    <Link href={"/create-proposal"} className="flex flex-row gap-2 p-3 rounded-full bg-[#0969DA] text-white hover:bg-opacity-90 no-underline">
+                                    <Link href={"/proposals/create-proposal"} className="flex flex-row gap-2 p-3 rounded-full bg-[#0969DA] text-white hover:bg-opacity-90 no-underline">
                                         <img width={16} src="/assets/icon/add-white.svg" alt="icon" />
                                         <span>Submit Proposal</span>
                                     </Link>
