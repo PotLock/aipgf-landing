@@ -122,3 +122,14 @@ const ensureOtherIsLast = (labels: string[]) => {
     }
     return labels;
 };
+
+export function getTimestamp(date:Date) {
+    // in nanoseconds
+    return Math.floor(date.getTime() * 1000000).toString();
+}
+
+export function getDate(timestamp:string) {
+    const stamp =
+      !timestamp || timestamp === "0" || timestamp === "NaN" ? null : timestamp;
+    return new Date(Number(stamp) / 1000000).toISOString().split("T")[0];
+}

@@ -78,23 +78,6 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
         Metis: { isEVM: true },
     };
 
-    // const checkExistingProject = async() => {
-    //     try{
-    //         await ViewMethod("nearhorizon.near","get_project",{
-    //             account_id: accountId
-    //         })
-    //         // console.log(existingHorizonProject)
-    //         setExistingHorizonProject(true)
-    //     }catch(error){
-    //         setExistingHorizonProject(false)
-    //     }
-    // }
-
-    // useEffect(()=>{
-    //     if(accountId){
-    //         checkExistingProject()
-    //     }
-    // },[accountId])
 
 
     const CATEGORIES = {

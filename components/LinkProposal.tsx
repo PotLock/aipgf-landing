@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { readableDate } from "@/lib/common";
 import AvatarProfile from "./AvatarProfile";
-import TimelineStatus from "./TimelineStatus";
+import TimelineStatus from "./TimeLineStatus";
 import { LinkProposalProps } from "@/types/types";
 
 

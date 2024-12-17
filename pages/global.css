@@ -305,3 +305,55 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.radio-container {
+  color: black;
+  font-size: 10px;
+}
+
+.radio-wrapper {
+  margin-bottom: 3px;
+}
+
+.radio-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.radio-button input[type="radio"] {
+  display: none;
+}
+
+.radio-checkmark {
+  display: inline-block;
+  position: relative;
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+  border: 2px solid #333;
+  border-radius: 50%;
+}
+
+.radio-checkmark:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #333;
+  transition: all 0.2s ease-in-out;
+}
+
+.radio-button input[type="radio"]:checked ~ .radio-checkmark:before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.radio-label {
+  font-size: 12px;
+  font-weight: 400;
+}
