@@ -94,7 +94,7 @@
       "icon": "glass-ball-svgrepo-com.svg",
       "description": "Write winning grant proposals in < 5 minutes with AI",
       "url": "https://grantorb.com",
-      // no github
+      "github": "",
       "tags": ["Live"],
       "team": "GrantOrb",
       "order": 8
@@ -103,7 +103,7 @@
       "name": "x23.ai Governance Bot",
       "icon": "x23.jpeg",
       "description": "AI bot that informs you about Web3 governance also being repurposed for specific news bots like GrantsWire",
-      // no github
+      "github": "",
       "url": "https://t.me/@x23ai_bot",
       "tags": ["EVM", "On-Chain", "Live"],
       "team": "x23.ai",
