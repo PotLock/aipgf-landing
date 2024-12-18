@@ -32,6 +32,12 @@ const logos: LogoInfo[] = [
     visible: true,
   },
   {
+    src: "/lottopgf.png",
+    alt: "LottoPGF Logo",
+    href: "https://lottopgf.org",
+    visible: true,
+  },
+  {
     src: "/white-logo56effa5f-1@2x.png",
     alt: "Masa Logo",
     href: "https://masa.ai",
