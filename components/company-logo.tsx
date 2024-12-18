@@ -32,7 +32,7 @@ const logos: LogoInfo[] = [
     visible: true,
   },
   {
-    src: "/lottopgf.png",
+    src: "/lottopgf.svg",
     alt: "LottoPGF Logo",
     href: "https://lottopgf.org",
     visible: true,
