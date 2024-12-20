@@ -14,7 +14,7 @@ interface LogoInfo {
 
 const logos: LogoInfo[] = [
   {
-    src: "/-potlock.svg",
+    src: "/PotlockLogoWordMark.png",
     alt: "PotLock Logo",
     href: "https://potlock.org",
     visible: true,
