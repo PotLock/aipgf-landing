@@ -1,4 +1,4 @@
-import { useState,useEffect, useMemo } from "react";
+import { useState,useEffect, useMemo, useCallback } from "react";
 import { useWalletSelector } from "@/context/WalletSelectorContext"
 import AvatarProfile from "@/components/AvatarProfile"
 import dynamic from "next/dynamic";
@@ -6,7 +6,6 @@ import { ProposalTypes } from "@/types/types";
 import { getGlobalLabels, readableDate } from "@/lib/common";
 import { ViewMethod, CallMethod } from "@/hook/near-method";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { toast } from 'react-hot-toast';
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -23,29 +22,28 @@ import { ArrowSquareOut } from "@phosphor-icons/react";
 import NavBar from "@/components/nav-bar";
 import Footer from "@/components/footer";
 import SectionCreate from "@/components/SectionCreate";
+import { useParams, useSearchParams } from "next/navigation";
+import { btnOptions, categories, tokensOptions } from "@/lib/constant";
 
 const Editor = dynamic(()=>import("@/components/Editor"),{ssr:false})
 
+//http://localhost:3000/proposals?transactionHashes=8FcWTDuj6q8u6ouZLjED8WHimJEQ3rWkoJeqm1i9pXUa
 const EditProposal = () => {
-    const router = useRouter();
-    const { id, timestamp, rfpId } = router.query;
-    const isEditPage = typeof id === "string";
+    const { proposalId } = useParams();
+    const isEditPage = true;
     const {accountId,selector} = useWalletSelector();
-
-    const [isShowDropDown, setIsShowDropDown] = useState<boolean>(false)
+    const searchParams = useSearchParams();
+    const transactionHashes = searchParams.get("transactionHashes");
     const [isShow, setIsShow] = useState<boolean>(false)
-    const [isShowDropDownCurrency,setIsShowDropDownCurrency] = useState<boolean>(false)
     const [viewAuthorDetails,setViewAuthorDetails] = useState<boolean>(false)
     const [viewFundingDetails,setViewFundingDetails] = useState<boolean>(false)
-
+    const [linkedRfp, setLinkedRfp] = useState<number|null>(null);
     const [proposals, setProposals] = useState<ProposalTypes[]>([]);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [proposalSelected, setProposalSelected] = useState<ProposalTypes | null>(null);
     const [searchTerm, setSearchTerm] = useState<string|null>(null);
     const [editProposalData, setEditProposalData] = useState<any| null>(null);
     
-
-    const [linkedRfp, setLinkedRfp] = useState<number|null>(rfpId ? parseInt(rfpId as string) : null);
     const [labels, setLabels] = useState<any>([]);
     const [title, setTitle] = useState<any>(null);
     const [description, setDescription] = useState<any>(null);
@@ -55,57 +53,24 @@ const EditProposal = () => {
     const [requestedSponsorshipAmount, setRequestedSponsorshipAmount] = useState<any>(null);
     const [allowDraft, setAllowDraft] = useState<boolean>(true);
     const [receiverAccount, setReceiverAccount] = useState<any>(null);
-
-    const [loading, setLoading] = useState<boolean>(true);
-    const [disabledSubmitBtn, setDisabledSubmitBtn] = useState<boolean>(false);
     const [isDraftBtnOpen, setDraftBtnOpen] = useState<boolean>(false);
-    const [isReviewModalOpen, setReviewModal] = useState<boolean>(false);
+
 
     const [showProposalViewModal, setShowProposalViewModal] = useState<boolean>(false); // when user creates/edit a proposal and confirm the txn, this is true
-    const [proposalId, setProposalId] = useState<any>(null);
-    const [proposalIdsArray, setProposalIdsArray] = useState<any>(null);
     const [isTxnCreated, setCreateTxn] = useState<boolean>(false);
-    const [oldProposalData, setOldProposalData] = useState<any>(null);
     const [supervisor, setSupervisor] = useState<any>(null);
     const [isModerator, setIsModerator] = useState<boolean>(false);
     const [draftProposalData, setDraftProposalData] = useState<any>(null);
-    const [transactionHashes, setTransactionHashes] = useState<string|null>(null);
     const [rfpLabelOptions, setRfpLabelOptions] = useState<any>([]);
-    const [selectedCategory, setSelectedCategory] = useState<string>("Choose Category");
+    const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+    const [requestedSponsor, setRequestedSponsor] = useState<string|null>(null);
+    const [isAgreeToTerms, setIsAgreeToTerms] = useState<boolean>(false);
+    const [isAgreeToCodeOfConduct, setIsAgreeToCodeOfConduct] = useState<boolean>(false);
 
     useEffect(() => {
         getGlobalLabels().then(setRfpLabelOptions);
     }, []);
 
-
-    const btnOptions = [
-        {
-            label: "Submit Draft",
-            description:
-                "The author can still edit the proposal and build consensus before sharing it with sponsors.",
-            value: "draft",
-        },
-        {
-            label: "Ready for Review",
-            description:
-                "Start the official review process with sponsors. This will lock the editing function, but comments are still open.",
-            value: "review",
-        },
-    ];
-
-    const categories = ["A Small Build","Bounty","MVP","Quick Start"]
-    const tokensOptions = [
-        { label: "NEAR", value: "NEAR" },
-        { label: "USDT", value: "USDT" },
-        {
-            label: "USDC", 
-            value: "USDC",
-        },
-        {
-            label: "Other",
-            value: "OTHER",
-        },
-    ];
     const [selectedToken, setSelectedToken] = useState(tokensOptions[2]);    
 
     const [windowSize, setWindowSize] = useState<any>({
@@ -135,30 +100,40 @@ const EditProposal = () => {
         }
     }, [allowDraft]);
 
-    const loadProposal = async(proposalId:number) => {
-        if(proposalId){
-            const proposal = await ViewMethod(
-                process.env.NEXT_PUBLIC_NETWORK=="mainnet"
-                ?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT ?? ""
-                :process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET ?? "", 
-                "get_proposal", 
-                {
-                    proposal_id: proposalId
-                }
+    const fetchProposal = useCallback(async() => {
+        const proposal = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+        ?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT ?? ""
+        :process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET ?? "", "get_proposal", {
+            proposal_id: parseInt(proposalId as string)
+        });
+        if(proposal){
+            setTitle(proposal.snapshot.name)
+            setDescription(proposal.snapshot.description)
+            setSummary(proposal.snapshot.summary)
+            setLabels(proposal.snapshot.labels)
+            setRequestedSponsorshipAmount(proposal.snapshot.requested_sponsorship_usd_amount)
+            setSelectedToken(proposal.snapshot.requested_sponsorship_paid_in_currency)
+            setReceiverAccount(proposal.snapshot.receiver_account)
+            const foundToken = tokensOptions.find(
+                (item) =>
+                    item.value === proposal.snapshot.requested_sponsorship_paid_in_currency,
             );
-            return proposal
+            if (foundToken) {
+                setSelectedToken(foundToken);
+            }
+            setLinkedRfp(proposal.snapshot.linked_rfp)
+            setLinkedProposals(proposal.snapshot.linked_proposals)
+            setSupervisor(proposal.snapshot.supervisor)
+            setRequestedSponsor(proposal.snapshot.requested_sponsor)
+            setSelectedCategories(Array.isArray(proposal.snapshot.labels) ? proposal.snapshot.labels : [proposal.snapshot.labels])
+            setEditProposalData(proposal)
         }
-    }
+    }, [proposalId]);
 
     useEffect(() => {
-        if (isEditPage) {
-            try{
-                loadProposal(parseInt(id as string)).then(setEditProposalData);
-            }catch(error){
-                console.error(error)
-            }
-        }
-    }, [isEditPage, id]);
+        fetchProposal()
+    }, [fetchProposal]);
+
 
     useEffect(() => {
         if(accountId){
@@ -178,6 +153,7 @@ const EditProposal = () => {
         }
     }, [accountId]);
 
+
     const memoizedDraftData = useMemo(
         () => ({
             id: editProposalData?.id ?? null,
@@ -185,7 +161,7 @@ const EditProposal = () => {
                 linked_rfp: linkedRfp,
                 name: title,
                 description: description,
-                labels: labels,
+                labels: selectedCategories,
                 summary: summary,
                 requested_sponsorship_usd_amount: requestedSponsorshipAmount,
                 requested_sponsorship_paid_in_currency: selectedToken.value,
@@ -197,7 +173,7 @@ const EditProposal = () => {
             title,
             summary,
             description,
-            labels,
+            selectedCategories,
             requestedSponsorshipAmount,
             selectedToken,
             accountId,
@@ -205,20 +181,6 @@ const EditProposal = () => {
     );
 
     useEffect(() => {
-        if (showProposalViewModal) {
-            return;
-        }
-        setDisabledSubmitBtn(
-            isTxnCreated ||
-            !title ||
-            !description ||
-            !summary ||
-            !(labels ?? []).length ||
-            !requestedSponsorshipAmount ||
-            !receiverAccount ||
-            !consent.toc ||
-            !consent.coc,
-        );
         const handler = setTimeout(() => {
             localStorage.setItem("AI_PGF_PROPOSAL_EDIT", JSON.stringify(memoizedDraftData));
         }, 10000);
@@ -239,15 +201,10 @@ const EditProposal = () => {
             let data = editProposalData || draftProposalData;
             let snapshot = data?.snapshot;
             if (data) {
-                if (timestamp) {
-                snapshot =
-                    data?.snapshot_history.find((item:any) => item.timestamp === timestamp) ??
-                    data?.snapshot;
-                }
                 if (
-                draftProposalData &&
-                editProposalData &&
-                editProposalData.id === JSON.parse(draftProposalData).id
+                    draftProposalData &&
+                    editProposalData &&
+                    editProposalData.id === JSON.parse(draftProposalData).id
                 ) {
                 snapshot = {
                     ...editProposalData.snapshot,
@@ -271,7 +228,7 @@ const EditProposal = () => {
                 );
                 setSelectedToken(token ?? tokensOptions[2]);
                 if (isEditPage) {
-                setConsent({ toc: true, coc: true });
+                    setConsent({ toc: true, coc: true });
                 }
             }
         }
@@ -281,7 +238,6 @@ const EditProposal = () => {
     useEffect(() => {
         const handler = setTimeout(() => {
             setAllowDraft(false);
-            setLoading(false);
         }, 500);
         return () => clearTimeout(handler);
     }, []);
@@ -305,7 +261,7 @@ const EditProposal = () => {
                 setLabels(i.snapshot.labels);
             });
         }
-    }, [linkedRfp, isModerator]);proposals
+    }, [linkedRfp, isModerator]);
 
     useEffect(() => {
         if (
@@ -333,51 +289,9 @@ const EditProposal = () => {
         }
     }, [editProposalData]);
 
-    // show proposal created after txn approval for popup wallet
-    useEffect(() => {
-        if (isTxnCreated) {
-            if (editProposalData) {
-                setOldProposalData(editProposalData);
-                if (
-                    editProposalData &&
-                    typeof editProposalData === "object" &&
-                    oldProposalData &&
-                    typeof oldProposalData === "object" &&
-                    JSON.stringify(editProposalData) !== JSON.stringify(oldProposalData)
-                ) {
-                    setCreateTxn(false);
-                    setProposalId(editProposalData.id);
-                    setShowProposalViewModal(true);
-                }
-            } else {
-                ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"
-                ?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT ?? ""
-                :process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET ?? "", "get_all_proposal_ids", {})
-                    .then((proposalIds) => {
-                        if (Array.isArray(proposalIds) && !proposalIdsArray) {
-                            setProposalIdsArray(proposalIds);
-                        }
-                        if (
-                            Array.isArray(proposalIds) &&
-                            Array.isArray(proposalIdsArray) &&
-                            proposalIds.length !== proposalIdsArray.length
-                        ) {
-                            setCreateTxn(false);
-                            setProposalId(proposalIds[proposalIds.length - 1]);
-                            setShowProposalViewModal(true);
-                        }
-                    })
-                    .catch((error) => {
-                        console.error("Error fetching proposal IDs:", error);
-                    });
-            }
-        }
-        setLoading(false);
-    }, [isTxnCreated, editProposalData, oldProposalData, proposalIdsArray]);
-
     useEffect(() => {
         if (transactionHashes) {
-            setLoading(true);
+            const toastLoading = toast.loading("Checking transaction...");
             fetch(`${process.env.NEXT_PUBLIC_NETWORK=="mainnet"
                     ?process.env.NEXT_PUBLIC_NEAR_RPC_URL
                     :process.env.NEXT_PUBLIC_NEAR_RPC_URL_TESTNET}`, {
@@ -414,25 +328,27 @@ const EditProposal = () => {
                         {}
                     )
                     .then((proposalIdsArray) => {
-                        setProposalId(proposalIdsArray[proposalIdsArray.length - 1]);
+                        toast.dismiss(toastLoading);
+                        toast.success("Proposal edited successfully!")
+                        cleanDraft()
                     })
                     .catch(error => {
                         console.error("Error fetching proposal IDs:", error);
                     });
                 } else {
-                    setProposalId(id);
+                    toast.dismiss(toastLoading);
+                    toast.success("Proposal edited successfully!")
+                    cleanDraft()
                 }
             })
             .catch(error => {
                 console.error("Error fetching transaction:", error);
             })
-            .finally(() => {
-                setLoading(false);
-            });
-        } else if (showProposalViewModal) {
-            setShowProposalViewModal(false);
         }
-    }, [transactionHashes, accountId, id]);
+    }, [transactionHashes, accountId, proposalId]);
+
+    
+    //console.log(editProposalData)
 
     const onSubmit = async ({ isDraft, isCancel }: { isDraft: boolean; isCancel?: boolean }) => {
         try {
@@ -446,12 +362,23 @@ const EditProposal = () => {
                 requestedSponsorshipAmount,
                 selectedToken.value,
                 linkedRfp,
-                labels,
-                supervisor
+                selectedCategories,
+                supervisor,
+                isAgreeToTerms,
+                isAgreeToCodeOfConduct
             )
+            const loadingToast = toast.loading("Submitting proposal...");
             // Validate required fields
-            if (!title || !description || !summary || !receiverAccount || !requestedSponsorshipAmount) {
-                throw new Error("Please fill in all required fields");
+            if(!isAgreeToTerms || !isAgreeToCodeOfConduct){
+                toast.error("Please agree to the terms and conditions");
+                toast.dismiss(loadingToast);
+                return;
+            }
+
+            if (!title || !selectedCategories || !description || !summary || !receiverAccount || !requestedSponsorshipAmount) {
+                toast.error("Please fill in all required fields");
+                toast.dismiss(loadingToast);
+                return;
             }
 
             
@@ -468,7 +395,7 @@ const EditProposal = () => {
                 requested_sponsorship_usd_amount: requestedSponsorshipAmount.toString(), // Convert to string
                 requested_sponsorship_paid_in_currency: selectedToken.value,
                 receiver_account: receiverAccount.trim(),
-                requested_sponsor: "impact.sputnik-dao.near",
+                requested_sponsor: requestedSponsor || "impact.sputnik-dao.near",
                 supervisor: supervisor || null, 
                 timeline: isCancel
                     ? {
@@ -486,20 +413,23 @@ const EditProposal = () => {
             };
             
             const args:any = {
-                labels: linkedRfp ? [] : (labels ?? []).map((i: { value: string }) => i.value ?? i).filter(Boolean),
+                labels: linkedRfp ? [] : selectedCategories,
                 body: body,
             };
             
             if (isEditPage && editProposalData) {
-                args['id'] = editProposalData.id.toString(); // Convert to string
+                args['id'] = editProposalData.id
             }
 
             // Show loading toast
-            const loadingToast = toast.loading(
+            toast.dismiss(loadingToast);
+            const submitToast = toast.loading(
                 isEditPage 
                     ? 'Updating proposal...' 
                     : 'Creating proposal...'
             );
+
+            console.log(args)
 
             const contractId = process.env.NEXT_PUBLIC_NETWORK === "mainnet"
                 ? process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT ?? ""
@@ -512,14 +442,14 @@ const EditProposal = () => {
                 isEditPage ? "edit_proposal" : "add_proposal",
                 args,
                 {
-                    callbackUrl: `${window.location.origin}/proposals`,
+                    callbackUrl: `${window.location.origin}/proposals/edit/${proposalId}`,
                     gas: "270000000000000",
                     deposit: "100000000000000000000000"
                 }
             );
 
             // Dismiss loading toast and show success
-            toast.dismiss(loadingToast);
+            toast.dismiss(submitToast);
             toast.success(
                 isEditPage 
                     ? 'Proposal updated successfully!' 
@@ -574,8 +504,8 @@ const EditProposal = () => {
         if (isDraft) {
             onSubmit({ isDraft});
             cleanDraft();
-        } else {
-            setReviewModal(true);
+        }else{
+            onSubmit({ isDraft});
         }
     };
 
@@ -635,8 +565,10 @@ const EditProposal = () => {
                                                 variant="outline" 
                                                 className="w-full justify-between border-[1px] border-aipgf-geyser border-solid rounded-lg font-aipgf-manrope-semibold-1356"
                                             >
-                                                <span className="text-sm md:text-base">
-                                                    {selectedCategory}
+                                                <span className="text-sm md:text-sm">
+                                                    {selectedCategories.length > 0 
+                                                        ? selectedCategories.join(', ')
+                                                        : "Choose Categories"}
                                                 </span>
                                                 <ChevronDown className="h-4 w-4 opacity-50" />
                                             </Button>
@@ -649,10 +581,27 @@ const EditProposal = () => {
                                             {categories.map((category, index) => (
                                                 <DropdownMenuItem
                                                     key={index}
-                                                    onClick={() => setSelectedCategory(category)}
+                                                    onSelect={(e) => {
+                                                        e.preventDefault(); // Prevent menu from closing
+                                                        setSelectedCategories(prev => {
+                                                            if (prev.includes(category)) {
+                                                                return prev.filter(c => c !== category);
+                                                            } else {
+                                                                return [...prev, category];
+                                                            }
+                                                        });
+                                                    }}
                                                     className="cursor-pointer"
                                                 >
-                                                    {category}
+                                                    <div className="flex items-center gap-2 w-full">
+                                                        <input 
+                                                            type="checkbox"
+                                                            checked={selectedCategories.includes(category)}
+                                                            onChange={() => {}} // Handled by onSelect
+                                                            className="h-4 w-4"
+                                                        />
+                                                        {category}
+                                                    </div>
                                                 </DropdownMenuItem>
                                             ))}
                                         </DropdownMenuContent>
@@ -692,12 +641,12 @@ const EditProposal = () => {
                                     <div className="flex flex-col gap-1 mt-2">
                                         <div className="flex flex-col gap-4">
                                             <div className="cntr flex flex-row items-center gap-2">
-                                                <Input type="checkbox" id="cbx" className="hidden-xs-up"/>
+                                                <Input checked={isAgreeToTerms} onChange={(e)=>setIsAgreeToTerms(e.target.checked)} type="checkbox" id="cbx" className="hidden-xs-up"/>
                                                 <Label htmlFor="cbx" className="cbx"></Label>
                                                 <Label>I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href={"https://aipgf.com/terms"} style={{color: "unset"}} className="no-underline hover:underline"><strong>Terms and Conditions</strong></Link> and commit to honoring it</Label>
                                             </div>
                                             <div className="cntr flex flex-row items-center gap-2">
-                                                <Input type="checkbox" id="cbx1" className="hidden-xs-up"/>
+                                                <Input checked={isAgreeToCodeOfConduct} onChange={(e)=>setIsAgreeToCodeOfConduct(e.target.checked)} type="checkbox" id="cbx1" className="hidden-xs-up"/>
                                                 <Label htmlFor="cbx1" className="cbx"></Label>
                                                 <Label>I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href="https://aipgf.com/conduct" style={{color: "unset"}} className="no-underline hover:underline"><strong>Code of Conduct</strong></Link> and commit to honoring it</Label>
                                             </div>
@@ -712,7 +661,10 @@ const EditProposal = () => {
                                     <div className="border-[1px] border-aipgf-geyser border-solid rounded-full flex flex-row">
                                         <Button 
                                             className="flex bg-transparent md:text-base text-sm flex-row gap-2 px-3 py-2 items-center hover:bg-gray-100 hover:bg-opacity-30 rounded-l-full cursor-pointer"
-                                            onClick={() => setDraftBtnOpen(true)}
+                                            onClick={() =>{
+                                                onSubmit({isDraft: true})
+                                                setDraftBtnOpen(false)
+                                            }}
                                         >
                                             {isDraftBtnOpen ? (
                                                 <Button className="flex flex-row items-center gap-2 cursor-pointer bg-transparent hover:bg-transparent shadow-none border-none">
@@ -928,6 +880,8 @@ const EditProposal = () => {
                                                     <Label className="text-[#6f7479] md:text-base text-sm">@</Label>
                                                     <Input 
                                                         type="text" 
+                                                        value={requestedSponsor||""}
+                                                        onChange={(e) => setRequestedSponsor(e.target.value)}
                                                         className="outline-none md:text-base text-sm border-none shadow-none focus:border-none font-aipgf-manrope-semibold-1356" 
                                                         placeholder="Enter Address"
                                                     />
@@ -937,7 +891,7 @@ const EditProposal = () => {
                                                 <Label>Supervisor (Optional)</Label>
                                                 <div className="border-[1px] border-aipgf-geyser border-solid rounded-lg px-3 flex flex-row gap-2 items-center md:gap-3">
                                                     <Label className="text-[#6f7479] md:text-base text-sm">@</Label>
-                                                    <Input type="text" className="outline-none md:text-base text-sm border-none shadow-none focus:border-none font-aipgf-manrope-semibold-1356" placeholder="Enter Address" />
+                                                    <Input value={supervisor||""} onChange={(e) => setSupervisor(e.target.value)} type="text" className="outline-none md:text-base text-sm border-none shadow-none focus:border-none font-aipgf-manrope-semibold-1356" placeholder="Enter Address" />
                                                 </div>
                                             </div>
                                         </div>

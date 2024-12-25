@@ -14,6 +14,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Textarea } from "./ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "./ui/dialog"
 import { toast } from 'react-hot-toast';
+import { CATEGORY_MAPPINGS, CATEGORIES , CHAIN_OPTIONS} from "@/lib/constant";
+
 
 const CreateProject = ({edit}:{edit?:boolean}) =>{
     const {accountId,selector} = useWalletSelector()
@@ -49,69 +51,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     const [daoAddress, setDaoAddress] = useState<string|null>(null)
     const [userHasPermissions, setUserHasPermissions] = useState<boolean>(false)
 
-    const CHAIN_OPTIONS = {
-        NEAR: { isEVM: false },
-        Solana: { isEVM: false },
-        Ethereum: { isEVM: true },
-        Polygon: { isEVM: true },
-        Avalanche: { isEVM: true },
-        Optimism: { isEVM: true },
-        Arbitrum: { isEVM: true },
-        BNB: { isEVM: true },
-        Sui: { isEVM: false },
-        Aptos: { isEVM: false },
-        Polkadot: { isEVM: false },
-        Stellar: { isEVM: false },
-        ZkSync: { isEVM: false }, // Note: ZkSync aims for EVM compatibility but might not fully be considered as traditional EVM at the time of writing.
-        Celo: { isEVM: true },
-        Aurora: { isEVM: true },
-        Injective: { isEVM: true },
-        Base: { isEVM: false },
-        Manta: { isEVM: false }, // Listed twice in the original list; included once here.
-        Fantom: { isEVM: true },
-        ZkEVM: { isEVM: true }, // Considering the name, assuming it aims for EVM compatibility.
-        Flow: { isEVM: false },
-        Tron: { isEVM: true },
-        MultiverseX: { isEVM: false }, // Formerly known as Elrond, not traditionally EVM but has some level of compatibility.
-        Scroll: { isEVM: true }, // Assuming EVM compatibility based on the context of ZkEVM.
-        Linea: { isEVM: true }, // Assuming non-EVM due to lack of information.
-        Metis: { isEVM: true },
-    };
-
-
-
-    const CATEGORIES = {
-        SOCIAL_IMPACT: "Social Impact",
-        NON_PROFIT: "NonProfit",
-        CLIMATE: "Climate",
-        PUBLIC_GOOD: "Public Good",
-        DE_SCI: "DeSci",
-        OPEN_SOURCE: "Open Source",
-        COMMUNITY: "Community",
-        EDUCATION: "Education",
-    };
-
-    const CATEGORY_MAPPINGS:any = {
-        SOCIAL_IMPACT: "Social Impact",
-        NON_PROFIT: "NonProfit",
-        CLIMATE: "Climate",
-        PUBLIC_GOOD: "Public Good",
-        DE_SCI: "DeSci",
-        OPEN_SOURCE: "Open Source",
-        COMMUNITY: "Community",
-        EDUCATION: "Education",
-        _deprecated: {
-            "social-impact": "SOCIAL_IMPACT",
-            "non-profit": "NON_PROFIT",
-            climate: "CLIMATE",
-            "public-good": "PUBLIC_GOOD",
-            "de-sci": "DE_SCI",
-            "open-source": "OPEN_SOURCE",
-            community: "COMMUNITY",
-            education: "EDUCATION",
-        },
-    };
-
+    
     const social = new Social({
         contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?process.env.NEXT_PUBLIC_SOCIAL_CONTRACT:process.env.NEXT_PUBLIC_SOCIAL_CONTRACT_TESTNET,
         network: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?NetworkIDEnum.Mainnet:NetworkIDEnum.Testnet,
@@ -200,17 +140,6 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
         //setIsAddMemberModalOpen(false);
     };
 
-
-    const validateNearAddress = (address:string) => {
-        const NEAR_ACCOUNT_ID_REGEX =
-            /^(?=.{2,64}$)(?!.*\.\.)(?!.*-$)(?!.*_$)[a-z\d._-]+$/i;
-        let isValid = NEAR_ACCOUNT_ID_REGEX.test(address);
-        // Additional ".near" check for IDs less than 64 characters
-        if ((address.length < 64 && !address.endsWith(".near")) || !address.endsWith(".testnet")) {
-            isValid = false;
-        }
-        return isValid;
-    }
 
     const loadSocialData = async(accountId: string, shouldSetTeamMembers: boolean) => {
         const socialData: any = await social.get({
@@ -331,18 +260,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
         (hasReceivedFunding && !fundingSources.length) ||
         !categories.length;
 
-    // useEffect(() => {
-    //     console.log('Profile Image:', profileImage);
-    //     console.log('Project Name:', projectName);
-    //     console.log('Description:', description);
-    //     console.log('Public Good Reason:', publicGoodReason);
-    //     console.log('Categories:', categories);
-    //     console.log('GitHub Repos:', githubRepos);
-    //     console.log('Has Smart Contracts:', hasSmartContracts);
-    //     console.log('Smart Contracts:', smartContracts);
-    //     console.log('Has Received Funding:', hasReceivedFunding);
-    //     console.log('Funding Sources:', fundingSources);
-    // }, [profileImage, projectName, description, publicGoodReason, categories, githubRepos, hasSmartContracts, smartContracts, hasReceivedFunding, fundingSources]);
+
 
     const deepObjectDiff = (objOriginal:any, objUpdated:any) => {
         if (!objUpdated) objUpdated = {};
@@ -384,10 +302,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
         }
         e.preventDefault();
 
-        const loadingToastId = toast.loading(
-            edit ? 'Updating project...' : 'Creating project...', 
-            { position: 'top-center' }
-        );
+        const loadingToastId = toast.loading( 'Creating project...', { position: 'top-center' });
 
         try {
             const wallet = await selector.wallet();

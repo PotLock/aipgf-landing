@@ -48,8 +48,8 @@ const ButtonLogin: NextPage = () => {
     const formatAccountId = (accountId: string) => {
         if (accountId.length === 64) {
             return `${accountId.slice(0, 6)}...${accountId.slice(-4)}`;
-        } else if (accountId.endsWith('.near')||accountId.endsWith('.testnet')) {
-            return accountId.replace('.near', '').replace('.testnet', ''); // Remove '.near'
+        } else if (accountId.endsWith(process.env.NEXT_PUBLIC_NETWORK == "testnet" ? ".testnet" : ".near")) {
+            return accountId.replace(process.env.NEXT_PUBLIC_NETWORK == "testnet" ? ".testnet" : ".near", '');
         }
         return accountId;
     };
@@ -65,7 +65,7 @@ const ButtonLogin: NextPage = () => {
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-[12px] font-semibold text-start">{formatAccountId(accountId)}</span>
-                                <small>{formatAccountId(accountId)}.near</small>
+                                <small>{formatAccountId(accountId)}.{process.env.NEXT_PUBLIC_NETWORK == "testnet" ? ".testnet" : ".near"}</small>
                             </div>
                             <img width={20} height={20} className="w-6 h-6" src="/assets/icon/arrow-down.svg" alt="icon" />
                         </button>

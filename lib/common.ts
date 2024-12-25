@@ -102,7 +102,7 @@ export const getGlobalLabels = async () => {
             'get_global_labels',
             {}
         );
-        
+        //console.log('labels', labels)
         if (labels) {
             return ensureOtherIsLast(labels);
         }

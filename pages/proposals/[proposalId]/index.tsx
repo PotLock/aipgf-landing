@@ -195,7 +195,6 @@ const ProposalPage = () => {
         );
     };
 
-    //console.log('proposal',proposal)
 
     return (
         <div className="min-h-screen bg-background">
@@ -205,48 +204,59 @@ const ProposalPage = () => {
                 <div className="space-y-6">
                     {/* Header Card */}
                     <Card className="border-[1px] border-solid border-aipgf-geyser rounded-lg">
-                        <CardContent className="pt-6">
-                            <button  
-                                style={{
-                                    borderColor:
-                                    timelineStyle[
-                                        proposal?.timeline?.status.toUpperCase()
-                                    ]?.color,
-                                }}
-                                className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
-                                <img width={16} src={`/${timelineStyle[proposal?.timeline?.status.toUpperCase()]?.icon}`} alt="icon" />
-                                <small
+                        <CardContent className="pt-6 flex flex-row justify-between items-center">
+                            <div>
+                                <button  
                                     style={{
-                                        color:
+                                        borderColor:
                                         timelineStyle[
-                                            proposal?.timeline
-                                                ?.status.toUpperCase()
+                                            proposal?.timeline?.status.toUpperCase()
                                         ]?.color,
                                     }}
-                                >
-                                    {proposal?.timeline &&
-                                        proposal?.timeline
-                                            ?.status.replace("_", " ")
-                                            .toLowerCase()
-                                            .replace(/\b\w/g, (c: any) =>
-                                                c.toUpperCase()
-                                            )}
-                                </small>
-                            </button>
-                            
-                            <h1 className="text-3xl font-bold tracking-tight mb-2">
-                                {proposal?.name}
-                            </h1>
-                            
-                            <p className="text-sm text-muted-foreground">
-                                <Link 
-                                    href={`https://bos.potlock.org/?tab=profile&accountId=${author}`}
-                                    className="hover:underline no-underline text-black font-semibold"
-                                >
-                                    {author}
-                                </Link>
-                                {" "}created on {readableDate(proposal?.timestamp/1000000)}
-                            </p>
+                                    className="cursor-pointer border-aipgf-geyser border-[1px] border-solid box-border bg-white hover:bg-stone-50 h-8 p-1 px-4 rounded-full flex flex-row gap-1 items-center">
+                                    <img width={16} src={`/${timelineStyle[proposal?.timeline?.status.toUpperCase()]?.icon}`} alt="icon" />
+                                    <small
+                                        style={{
+                                            color:
+                                            timelineStyle[
+                                                proposal?.timeline
+                                                    ?.status.toUpperCase()
+                                            ]?.color,
+                                        }}
+                                    >
+                                        {proposal?.timeline &&
+                                            proposal?.timeline
+                                                ?.status.replace("_", " ")
+                                                .toLowerCase()
+                                                .replace(/\b\w/g, (c: any) =>
+                                                    c.toUpperCase()
+                                                )}
+                                    </small>
+                                </button>
+                                
+                                <h1 className="text-3xl font-bold tracking-tight mb-2">
+                                    {proposal?.name}
+                                </h1>
+                                
+                                <p className="text-sm text-muted-foreground">
+                                    <Link 
+                                        href={`https://bos.potlock.org/?tab=profile&accountId=${author}`}
+                                        className="hover:underline no-underline text-black font-semibold"
+                                    >
+                                        {author}
+                                    </Link>
+                                    {" "}created on {readableDate(proposal?.timestamp/1000000)}
+                                </p>
+                            </div>
+                            {
+                                accountId == author && (
+                                    <div>
+                                        <Link href={`/proposals/edit/${proposalId}`} className="bg-black hover:bg-transparent p-2 px-4 rounded-lg text-white hover:text-white no-underline hover:bg-black cursor-pointer">
+                                            <span>Edit</span>
+                                        </Link>
+                                    </div>
+                                )
+                            }
                         </CardContent>
                     </Card>
 
@@ -456,7 +466,7 @@ const ProposalPage = () => {
                                                             <p className="text-xs text-gray-500 -mt-2">{verificationStatus == "Pending" ? "Waiting for verification" : "Not verified"}</p>
                                                         </div>
                                                     </div>
-                                                    {accountId==proposal?.receiver_account || accountId==author && <VerificationBtn />}
+                                                    {accountId==proposal?.receiver_account && <VerificationBtn />}
                                                 </div>
                                             )
                                         }
