@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { SectionProps } from "@/types/types"
 import { categoryOptions, sortOptions, stageOptions, stageOptionsForRFPs } from "@/lib/constant"
 import { X, Search } from "lucide-react"
+import { BreadcrumbNav } from "@/components/ui/Breadcrumb"
 
 const Section = ({ title, description, type, search, sortBy, sortCategory, sortByStage }: SectionProps) => {
   const [windowSize, setWindowSize] = useState<{width: number | null, height: number | null}>({

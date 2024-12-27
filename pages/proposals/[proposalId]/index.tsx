@@ -24,11 +24,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { ArrowSquareOut } from "@phosphor-icons/react";
 import { useWalletSelector } from "@/context/WalletSelectorContext";
+import { useParams } from "next/navigation";
 
 
 const ProposalPage = () => {
     const router = useRouter();
-    const { proposalId } = router.query;
+    const { proposalId } = useParams();
     const [proposal, setProposal] = useState<ProposalDetailTypes>();
     const [totalComments, setTotalComments] = useState<number>(0);
     const [totalVotes, setTotalVotes] = useState<number>(0);
@@ -250,11 +251,9 @@ const ProposalPage = () => {
                             </div>
                             {
                                 accountId == author && (
-                                    <div>
-                                        <Link href={`/proposals/edit/${proposalId}`} className="bg-black hover:bg-transparent p-2 px-4 rounded-lg text-white hover:text-white no-underline hover:bg-black cursor-pointer">
-                                            <span>Edit</span>
-                                        </Link>
-                                    </div>
+                                    <Link href={`/proposals/edit/${proposalId}`} className="text-white no-underline hover:no-underline text-sm bg-gray-100 hover:bg-gray-200/75 border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full cursor-pointer w-20">
+                                        <span>Edit</span>
+                                    </Link>
                                 )
                             }
                         </CardContent>

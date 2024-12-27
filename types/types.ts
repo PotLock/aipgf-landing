@@ -68,13 +68,13 @@ export interface DropdownProps {
 }
 
 export interface SectionProps {
-    title?: string;
-    description?: string;
-    search?: (searchTerm: string) => void;
-    sortBy?: (sortBy: string) => void;
-    sortCategory?: (category: string) => void;
-    sortByStage?: (stage: string) => void;
-    type?: string;
+    title: string;
+    description: string;
+    type: "proposals" | "rfps";
+    search?: (value: string) => void;
+    sortBy?: (value: string) => void;
+    sortCategory?: (value: string) => void;
+    sortByStage?: (value: string) => void;
 }
 export interface ProposalDetailTypes {
     editor_id: string;

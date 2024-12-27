@@ -20,14 +20,15 @@ import { Card, CardContent, CardHeader, CardFooter, CardTitle } from "@/componen
 import TagProposal from "@/components/TagProposal";
 import { ChatsCircle, Link as LinkIcon, ShareNetwork, Heart, Plus } from "@phosphor-icons/react";
 import TiptapEditor from "@/components/TiptapEditor";
+import { useWalletSelector } from "@/context/WalletSelectorContext";
 
 const RFPsDetail: NextPage = () => {
     const router = useRouter();
     const { rfpId } = router.query;
+    const { accountId } = useWalletSelector();
     const [rfp, setRFP] = useState<RFPDetailTypes>();
     const [totalComments, setTotalComments] = useState<number>(0);
     const [totalVotes, setTotalVotes] = useState<number>(0);
-    const [verificationStatus, setVerificationStatus] = useState<string>("");
     const [blockHeight, setBlockHeight] = useState<number>(0);
     const [timestamp, setTimestamp] = useState<number>(0);
     const [history, setHistory] = useState<any>();
@@ -157,9 +158,13 @@ const RFPsDetail: NextPage = () => {
                                             </Link> created on {readableDate(rfp?.timestamp/1000000)}
                                         </p>
                                     </div>
-                                    <Button asChild variant="default" className="bg-gray-100 hover:bg-gray-200/75 border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full cursor-pointer w-20">
-                                        <span>Edit</span>
-                                    </Button>
+                                    {
+                                        authorId === accountId && (
+                                            <Link href={`/rfps/edit/${rfpId}`} className="text-white no-underline hover:no-underline text-sm bg-gray-100 hover:bg-gray-200/75 border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full cursor-pointer w-20">
+                                                <span>Edit</span>
+                                            </Link>
+                                        )
+                                    }
                                 </CardContent>
                             </Card>
 
@@ -185,7 +190,7 @@ const RFPsDetail: NextPage = () => {
                             )}
 
                             <div className="flex flex-col-reverse md:flex-row gap-4 w-full justify-between mt-12">
-                                <div className="flex flex-col gap-4 md:col-span-2 space-y-6">
+                                <div className="flex flex-col gap-4 md:col-span-2 space-y-6 w-full">
                                     <div className="flex flex-row gap-2 border-b-[2px] border-aipgf-geyser border-solid box-border pb-4">
                                         <div className="h-14 w-14">
                                         <AvatarProfile accountId={authorId as string} size={40} style="hidden md:block" />

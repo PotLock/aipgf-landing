@@ -490,7 +490,7 @@ const CreateProposal = () => {
                             <div className="flex flex-col gap-4 w-full">
                                 <div className="flex flex-col gap-2 w-full">
                                     <Label className="font-semibold text-xl">Categories</Label>
-                                    <Label className="text-gray-500">Select the relevant categories that best align with your contribution to the NEAR developer community.</Label>
+                                    <Label className="text-gray-500 leading-relaxed">Select the relevant categories that best align with your contribution to the NEAR developer community.</Label>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button 
@@ -541,7 +541,7 @@ const CreateProposal = () => {
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <Label className="font-semibold text-xl">Title</Label>
-                                    <Label className="text-gray-500">Highlight the essence of your proposal in a few words. This will appear on your proposal&#39;s detail page and the main proposal feed. Keep it short, please</Label>
+                                    <Label className="text-gray-500 leading-relaxed">Highlight the essence of your proposal in a few words. This will appear on your proposal&#39;s detail page and the main proposal feed. Keep it short, please</Label>
                                     <Input 
                                         value={title}
                                         onChange={(e) => setTitle(e.target.value)}
@@ -552,7 +552,7 @@ const CreateProposal = () => {
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <Label className="font-semibold text-xl">Summary</Label>
-                                    <Label className="text-gray-500">Explain your proposal briefly. This is your chance to make a good first impression on the community. Include what needs or goals your work will address, your solution, and the benefit for the NEAR developer community.</Label>
+                                    <Label className="text-gray-500 leading-loose">Explain your proposal briefly. This is your chance to make a good first impression on the community. Include what needs or goals your work will address, your solution, and the benefit for the NEAR developer community.</Label>
                                     <Textarea 
                                         value={summary}
                                         onChange={(e) => setSummary(e.target.value)}
@@ -562,7 +562,7 @@ const CreateProposal = () => {
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <Label className="font-semibold text-xl">Description</Label>
-                                    <Label className="text-gray-500">Expand on your summary with any relevant details like your contribution timeline, key milestones, team background, and a clear breakdown of how the funds will be used. Proposals should be simple and clear (e.g. 1 month). For more complex projects, treat each milestone as a separate proposal.</Label>
+                                    <Label className="text-gray-500 leading-loose">Expand on your summary with any relevant details like your contribution timeline, key milestones, team background, and a clear breakdown of how the funds will be used. Proposals should be simple and clear (e.g. 1 month). For more complex projects, treat each milestone as a separate proposal.</Label>
                                     <Editor 
                                         value={description} 
                                         onDescriptionChange={(e) => setDescription(e)}
@@ -575,12 +575,12 @@ const CreateProposal = () => {
                                             <div className="cntr flex flex-row items-center gap-2">
                                                 <Input type="checkbox" id="cbx" className="hidden-xs-up"/>
                                                 <Label htmlFor="cbx" className="cbx"></Label>
-                                                <Label>I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href={"https://aipgf.com/terms"} style={{color: "unset"}} className="no-underline hover:underline"><strong>Terms and Conditions</strong></Link> and commit to honoring it</Label>
+                                                <Label className="leading-relaxed">I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href={"https://aipgf.com/terms"} style={{color: "unset"}} className="no-underline hover:underline"><strong>Terms and Conditions</strong></Link> and commit to honoring it</Label>
                                             </div>
                                             <div className="cntr flex flex-row items-center gap-2">
                                                 <Input type="checkbox" id="cbx1" className="hidden-xs-up"/>
                                                 <Label htmlFor="cbx1" className="cbx"></Label>
-                                                <Label>I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href="https://aipgf.com/conduct" style={{color: "unset"}} className="no-underline hover:underline"><strong>Code of Conduct</strong></Link> and commit to honoring it</Label>
+                                                <Label className="leading-relaxed">I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href="https://aipgf.com/conduct" style={{color: "unset"}} className="no-underline hover:underline"><strong>Code of Conduct</strong></Link> and commit to honoring it</Label>
                                             </div>
 
                                         </div>
@@ -673,7 +673,7 @@ const CreateProposal = () => {
                                         <div className="w-full h-[1px] bg-aipgf-geyser"/>
                                         <div className="flex flex-col gap-3 pb-5 mt-2">
                                             <Label>Link Proposals (Optional)</Label>
-                                            <Label className="text-gray-500">Link any relevant proposals(e.g Previous milestones).</Label>
+                                            <Label className="text-gray-500 leading-relaxed">Link any relevant proposals(e.g Previous milestones).</Label>
                                             {proposalSelected && (
                                                 <div className="flex flex-row gap-2 items-center md:items-start w-full justify-between">
                                                     <div className="flex flex-row gap-2 items-center">
@@ -735,7 +735,7 @@ const CreateProposal = () => {
                                     !viewFundingDetails&&(
                                         <div className="flex flex-col gap-5 mt-4 pb-5">
                                             <Label>Recipient NEAR Wallet Address</Label>  
-                                            <Label className="text-gray-500">Enter the address that will receive the funds. We&#39;ll need this to send a test transaction once your proposal is approved.</Label>
+                                            <Label className="text-gray-500 leading-relaxed">Enter the address that will receive the funds. We&#39;ll need this to send a test transaction once your proposal is approved.</Label>
                                             <div className="flex flex-row gap-2 items-center md:gap-3 border-[1px] border-aipgf-geyser border-solid rounded-lg px-3 mt-3">
                                                 <Label className="text-[#6f7479] md:text-base text-sm">@</Label>
                                                 <Input 
@@ -762,7 +762,7 @@ const CreateProposal = () => {
                                             </div>
                                             <div className="flex flex-col gap-3">
                                                 <Label>Total Amount (USD)</Label>
-                                                <Label className="text-gray-500">Enter the exact amount you are requesting in USD. See <strong>Funding Documentation</strong> for guidelines.</Label>
+                                                <Label className="text-gray-500 leading-relaxed">Enter the exact amount you are requesting in USD. See <strong>Funding Documentation</strong> for guidelines.</Label>
                                                 <div className="border-[1px] border-aipgf-geyser border-solid rounded-lg px-3 flex flex-row gap-2 items-center md:gap-3">
                                                     <Label className="text-[#6f7479] md:text-base text-sm">$</Label>
                                                     <Input 
@@ -776,7 +776,7 @@ const CreateProposal = () => {
                                             </div>
                                             <div className="flex flex-col gap-3">
                                                 <Label>Currency</Label>
-                                                <Label className="text-gray-500">Select your preferred currency for receiving funds. Note: The exchange rate for NEAR tokens will be the closing rate at the day of the invoice.</Label>
+                                                <Label className="text-gray-500 leading-relaxed">Select your preferred currency for receiving funds. Note: The exchange rate for NEAR tokens will be the closing rate at the day of the invoice.</Label>
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
                                                         <Button 

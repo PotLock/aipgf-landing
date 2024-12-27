@@ -123,13 +123,18 @@ const ensureOtherIsLast = (labels: string[]) => {
     return labels;
 };
 
-export function getTimestamp(date:Date) {
-    // in nanoseconds
-    return Math.floor(date.getTime() * 1000000).toString();
+export function getTimestamp(date: Date) {
+    // Convert to nanoseconds (multiply by 1,000,000)
+    return (date.getTime() * 1000000).toString();
 }
 
-export function getDate(timestamp:string) {
-    const stamp =
-      !timestamp || timestamp === "0" || timestamp === "NaN" ? null : timestamp;
-    return new Date(Number(stamp) / 1000000).toISOString().split("T")[0];
+export function getDate(timestamp: string) {
+    try {
+        // Handle string timestamp by removing trailing zeros (nanoseconds to milliseconds)
+        const milliseconds = parseInt(timestamp.slice(0, -6));
+        return new Date(milliseconds).toISOString().split("T")[0];
+    } catch (error) {
+        console.error("Error converting timestamp:", error);
+        return "";
+    }
 }

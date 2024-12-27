@@ -50,7 +50,7 @@ const RFPs = () =>{
                 summary: rfp.snapshot.summary,
                 labels: rfp.snapshot.labels,
                 author_id: rfp.author_id,
-                submission_deadline: rfp.snapshot.timeline,
+                submission_deadline: rfp.snapshot.submission_deadline,
                 linked_rfp: rfp.snapshot.linked_rfp,
                 rfp_id: rfp.id,
                 ts: rfp.snapshot.timestamp,
@@ -59,7 +59,7 @@ const RFPs = () =>{
                 block_height: rfp.snapshot.block_height,
                 blockHeight: rfp.social_db_post_block_height,
             }));
-
+            console.log('rfpWithSnapshot', rfpWithSnapshot)
             setTotalRfps(rfpWithSnapshot.length);
             setRfpsAll(rfpWithSnapshot.slice(0, ITEMS_PER_PAGE));
             setRfps(rfpWithSnapshot.slice(0, ITEMS_PER_PAGE));

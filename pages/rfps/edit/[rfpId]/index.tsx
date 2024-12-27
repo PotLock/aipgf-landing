@@ -1,32 +1,36 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useCallback } from "react";
 import { useWalletSelector } from "@/context/WalletSelectorContext"
 import AvatarProfile from "@/components/AvatarProfile"
 import dynamic from "next/dynamic";
-import { getTimestamp } from "@/lib/common";
-import { CallMethod } from "@/hook/near-method";
+import { getDate, getTimestamp } from "@/lib/common";
+import { CallMethod, ViewMethod } from "@/hook/near-method";
 import Link from "next/link";
 import { toast } from 'react-hot-toast';
-import { Label } from "./ui/label";
-import { Button } from "./ui/button";
-import { useSearchParams } from "next/navigation";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { useParams, useSearchParams } from "next/navigation";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { CalendarIcon } from "lucide-react";
 
-import { Textarea } from "./ui/textarea";
+import { Textarea } from "@/components/ui/textarea";
 import StatusTracker from "@/components/status-tracker"
-import ProposalSelector from "./ProposalSelector";
+import ProposalSelector from "@/components/ProposalSelector";
 import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
-import { Input } from "./ui/input";
-
+import { Input } from "@/components/ui/input";
+import { btnOptions } from "@/lib/constant";
+import SectionCreate from "@/components/SectionCreate";
+import NavBar from "@/components/nav-bar";
 const Editor = dynamic(()=>import("@/components/Editor"),{ssr:false})
 
-const CreateRFP = () => {
+const EditRFP = () => {
+    const { rfpId } = useParams();
     const {accountId,selector} = useWalletSelector();
     const searchParams = useSearchParams();
     const transactionHashes = searchParams.get('transactionHashes');
+    const errorCode = searchParams.get('errorCode');
     const [isShow, setIsShow] = useState<boolean>(false)
     const [title, setTitle] = useState<any>(null);
     const [description, setDescription] = useState<any>(null);
@@ -51,29 +55,18 @@ const CreateRFP = () => {
 
     useEffect(() => {
         if (transactionHashes) {
-            toast.success("RFP created successfully!");
+            toast.success("RFP edited successfully!");
             cleanDraft();
         }
-    }, [transactionHashes]);
+        if (errorCode) {
+            toast.error("Failed to edit RFP. Please try again.");
+        }
+    }, [transactionHashes, errorCode]);
 
     const cleanDraft = () => {
         localStorage.removeItem("AI_PGF_RFP_EDIT");
     }
 
-    const btnOptions = [
-        {
-            label: "Submit Draft",
-            description:
-                "The author can still edit the proposal and build consensus before sharing it with sponsors.",
-            value: "draft",
-        },
-        {
-            label: "Ready for Review",
-            description:
-                "Start the official review process with sponsors. This will lock the editing function, but comments are still open.",
-            value: "review",
-        },
-    ];
 
     const [windowSize, setWindowSize] = useState<any>({
         width: null,
@@ -92,6 +85,27 @@ const CreateRFP = () => {
 
         return () => window.removeEventListener("resize", handleResize);
     }, []); 
+
+    const fetchRFP = useCallback(async() => {
+        const rfp = await ViewMethod(process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+        ?process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT ?? ""
+        :process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET ?? "", "get_rfp", {
+            rfp_id: parseInt(rfpId as string)
+        });
+        console.log(rfp)
+        if(rfp){
+            setTitle(rfp.snapshot.name)
+            setDescription(rfp.snapshot.description)
+            setSummary(rfp.snapshot.summary)
+            setSelectedCategory(rfp.snapshot.labels)
+            setDate(new Date(getDate(rfp.snapshot.submission_deadline)))
+            setTimeline(rfp.snapshot.timeline)
+        }
+    }, [rfpId]);
+
+    useEffect(() => {
+        fetchRFP()
+    }, [fetchRFP]);
 
     useEffect(() => {
         setDisabledSubmitBtn(
@@ -126,8 +140,8 @@ const CreateRFP = () => {
                 submission_deadline: getTimestamp(date as Date),
                 timeline: timeline,
             };
-            const args = { labels: (selectedCategory ?? []).map((i) => i), body: body };
-            toast.loading("Submitting RFP...", {
+            const args = {id: parseInt(rfpId as string), labels: (selectedCategory ?? []).map((i) => i), body: body };
+            toast.loading("Editing RFP...", {
                 id: "submit-rfp",
             });
 
@@ -137,22 +151,22 @@ const CreateRFP = () => {
                 process.env.NEXT_PUBLIC_NETWORK === "mainnet"
                     ? process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT ?? ""
                     : process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET ?? "",
-                "add_rfp",
+                "edit_rfp",
                 args,
                 {
-                    callbackUrl: `${window.location.origin}/rfps/create-rfps`,
+                    callbackUrl: `${window.location.origin}/rfps/edit/${rfpId}`,
                     gas: "270000000000000",
                     deposit: "100000000000000000000000"
                 }
             );      
 
-            toast.success("RFP submitted successfully!", {
+            toast.success("RFP edited successfully!", {
                 id: "submit-rfp",
             });
 
         } catch (error) {
-            console.error("Error submitting RFP:", error);
-            toast.error("Failed to submit RFP. Please try again.", {
+            console.error("Error editing RFP:", error);
+            toast.error("Failed to edit RFP. Please try again.", {
                 id: "submit-rfp",
             });
         }
@@ -184,7 +198,10 @@ const CreateRFP = () => {
 
 
     return (
-        <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch md:pb-[8rem] font-aipgf-manrope-semibold-1356">
+        <div className="flex flex-col w-full h-full">
+            <NavBar />
+            <SectionCreate title="Edit RFP" subtitle="RFP"/>
+            <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch md:pb-[8rem] font-aipgf-manrope-semibold-1356">
                 <div className="flex flex-col-reverse md:flex-row w-full justify-between gap-10 md:gap-20 mt-10">
                     <div className="flex flex-row gap-4 w-full">
                         {
@@ -381,8 +398,9 @@ const CreateRFP = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+        </div>
+        </div>
     )
 }
 
-export default CreateRFP;
+export default EditRFP;

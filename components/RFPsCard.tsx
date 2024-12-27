@@ -2,7 +2,7 @@ import { RFPsTypes } from "@/types/types"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { Social } from '@builddao/near-social-js'
-import { readableDate, timeAgo } from "@/lib/common"
+import { getDate, readableDate, timeAgo } from "@/lib/common"
 import { labelIcons, timelineStyle } from "@/lib/constant"
 import AvatarProfile from "./AvatarProfile"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"

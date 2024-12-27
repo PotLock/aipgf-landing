@@ -16,9 +16,9 @@ import FundingAgents from "../components/FundingAgents";
 
 const Homepage: NextPage = () => {
   return (
-    <div className="w-full max-w-[1700px] mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem]">
+    <div className="w-full mx-auto relative bg-aipgf-white overflow-hidden flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem]">
       <NavBar />
-      <main className="self-stretch flex flex-col items-start justify-start gap-[2.937rem] max-w-full mq825:gap-[1.438rem]">
+      <main className="self-stretch flex flex-col items-start justify-start gap-[2.937rem] mq825:gap-[1.438rem] max-w-[1700px] mx-auto">
         <FrameComponent1 />
         <section className="self-stretch flex flex-col items-start justify-start pt-[0rem] px-[0rem] pb-[1.062rem] box-border gap-[2rem] max-w-full text-left text-[2.5rem] text-aipgf-shark font-p mq825:gap-[1rem]">
           <CompanyLogo />
