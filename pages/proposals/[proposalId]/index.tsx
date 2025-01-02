@@ -13,7 +13,7 @@ import TiptapEditor from "@/components/TiptapEditor"
 import { ProposalDetailTypes } from "@/types/types";
 import { readableDate, timeAgo, sliceAddress } from "@/lib/common";
 import { timelineStyle, proposalStatusOptions } from "@/lib/constant";
-import { ViewMethod } from "@/hook/near-method";
+import { CallMethod, ViewMethod } from "@/hook/near-method";
 import TagProposal from "@/components/TagProposal";
 import { ChatsCircle, Link as LinkIcon, ShareNetwork, Heart, Plus,Warning } from "@phosphor-icons/react";
 import {
@@ -27,7 +27,14 @@ import { useWalletSelector } from "@/context/WalletSelectorContext";
 import { useParams } from "next/navigation";
 import LikeButton from "@/components/LikeButton";
 import { LabelType } from "@/lib/icons";
+import toast from "react-hot-toast";
 
+interface NotificationValue {
+    type: string;
+    item: any;
+    proposal?: string;
+    widgetAccountId?: string;
+}
 
 const ProposalPage = () => {
     const router = useRouter();
@@ -42,8 +49,7 @@ const ProposalPage = () => {
     const [author, setAuthor] = useState<string|null>(null);
     const [isLiked, setIsLiked] = useState<boolean>(false);
     const [commentContent, setCommentContent] = useState<string|null>(null);
-    const { accountId } = useWalletSelector();
-
+    const { accountId,accounts,selector } = useWalletSelector();
 
     if(!proposalId){
         return <div>Loading...</div>
@@ -126,6 +132,7 @@ const ProposalPage = () => {
 
     const social = new Social({
         contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
+        network: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"mainnet":"testnet"
     });
 
     const getTotalComments = async () => {
@@ -159,10 +166,162 @@ const ProposalPage = () => {
         getTotalVotes();
     }, [proposal?.author_id]);
 
-    const handleLike = () => {
-        setIsLiked(!isLiked);
-    };
+    const extractMentions = (text: string) => {
+        const mentionRegex = /@((?:(?:[a-z\d]+[-_])*[a-z\d]+\.)*(?:[a-z\d]+[-_])*[a-z\d]+)/gi;
+        const accountIds = new Set();
+        let match;
+        
+        while ((match = mentionRegex.exec(text)) !== null) {
+            if (
+                !/[\w`]/.test(text.charAt(match.index - 1)) &&
+                !/[/\w`]/.test(text.charAt(match.index + match[0].length)) &&
+                match[1].length >= 2 &&
+                match[1].length <= 64
+            ) {
+                accountIds.add(match[1].toLowerCase());
+            }
+        }
+        return Array.from(accountIds);
+    }
+    const extractTagNotifications = (text: string, item: any) => {
+        return extractMentions(text || "")
+          .filter((account) => account !== accountId)
+          .map((account) => ({
+            key: account,
+            value: {
+              type: "mention",
+              item,
+            },
+          }));
+      }
 
+    const onCommentSubmit = async () => {
+        try {
+            // Validate wallet connection
+            if (!accounts.length || !accountId) {
+                toast.error('Please connect your wallet', {
+                    duration: 3000,
+                    position: 'top-center'
+                });
+                return;
+            }
+
+            // Validate active account
+            const activeAccount = accounts.find(a => a.active);
+            if (!activeAccount?.accountId) {
+                toast.error('No active account found. Please reconnect your wallet', {
+                    duration: 3000,
+                    position: 'top-center'
+                });
+                return;
+            }
+
+            // Validate comment content
+            if (!commentContent?.trim()) {
+                toast.error('Please enter a comment', {
+                    duration: 3000,
+                    position: 'top-center'
+                });
+                return;
+            }
+
+            const data = {
+                post: {
+                    comment: JSON.stringify({
+                        type: "md",
+                        text: commentContent,
+                        item: {
+                            type: "social",
+                            path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"bos.forum.potlock.near":"bos.forum.potlock.testnet"}/post/main`,
+                            blockHeight: proposal?.block_height,
+                        },
+                    }),
+                },
+                index: {
+                    comment: JSON.stringify({
+                        key: {
+                            type: "social",
+                            path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"bos.forum.potlock.near":"bos.forum.potlock.testnet"}/post/main`,
+                            blockHeight: proposal?.block_height,
+                        },
+                        value: {
+                            type: "md",
+                        },
+                    }),
+                },
+            };
+
+            // Handle notifications
+            const notifications = extractTagNotifications(commentContent, {
+                type: "social",
+                path: `${accountId}/post/comment`,
+            });
+
+            if (author && author !== accountId) {
+                notifications.push({
+                    key: author,
+                    value: {
+                        type: "proposal/reply",
+                        item: {
+                            type: "social",
+                            path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"bos.forum.potlock.near":"bos.forum.potlock.testnet"}/post/main`,
+                            blockHeight: proposal?.block_height,
+                        },
+                        proposal: proposalId,
+                        widgetAccountId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"bos.forum.potlock.near":"bos.forum.potlock.testnet",
+                    } as NotificationValue
+                });
+            }
+
+            if (notifications.length) {
+                // @ts-ignore
+                data.index.notify = JSON.stringify(
+                    notifications.length > 1 ? notifications : notifications[0]
+                );
+            }
+
+            // Create social transaction
+            const transaction = await social.set({
+                data,
+                account: {
+                    accountID: activeAccount.accountId,
+                    publicKey: activeAccount.publicKey as string
+                }
+            });
+
+            if (!transaction?.receiverId || !transaction?.actions?.[0]?.functionCall?.methodName) {
+                throw new Error('Invalid transaction data');
+            }
+
+            // Execute transaction
+            await CallMethod(
+                activeAccount.accountId,
+                selector,
+                transaction.receiverId,
+                transaction.actions[0].functionCall.methodName,
+                transaction.actions[0].functionCall.args,
+                {
+                    callbackUrl: `${window.location.origin}/proposals/${proposalId}`,
+                    gas: transaction.actions[0].functionCall.gas?.toString(),
+                    deposit: transaction.actions[0].functionCall.deposit.toString()
+                }
+            );
+
+            // Clear comment content on success
+            setCommentContent("");
+            toast.success('Comment posted successfully!', {
+                duration: 3000,
+                position: 'top-center'
+            });
+
+        } catch (error) {
+            console.error('Error posting comment:', error);
+            toast.error('Failed to post comment. Please try again.', {
+                duration: 3000,
+                position: 'top-center'
+            });
+        }
+    };
 
     const VerificationBtn = () => {
         return (
@@ -356,11 +515,7 @@ const ProposalPage = () => {
                                             content={commentContent ?? ""}
                                             onChange={setCommentContent}
                                             onCancel={() => setCommentContent("")}
-                                            onSubmit={() => {
-                                                // Handle comment submission here
-                                                console.log("Comment submitted:", commentContent)
-                                                setCommentContent("")
-                                            }}
+                                            onSubmit={onCommentSubmit}
                                         />
                                     </div>
                                 </div>

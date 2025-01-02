@@ -112,6 +112,7 @@ const LikeButton = ({ proposalId, blockHeight, accountId }: LikeButtonProps) => 
                                         ? process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT
                                         : process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET}/post/main`,
                                         blockHeight: blockHeight,
+                                        widgetAccountId: "bos.forum.potlock.near"
                                     },
                                     proposal: proposalId,
                                     blockHeight: blockHeight
