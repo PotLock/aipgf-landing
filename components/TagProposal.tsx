@@ -18,9 +18,10 @@ const StyledContent = styled(DropdownMenuPrimitive.Content, {
 interface TagProposalProps {
   label: LabelType;
   onSelect?: (label: LabelType) => void;
+  labels?: LabelType[];
 }
 
-const TagProposal: FC<TagProposalProps> = ({ label, onSelect }) => {
+const TagProposal: FC<TagProposalProps> = ({ label, onSelect, labels }) => {
   const IconComponent = labelIcons[label]?.icon;
   const { color, textColor } = labelIcons[label] || {};
 
@@ -58,24 +59,24 @@ const TagProposal: FC<TagProposalProps> = ({ label, onSelect }) => {
           sideOffset={4}
           className="bg-white rounded-xl border-[1px] border-aipgf-geyser border-solid shadow-lg p-1.5"
         >
-          {Object.entries(labelIcons).map(([key, value]) => {
-            const Icon = value.icon;
+          {labels?.map((label) => {
+            const Icon = labelIcons[label].icon;
             return (
               <DropdownMenuItem
-                key={key}
+                key={label}
                 className="flex items-center gap-3 p-3 rounded-lg hover:bg-[#F9FAFB] focus:bg-[#F9FAFB] cursor-pointer outline-none"
-                onClick={() => onSelect?.(key as LabelType)}
+                onClick={() => onSelect?.(label)}
               >
                 <Icon 
                   size={24} 
                   weight="bold"
                   className="mt-0.5"
-                  style={{ color: value.textColor }}
+                  style={{ color: labelIcons[label].textColor }}
                 />
                 <div className="flex flex-col gap-0.5">
-                  <span className="text-[15px] font-medium text-[#111827]">{key}</span>
+                  <span className="text-[15px] font-medium text-[#111827]">{label}</span>
                   <span className="text-[13px] text-[#6B7280] leading-tight">
-                    {value.description}
+                    {labelIcons[label].description}
                   </span>
                 </div>
               </DropdownMenuItem>

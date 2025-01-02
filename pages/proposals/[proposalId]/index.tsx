@@ -25,6 +25,8 @@ import {
 import { ArrowSquareOut } from "@phosphor-icons/react";
 import { useWalletSelector } from "@/context/WalletSelectorContext";
 import { useParams } from "next/navigation";
+import LikeButton from "@/components/LikeButton";
+import { LabelType } from "@/lib/icons";
 
 
 const ProposalPage = () => {
@@ -42,7 +44,6 @@ const ProposalPage = () => {
     const [commentContent, setCommentContent] = useState<string|null>(null);
     const { accountId } = useWalletSelector();
 
-    //console.log('accountId',accountId)
 
     if(!proposalId){
         return <div>Loading...</div>
@@ -292,8 +293,8 @@ const ProposalPage = () => {
                                                     PROPOSAL CATEGORY
                                                 </h2>
                                                 <TagProposal 
-                                                    label="A small build" 
-                                                    onSelect={(label) => console.log(`Selected: ${label}`)} 
+                                                    label={proposal?.labels[0] as LabelType}
+                                                    labels={proposal?.labels as LabelType[]}
                                                 />
                                             </div>
 
@@ -321,18 +322,7 @@ const ProposalPage = () => {
 
                                             {/* Action Buttons */}
                                             <div className="flex items-center gap-4">
-                                                <Button 
-                                                    variant="ghost" 
-                                                    size="sm" 
-                                                    className="gap-2 bg-transparent hover:bg-transparent p-0" 
-                                                    onClick={handleLike}
-                                                >
-                                                    <Heart 
-                                                        weight={isLiked ? "fill" : "regular"}
-                                                        className={`w-4 h-4 ${isLiked ? "text-red-500" : ""}`} 
-                                                    />
-                                                    <span>{isLiked ? totalVotes + 1 : totalVotes}</span>
-                                                </Button>
+                                                <LikeButton proposalId={proposalId as string} blockHeight={blockHeight} accountId={author as string} />  
                                                 <Button variant="ghost" size="sm" className="gap-2 bg-transparent hover:bg-transparent">
                                                     <ChatsCircle className="w-4 h-4" />
                                                     <span>{totalComments}</span>

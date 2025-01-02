@@ -20,7 +20,7 @@ import { DropdownMenu } from "@radix-ui/react-dropdown-menu";
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { btnOptions } from "@/lib/constant";
+import { btnOptions,categories } from "@/lib/constant";
 import SectionCreate from "@/components/SectionCreate";
 import NavBar from "@/components/nav-bar";
 const Editor = dynamic(()=>import("@/components/Editor"),{ssr:false})
@@ -42,16 +42,7 @@ const EditRFP = () => {
     const [selectedProposals, setSelectedProposals] = useState<any[]>([]);
     const [termsConsent, setTermsConsent] = useState<boolean>(false);
     const [codeOfConductConsent, setCodeOfConductConsent] = useState<boolean>(false);
-    const categories = ["A Small Build","Bounty","MVP","Quick Start"]
     const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
-
-    useEffect(() => {
-        if (!timeline) {
-          setTimeline({
-            status: 'ACCEPTING_SUBMISSIONS',
-          });
-        }
-    }, [timeline]);
 
     useEffect(() => {
         if (transactionHashes) {
@@ -92,7 +83,7 @@ const EditRFP = () => {
         :process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET ?? "", "get_rfp", {
             rfp_id: parseInt(rfpId as string)
         });
-        console.log(rfp)
+        // console.log(rfp)
         if(rfp){
             setTitle(rfp.snapshot.name)
             setDescription(rfp.snapshot.description)

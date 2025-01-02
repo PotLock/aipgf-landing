@@ -21,6 +21,7 @@ import TagProposal from "@/components/TagProposal";
 import { ChatsCircle, Link as LinkIcon, ShareNetwork, Heart, Plus } from "@phosphor-icons/react";
 import TiptapEditor from "@/components/TiptapEditor";
 import { useWalletSelector } from "@/context/WalletSelectorContext";
+import { LabelType } from "@/lib/icons";
 
 const RFPsDetail: NextPage = () => {
     const router = useRouter();
@@ -220,8 +221,8 @@ const RFPsDetail: NextPage = () => {
                                                         RFPs CATEGORY
                                                     </h2>
                                                     <TagProposal 
-                                                        label="A small build" 
-                                                        onSelect={(label) => console.log(`Selected: ${label}`)} 
+                                                        label={rfp?.labels[0] as LabelType}
+                                                        labels={rfp?.labels as LabelType[]}
                                                     />
                                                 </div>
 

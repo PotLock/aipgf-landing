@@ -78,3 +78,4 @@ export const CallMethod = async (accountId:string,selector:any,contractId: strin
     throw error;
   }
 };
+

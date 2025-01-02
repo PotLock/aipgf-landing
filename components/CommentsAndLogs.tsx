@@ -24,7 +24,9 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
                 action: 'comment',
                 key: {
                     type: "social",
-                    path: `forum.potlock.near/post/main`,
+                    path: `${process.env.NEXT_PUBLIC_NETWORK=="mainnet"
+                    ? process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT
+                    : process.env.NEXT_PUBLIC_AI_PGF_FORUM_CONTRACT_TESTNET}/post/main`,
                     blockHeight: parseInt(block_height as string),
                 },
             });
@@ -39,6 +41,7 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
                 };
             }));
             setComments(processedComments);
+            console.log("processedComments",processedComments)
             sortTimelineAndComments(processedComments);
         } catch (error) {
             console.error("Error fetching comments:", error);

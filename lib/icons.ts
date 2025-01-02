@@ -19,7 +19,7 @@ export const labelIcons = {
     textColor: "rgba(109, 57, 228, 1)",
     description: "Get started quickly with simple, focused tasks."
   },
-  "A small build": {
+  "A Small Build": {
     icon: TrafficCone,
     color: "rgba(254, 246, 238, 1)",
     textColor: "rgba(255, 122, 0, 1)",
