@@ -48,8 +48,7 @@ const Button1: NextPage<Button1Type> = ({
           border: "#93949d solid 1px",
           borderRadius: "42px",
           "&:hover": { background: "#fff" },
-          width: 156,
-          height: 68,
+          width: "9.75rem"
         }}
         onClick={onButtonClick3}
         style={buttonStyle}

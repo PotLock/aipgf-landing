@@ -11,9 +11,9 @@ export type EligibilityCheckerType = {
 const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
   className = "",
 }) => {
-  const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [predictedData, setPredictedData] = useState("");
+  const [inputValue, setInputValue] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [predictedData, setPredictedData] = useState<string>("");
 
   const onButtonClick = useCallback(() => {
     window.open(
@@ -48,7 +48,7 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
 
   return (
     <section
-      className={`self-stretch flex flex-row items-start justify-start py-[0rem] px-[5rem] box-border max-w-full text-left text-[3.75rem] text-grays-black font-p mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
+      className={`self-stretch flex flex-row items-start justify-start py-[0rem] md:px-[5rem] box-border max-w-full text-left text-[3.75rem] text-grays-black font-p px-5  mq825:box-border ${className}`}
     >
       <div className="flex-1 flex flex-row items-start justify-start gap-[4.5rem] max-w-full sm:gap-[1.125rem] mq825:gap-[2.25rem] mq1425:flex-wrap">
         <div className="flex-1 flex flex-col items-start justify-start pt-[2.125rem] px-[0rem] pb-[0rem] box-border min-w-[27.75rem] max-w-full mq825:min-w-full">
@@ -63,7 +63,7 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
             <div className="self-stretch sm:mb-20 flex flex-row items-center justify-start sm:justify-center py-[0rem] pl-[0rem] pr-[21.125rem] gap-[0.75rem] sm:pr-[1.25rem] sm:box-border mq825:flex-wrap mq825:pr-[10.563rem] mq825:box-border">
               <Link target="_blank" href={"https://forum.aipgf.com/"}>
                 <Button
-                  className="sm:h-[3.25rem] hover:opacity-70 transition-all ease-in-out duration-400 h-[4.25rem] mq825:w-[177px] sm:text-[13px] sm:w-[max-content] font-bold text-[20px] min-w-[2.375rem] cursor-pointer"
+                  className="md:h-[4.25rem] hover:opacity-70 transition-all ease-in-out duration-400 h-[3.25rem] sm:text-[13px] sm:w-[max-content] font-bold text-[20px] min-w-[2.375rem] cursor-pointer"
                   variant="contained"
                   sx={{
                     textTransform: "none",
@@ -72,8 +72,7 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
                     background: "#0057ff",
                     borderRadius: "41px",
                     "&:hover": { background: "#0057ff" },
-                    height: 68,
-                    width: 177,
+                    width: "9.75rem",
                   }}
                   onClick={onButtonClick1}
                 >
@@ -89,8 +88,7 @@ const EligibilityChecker: NextPage<EligibilityCheckerType> = ({
                 <Button1
                   button="Learn More"
                   onButtonClick3={onButtonClick}
-                  buttonFlex="unset"
-                  className="font-bold hover:opacity-50 transition-all ease-in-out duration-400 text-[20px] sm:h-[3.25rem] h-[4.25rem] mq825:w-[177px] sm:text-[13px] sm:w-[max-content]"
+                  className="font-bold hover:opacity-50 transition-all ease-in-out duration-400 text-[20px] h-[3.25rem] md:h-[4.25rem] sm:text-[13px] sm:w-[max-content]"
                 />
               </Link>
             </div>

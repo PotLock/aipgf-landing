@@ -47,7 +47,7 @@ const HeroFAQs: NextPage<HeroFAQsType> = ({ className = "" }) => {
 
   return (
     <section
-      className={`self-stretch flex flex-row items-start justify-start py-[0rem] px-[5rem] box-border max-w-full text-left text-[2.894rem] text-aipgf-shark font-p mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
+      className={`self-stretch flex flex-row items-start justify-start py-[0rem] md:px-[5rem] px-5 box-border max-w-full text-left text-[2.894rem] text-aipgf-shark font-p mq825:box-border ${className}`}
     >
       <div className="flex-1 flex flex-col items-start justify-start gap-[2rem] max-w-full mq825:gap-[1rem]">
         <div className="self-stretch rounded-4xs border-aipgf-geyser border-[1px] border-solid overflow-hidden flex flex-row items-start justify-start py-[1.312rem] px-[1rem]">

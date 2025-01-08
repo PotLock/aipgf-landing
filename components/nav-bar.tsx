@@ -28,7 +28,7 @@ const NavBar: NextPage<NavBarType> = ({ className = "" }) => {
   return (
     <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white flex flex-col items-start justify-start gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] font-aipgf-manrope-semibold-1356">
       <header
-        className={`self-stretch bg-aipgf-white border-aipgf-aqua-haze border-t-[1px] border-b-[1px] border-solid box-border flex flex-row items-start justify-start py-[0.687rem] px-[5rem] top-[0] z-[50] sticky max-w-full text-center text-[0.938rem] text-communityintercomcom-black-pearl font-menlo mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
+        className={`self-stretch bg-aipgf-white border-aipgf-aqua-haze border-t-[1px] border-b-[1px] border-solid box-border flex flex-row items-start justify-start py-[0.687rem] md:px-[5rem] px-5 top-[0] z-[50] sticky max-w-full text-center text-[0.938rem] text-communityintercomcom-black-pearl font-menlo mq825:box-border ${className}`}
       >
         <div className="flex-1 flex flex-row items-end justify-between pt-[0.468rem] pb-[0.593rem] pl-[0rem] pr-[1.062rem] box-border max-w-full gap-[1.25rem]">
           <div className="flex flex-col items-start justify-start py-[0rem] pl-[0rem] pr-[1.5rem]">

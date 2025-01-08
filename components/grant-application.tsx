@@ -123,7 +123,7 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
 
   return (
     <section
-      className={`self-stretch flex flex-row items-start justify-start pt-[0rem] px-[5rem] pb-[1.062rem] box-border max-w-full text-left text-[2.5rem] text-grays-black font-p mq825:pl-[2.5rem] mq825:pr-[2.5rem] mq825:box-border ${className}`}
+      className={`self-stretch flex flex-row items-start justify-start pt-[0rem] md:px-[5rem] px-5 pb-[1.062rem] box-border max-w-full text-left text-[2.5rem] text-grays-black font-p mq825:box-border ${className}`}
     >
       <div className="flex-1 flex flex-col items-start justify-start gap-[2rem] max-w-full mq825:gap-[1rem]">
         <div className="self-stretch rounded-4xs border-aipgf-geyser border-[1px] border-solid box-border overflow-hidden flex flex-col items-start justify-center py-[0rem] pl-[1.375rem] pr-[0rem] max-w-full">
