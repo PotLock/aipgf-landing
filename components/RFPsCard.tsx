@@ -26,6 +26,7 @@ const RFPsCard = ({ rfp }: { rfp: RFPsTypes }) => {
 
     const social = new Social({
         contractId: process.env.NEXT_PUBLIC_NETWORK == "mainnet" ? "social.near" : "v1.social08.testnet",
+        network: process.env.NEXT_PUBLIC_NETWORK == "mainnet" ? "mainnet" : "testnet"
     })
 
     const getTotalComments = async () => {
@@ -48,7 +49,7 @@ const RFPsCard = ({ rfp }: { rfp: RFPsTypes }) => {
     return (
         <Link href={`/rfps/${rfp.rfp_id}`} className="block no-underline border-[1px] border-solid border-aipgf-geyser rounded-lg">
             <Card className="hover:shadow-md transition-shadow">
-                <CardHeader className="space-y-4">
+                <CardHeader className="md:space-y-4">
                     <div className="flex items-center gap-3">
                         <div className="w-[41px] h-[41px] rounded-full overflow-hidden">
                             <AvatarProfile size={41} accountId={rfp.author_id} />
@@ -99,11 +100,11 @@ const RFPsCard = ({ rfp }: { rfp: RFPsTypes }) => {
                     <div className="flex flex-row gap-5 items-center">
                         <div className="flex flex-row gap-1 items-center">
                             <img width={16} src="/assets/icon/list-blue.svg" alt="icon" />
-                            <small className="text-[#0969DA] font-semibold text-sm">{rfp.linked_proposals[0]??0} Proposals</small>
+                            <small className="text-[#0969DA] font-semibold md:text-sm text-xs">{rfp.linked_proposals[0]??0} Proposals</small>
                         </div>
                         <div className="flex flex-row gap-1 items-center">
                             <img width={16} src="/assets/icon/reply.svg" alt="icon" />
-                            <small className="text-[#04A46E] font-semibold text-sm">{totalComments} replies</small>
+                            <small className="text-[#04A46E] font-semibold md:text-sm text-xs">{totalComments} replies</small>
                         </div>
                     </div>
                     
@@ -119,6 +120,7 @@ const RFPsCard = ({ rfp }: { rfp: RFPsTypes }) => {
                             rfp?.timeline?.status
                         ]?.icon} alt="icon" />
                         <small
+                            className="md:text-sm text-xs"
                             style={{
                                 color:
                                 timelineStyle[

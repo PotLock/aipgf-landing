@@ -39,6 +39,7 @@ const ProposalPost: NextPage<{
 
   const social = new Social({
     contractId: process.env.NEXT_PUBLIC_NETWORK == "mainnet" ? "social.near" : "v1.social08.testnet",
+    network: process.env.NEXT_PUBLIC_NETWORK == "mainnet" ? "mainnet" : "testnet"
   });
 
   const getTotalComments = async () => {
@@ -89,7 +90,7 @@ const ProposalPost: NextPage<{
     return (
       <Card className="w-full border-[1px] border-aipgf-geyser border-solid">
         <CardContent className="p-5">
-          <div className="flex md:flex-row flex-col gap-3 items-end md:items-center justify-between">
+          <div className="flex md:flex-row flex-col gap-3 items-start md:items-center justify-between">
             <div className="flex flex-col md:flex-row md:gap-3 gap-1">
               <div className="flex flex-row gap-2 items-start md:items-start">
                 <AvatarProfile accountId={proposal.author_id} size={30} />

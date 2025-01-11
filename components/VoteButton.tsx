@@ -9,6 +9,7 @@ const VoteButton: NextPage<VoteButtonProps> = ({ proposalId, blockHeight, notify
     const [hasLike, setHasLike] = useState<boolean>(false);
     const social = new Social({
         contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
+        network: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"mainnet":"testnet"
     });
 
     const item ={

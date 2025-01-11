@@ -36,7 +36,7 @@ const Button1: NextPage<Button1Type> = ({
   return (
     <Link href="/explore" passHref>
       <Button
-        className={`h-[4.25rem] w-[9.75rem] hover:opacity-50 transition-all ease-in-out duration-400 cursor-pointer ${className}`}
+        className={`md:h-[4.25rem] h-[3.25rem] w-[9.75rem] hover:opacity-50 transition-all ease-in-out duration-400 cursor-pointer ${className}`}
         disableElevation
         disabled={disabled}
         variant="contained"
@@ -48,7 +48,7 @@ const Button1: NextPage<Button1Type> = ({
           border: "#93949d solid 1px",
           borderRadius: "42px",
           "&:hover": { background: "#fff" },
-          width: "9.75rem"
+          width: "9.75rem",
         }}
         onClick={onButtonClick3}
         style={buttonStyle}

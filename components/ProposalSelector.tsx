@@ -136,7 +136,7 @@ const ProposalSelector = ({ onProposalSelect, selectedProposals }: ProposalSelec
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
             onFocus={() => setIsDropdownOpen(true)}
-            className="w-full pl-3 pr-10 py-2 border-[1px] border-solid border-aipgf-geyser rounded-lg"
+            className="w-full pl-3 pr-10 py-2 border-[1px] border-solid border-aipgf-geyser rounded-lg md:text-sm text-xs"
           />
           <Button
             variant="ghost"
@@ -165,7 +165,7 @@ const ProposalSelector = ({ onProposalSelect, selectedProposals }: ProposalSelec
               >
                 <div className="flex flex-col flex-1">
                   <div className="flex items-center justify-between">
-                    <Label className="font-medium">
+                    <Label className="font-medium md:text-sm text-xs">
                       #{proposal.id}: {proposal.snapshot.name}
                     </Label>
                     {isProposalSelected(proposal) && (

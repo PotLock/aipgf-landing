@@ -154,7 +154,7 @@ const RFPs = () =>{
                     <div className="flex justify-center items-center font-aipgf-manrope-semibold-1356">
                         <div className="mq825:px-5 w-full mt-10 mq825:mt-4 pb-20">
                             <div className="flex flex-row justify-between w-full">
-                                <div className="flex flex-row gap-2 md:gap-4 text-xs md:text-2xl">
+                                <div className="flex flex-row gap-2 md:gap-4 text-md md:text-2xl">
                                     <div className="flex flex-row md:gap-2 gap-1">
                                         <span className="font-semibold">$10,299</span>
                                         <span>Total Awarded</span>

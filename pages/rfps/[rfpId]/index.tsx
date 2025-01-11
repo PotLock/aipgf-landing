@@ -76,6 +76,7 @@ const RFPsDetail: NextPage = () => {
 
     const social = new Social({
         contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
+        network: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"mainnet":"testnet"
     });
 
     const getTotalComments = async () => {

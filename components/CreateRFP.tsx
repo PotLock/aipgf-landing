@@ -184,7 +184,7 @@ const CreateRFP = () => {
 
 
     return (
-        <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch md:pb-[8rem] font-aipgf-manrope-semibold-1356">
+        <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] px-5 md:px-[5rem] self-stretch md:pb-[8rem] font-aipgf-manrope-semibold-1356">
                 <div className="flex flex-col-reverse md:flex-row w-full justify-between gap-10 md:gap-20 mt-10">
                     <div className="flex flex-row gap-4 w-full">
                         {
@@ -194,15 +194,15 @@ const CreateRFP = () => {
                             }
                             <div className="flex flex-col gap-4 w-full">
                                 <div className="flex flex-col gap-2 w-full">
-                                    <Label className="font-semibold text-xl">Category</Label>
-                                    <Label className="text-gray-500 leading-relaxed">Select the relevant categories that best align with your contribution to the NEAR developer community.</Label>
+                                    <Label className="font-semibold md:text-xl text-lg">Category</Label>
+                                    <Label className="text-gray-500 leading-relaxed md:text-sm text-xs">Select the relevant categories that best align with your contribution to the NEAR developer community.</Label>
                                     <DropdownMenu>
                                         <DropdownMenuTrigger asChild>
                                             <Button 
                                                 variant="outline" 
                                                 className="w-full justify-between border-[1px] border-aipgf-geyser border-solid rounded-lg font-aipgf-manrope-semibold-1356"
                                             >
-                                                <span className="text-sm md:text-sm">
+                                                <span className="text-xs md:text-sm">
                                                     {selectedCategory.length > 0 
                                                         ? selectedCategory.join(', ')
                                                         : "Choose Category"}
@@ -245,53 +245,53 @@ const CreateRFP = () => {
                                     </DropdownMenu>
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <Label className="font-semibold text-xl">Title</Label>
-                                    <Label className="text-gray-500 leading-relaxed">Highlight the essence of your proposal in a few words. This will appear on your proposal&#39;s detail page and the main proposal feed. Keep it short, please</Label>
+                                    <Label className="font-semibold md:text-xl text-lg">Title</Label>
+                                    <Label className="text-gray-500 leading-relaxed md:text-sm text-xs">Highlight the essence of your proposal in a few words. This will appear on your proposal&#39;s detail page and the main proposal feed. Keep it short, please</Label>
                                     <Input 
                                         value={title}
                                         onChange={(e) => setTitle(e.target.value)}
-                                        className="w-full text-sm md:text-base rounded-lg px-3 py-2 outline-none border-[1px] border-aipgf-geyser box-border border-solid shadow-sm focus:border-gray-100 font-aipgf-manrope-semibold-1356" 
+                                        className="w-full text-xs md:text-base rounded-lg px-3 py-2 outline-none border-[1px] border-aipgf-geyser box-border border-solid shadow-sm focus:border-gray-100 font-aipgf-manrope-semibold-1356" 
                                         type="text" 
                                         placeholder="Enter Title Here"
                                     />
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <Label className="font-semibold text-xl">Summary</Label>
-                                    <Label className="text-gray-500 leading-loose">Explain your proposal briefly. This is your chance to make a good first impression on the community. Include what needs or goals your work will address, your solution, and the benefit for the NEAR developer community.</Label>
+                                    <Label className="font-semibold md:text-xl text-lg">Summary</Label>
+                                    <Label className="text-gray-500 leading-loose md:text-sm text-xs">Explain your proposal briefly. This is your chance to make a good first impression on the community. Include what needs or goals your work will address, your solution, and the benefit for the NEAR developer community.</Label>
                                     <Textarea 
                                         value={summary}
                                         onChange={(e) => setSummary(e.target.value)}
-                                        className="w-full text-sm md:text-base rounded-lg px-3 py-2 outline-none border-[1px] border-aipgf-geyser border-solid shadow-sm focus:border-gray-500 h-32 resize-none font-aipgf-manrope-semibold-1356" 
+                                        className="w-full text-xs md:text-base rounded-lg px-3 py-2 outline-none border-[1px] border-aipgf-geyser border-solid shadow-sm focus:border-gray-500 h-32 resize-none font-aipgf-manrope-semibold-1356" 
                                         placeholder="Enter Summary Here"
                                     />
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <Label className="font-semibold text-xl">Description</Label>
-                                    <Label className="text-gray-500 leading-loose">Expand on your summary with any relevant details like your contribution timeline, key milestones, team background, and a clear breakdown of how the funds will be used. Proposals should be simple and clear (e.g. 1 month). For more complex projects, treat each milestone as a separate proposal.</Label>
+                                    <Label className="font-semibold md:text-xl text-lg">Description</Label>
+                                    <Label className="text-gray-500 leading-loose md:text-sm text-xs">Expand on your summary with any relevant details like your contribution timeline, key milestones, team background, and a clear breakdown of how the funds will be used. Proposals should be simple and clear (e.g. 1 month). For more complex projects, treat each milestone as a separate proposal.</Label>
                                     <Editor 
                                         value={description} 
                                         onDescriptionChange={(e) => setDescription(e)}
                                     />
                                 </div>
                                 <div className="flex flex-col gap-2 mt-16">
-                                    <Label className="font-semibold text-xl">Final Consent</Label>
+                                    <Label className="font-semibold md:text-xl text-lg">Final Consent</Label>
                                     <div className="flex flex-col gap-1 mt-2">
                                         <div className="flex flex-col gap-4">
                                             <div className="cntr flex flex-row items-center gap-2">
                                                 <Input checked={termsConsent} onChange={() => setTermsConsent(!termsConsent)} type="checkbox" id="cbx" className="hidden-xs-up"/>
                                                 <Label htmlFor="cbx" className="cbx"></Label>
-                                                <Label className="leading-relaxed">I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href={"https://aipgf.com/terms"} style={{color: "unset"}} className="no-underline hover:underline"><strong>Terms and Conditions</strong></Link> and commit to honoring it</Label>
+                                                <Label className="leading-relaxed md:text-sm text-xs">I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href={"https://aipgf.com/terms"} style={{color: "unset"}} className="no-underline hover:underline"><strong>Terms and Conditions</strong></Link> and commit to honoring it</Label>
                                             </div>
                                             <div className="cntr flex flex-row items-center gap-2">
                                                 <Input checked={codeOfConductConsent} onChange={() => setCodeOfConductConsent(!codeOfConductConsent)} type="checkbox" id="cbx1" className="hidden-xs-up"/>
                                                 <Label htmlFor="cbx1" className="cbx"></Label>
-                                                <Label className="leading-relaxed">I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href="https://aipgf.com/conduct" style={{color: "unset"}} className="no-underline hover:underline"><strong>Code of Conduct</strong></Link> and commit to honoring it</Label>
+                                                <Label className="leading-relaxed md:text-sm text-xs">I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href="https://aipgf.com/conduct" style={{color: "unset"}} className="no-underline hover:underline"><strong>Code of Conduct</strong></Link> and commit to honoring it</Label>
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex flex-row justify-between w-full md:justify-end items-center md:gap-10 mt-10 pb-[10rem]">
+                                <div className="flex flex-row justify-between w-full md:justify-end items-center md:gap-10 md:mt-10 mt-2 md:pb-[10rem] pb-[12rem]">
                                     <Button variant="outline" className="bg-transparent hover:bg-transparent border-none shadow-none cursor-pointer">
                                         <Label className="text-[#818181] font-semibold md:text-base text-sm">Discard Changes</Label>
                                     </Button>
@@ -352,27 +352,27 @@ const CreateRFP = () => {
                     <div className="md:w-[30rem] w-full">
                         <div className="flex flex-col gap-2">
                             <div className="flex flex-col gap-2 border-b-[1px] border-aipgf-geyser border-solid pb-4">
-                                <Label className="font-semibold text-xl">Submission Deadline</Label>
-                                <Label className="text-gray-500 leading-relaxed">Enter the deadline for submitting proposals.</Label>
+                                <Label className="font-semibold md:text-xl text-sm">Submission Deadline</Label>
+                                <Label className="text-gray-500 leading-relaxed md:text-sm text-xs">Enter the deadline for submitting proposals.</Label>
                                 <div className="relative">
                                     <DatePicker
                                         selected={date}
                                         onChange={(date: Date | null) => date && setDate(date)}
                                         dateFormat="MMMM d, yyyy"
-                                        className="w-full text-sm md:text-base rounded-lg px-3 py-2 outline-none border-[1px] border-aipgf-geyser border-solid font-aipgf-manrope-semibold-1356 cursor-pointer"
+                                        className="w-full text-sm rounded-lg px-3 py-2 outline-none border-[1px] border-aipgf-geyser border-solid font-aipgf-manrope-semibold-1356 cursor-pointer"
                                         placeholderText="Select a date"
                                     />
                                     <CalendarIcon className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
                                 </div>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <Label className="font-semibold text-xl">Timeline</Label>  
-                                <Label className="text-gray-500 leading-relaxed text-lg">Status</Label>
+                                <Label className="font-semibold md:text-xl text-sm">Timeline</Label>  
+                                <Label className="text-gray-500 leading-relaxed md:text-sm text-xs">Status</Label>
                                 <StatusTracker />   
                             </div>
-                            <div className="flex flex-col gap-2"> 
-                                <Label className="font-semibold text-xl">Select Proposal</Label>
-                                <Label className="text-gray-500 leading-relaxed text-xs">Add the proposal(s) you want to approve for this RFP. Only approved proposals are shown in the list.</Label>
+                            <div className="flex flex-col gap-2 mt-2 md:mt-0"> 
+                                <Label className="font-semibold md:text-xl text-sm">Select Proposal</Label>
+                                <Label className="text-gray-500 leading-relaxed md:text-sm text-xs">Add the proposal(s) you want to approve for this RFP. Only approved proposals are shown in the list.</Label>
                                 <ProposalSelector 
                                     onProposalSelect={handleProposalSelect}
                                     selectedProposals={selectedProposals}

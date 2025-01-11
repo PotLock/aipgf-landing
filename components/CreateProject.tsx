@@ -631,17 +631,17 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
     };
 
     return(
-        <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem] self-stretch font-aipgf-manrope-semibold-1356">
+        <div className="w-full max-w-[1700px] mx-auto bg-aipgf-white overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] px-5 md:px-[5rem] self-stretch font-aipgf-manrope-semibold-1356">
             <div className="flex justify-center items-center">
                 <div className="w-full">
-                    <div className="flex flex-col-reverse md:flex-row md:gap-20 justify-between py-5">
+                    <div className="flex flex-col md:flex-row md:gap-20 justify-between md:py-5 py-2">
                         <div className="flex flex-col w-full gap-7 md:mt-0 mt-5">
-                            <div className="w-full h-full gap-5 flex md:flex-col flex-row justify-start md:justify-center items-center">
+                            <div className="w-full h-full gap-5 flex flex-col justify-center items-center">
                                 <div className="flex">
                                     <AvatarProfile accountId={accountId as string} size={120} image={profileImage as string} />
-                                    <Label htmlFor="imageUpload" className="bg-white cursor-pointer">
-                                        <div className="translate-x-[-0px] translate-y-[40px] md:translate-x-[-40px] md:translate-y-[80px] md:w-[40px] w-[19px] bg-white p-2 rounded-full border-[1px] border-aipgf-geyser border-solid">
-                                            <img className="w-[19px] md:w-[22px]" src="/assets/icon/add-photo.png" alt="icon" />
+                                    <Label htmlFor="imageUpload" className="bg-transparent cursor-pointer md:block absolute">
+                                        <div className="translate-x-[80px] translate-y-[80px] md:translate-x-[80px] md:translate-y-[80px] w-[40px] w-[19px] bg-white p-2 rounded-full border-[1px] border-aipgf-geyser border-solid">
+                                            <img className="w-[19px] w-[22px]" src="/assets/icon/add-photo.png" alt="icon" />
                                         </div>
                                         <Input
                                             id="imageUpload"
@@ -654,7 +654,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 </div>
                                 <Button 
                                     variant="outline"
-                                    className="bg-transparent border-0 hover:bg-transparent shadow-none cursor-pointer"
+                                    className="bg-transparent border-0 hover:bg-transparent shadow-none cursor-pointer ml-8"
                                     onClick={() => setIsAddMemberModalOpen(true)}
                                 >
                                     <small className="relative left-[-20px] text-base font-bold">Add member</small>
@@ -663,10 +663,10 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                             <div className="cntr flex flex-row items-center gap-2">
                                 <Input type="checkbox" id="registerDao" className="hidden-xs-up" checked={isRegisterDao} onChange={(e)=>setIsRegisterDao(e.target.checked)}/>
                                 <Label htmlFor="registerDao" className="cbx"></Label>
-                                <Label className="font-semibold text-lg">Register as DAO</Label>
+                                <Label className="font-semibold md:text-lg text-sm">Register as DAO</Label>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <Label className="font-bold text-lg">{isRegisterDao?"DAO Address":"Project ID"}</Label>
+                                <Label className="font-bold md:text-lg text-sm">{isRegisterDao?"DAO Address":"Project ID"}</Label>
                                 <Input 
                                     onChange={(e)=>setDaoAddress(e.target.value)} 
                                     disabled={!isRegisterDao} 
@@ -677,7 +677,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <Label className="font-bold text-lg">Project Name <strong className="text-red-600">&#42;</strong></Label>
+                                <Label className="font-bold md:text-lg text-sm">Project Name <strong className="text-red-600">&#42;</strong></Label>
                                 <Input 
                                     type="text" 
                                     placeholder="Enter project here" 
@@ -687,14 +687,14 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <Label className="font-bold text-lg">Category &#40;select multiple&#41; <strong className="text-red-600">&#42;</strong></Label>
+                                <Label className="font-bold md:text-lg text-sm">Category &#40;select multiple&#41; <strong className="text-red-600">&#42;</strong></Label>
                                 <DropdownMenu>
                                     <DropdownMenuTrigger asChild>
                                         <div className="w-full bg-white focus:border-gray-100 shadow-sm cursor-pointer mt-2 border-[1px] border-aipgf-geyser box-border border-solid rounded-lg flex flex-row justify-between pr-2">
                                             <Input 
                                                 type="text" 
                                                 placeholder="Choose Category" 
-                                                className="w-full focus:outline-none bg-transparent outline-none border-0 shadow-none focus:border-0 focus:ring-0 font-aipgf-manrope-semibold-1356" 
+                                                className="w-full focus:outline-none bg-transparent outline-none border-0 shadow-none focus:border-0 focus:ring-0 font-aipgf-manrope-semibold-1356 md:text-lg text-sm" 
                                                 value={categories.join(', ')} 
                                                 readOnly
                                             />
@@ -705,7 +705,7 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                         {Object.values(CATEGORIES).map((category, index) => (
                                             <DropdownMenuItem 
                                                 key={index} 
-                                                className={`cursor-pointer ${categories.includes(category) ? 'bg-gray-100 bg-opacity-40' : ''}`}
+                                                className={`cursor-pointer md:text-lg text-sm ${categories.includes(category) ? 'bg-gray-100 bg-opacity-40' : ''}`}
                                                 onClick={() => handleChangeCategory(category)}
                                             >
                                                 {category}
@@ -715,19 +715,19 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 </DropdownMenu>
                             </div>
                             <div className="flex flex-col gap-2">
-                                <Label className="font-bold text-lg">Why is this project a public good? <strong className="text-red-600">&#42;</strong></Label>
+                                <Label className="font-bold md:text-lg text-sm">Why is this project a public good? <strong className="text-red-600">&#42;</strong></Label>
                                 <Textarea
-                                    className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black font-aipgf-manrope-semibold-1356"
+                                    className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black font-aipgf-manrope-semibold-1356 md:text-lg text-sm"
                                     rows={4}
                                     value={publicGoodReason}
                                     onChange={handlePublicGoodReasonChange}
                                     placeholder="Explain why your project is a public good..."
                                 />
                             </div>
-                            <div className="flex flex-col gap-2 pb-16 md:pb-10">
-                                <Label className="font-bold text-lg">Overview <strong className="text-red-600">&#42;</strong></Label>
+                            <div className="flex flex-col gap-2 pb-2 md:pb-10">
+                                <Label className="font-bold md:text-lg text-sm">Overview <strong className="text-red-600">&#42;</strong></Label>
                                 <Textarea
-                                    className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black font-aipgf-manrope-semibold-1356"
+                                    className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black font-aipgf-manrope-semibold-1356 md:text-lg text-sm"
                                     rows={6}
                                     value={description}
                                     onChange={handleDescriptionChange}
@@ -735,24 +735,23 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
-                                <Label className="font-semibold text-xl">Final Consent <strong className="text-red-600">&#42;</strong></Label>
+                                <Label className="font-semibold md:text-lg text-sm">Final Consent <strong className="text-red-600">&#42;</strong></Label>
                                 <div className="flex flex-col gap-1 mt-2">
                                     <div className="flex flex-col gap-4">
                                         <div className="cntr flex flex-row items-start gap-2">
                                             <Input type="checkbox" id="cbx" className="hidden-xs-up"/>
                                             <Label htmlFor="cbx" className="cbx"></Label>
-                                            <Label>I&#39;ve agree to AIPGF&#39;s <strong className="underline">Terms and Conditions</strong> and commit to honoring it</Label>
+                                            <Label className="md:text-lg text-sm">I&#39;ve agree to AIPGF&#39;s <strong className="underline">Terms and Conditions</strong> and commit to honoring it</Label>
                                         </div>
                                         <div className="cntr flex flex-row items-start gap-2">
                                             <Input type="checkbox" id="cbx1" className="hidden-xs-up"/>
                                             <Label htmlFor="cbx1" className="cbx"></Label>
-                                            <Label>I&#39;ve agree to AIPGF&#39;s <strong className="underline">Code of Conduct</strong> and commit to honoring it</Label>
+                                            <Label className="md:text-lg text-sm">I&#39;ve agree to AIPGF&#39;s <strong className="underline">Code of Conduct</strong> and commit to honoring it</Label>
                                         </div>
-                                        
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-row justify-between w-full md:justify-end items-center md:gap-10 mt-10 pb-20">
+                            <div className="flex flex-row justify-between w-full md:justify-end items-center md:gap-10 md:mt-10 pb-20">
                                 <Button onClick={handleCreateOrUpdateProject} className="flex md:text-base text-sm flex-row gap-2 px-5 py-3 items-center cursor-pointer rounded-full">
                                     {
                                         selectReview?(
@@ -772,9 +771,9 @@ const CreateProject = ({edit}:{edit?:boolean}) =>{
                         </div>
                         <div className="w-full md:w-[30rem] flex gap-3 flex-col"> 
                             <div className="flex flex-col border-b-[1px] border-solid border-aipgf-geyser">
-                                <Label className="text-gray-600 text-lg font-bold mt-2">Author Details</Label>
+                                <Label className="text-gray-600 text-lg font-bold md:mt-2 mt-1">Author Details</Label>
                                 <div className="flex flex-col py-3 gap-4">
-                                    <Label>Author</Label>
+                                    <Label className="md:text-lg text-sm">Author</Label>
                                     <div className="flex flex-row gap-2 items-center">
                                         <AvatarProfile accountId={accountId as string} size={40}/>
                                         <span className="text-sm font-bold">{accountId}</span>

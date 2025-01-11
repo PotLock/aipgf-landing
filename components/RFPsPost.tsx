@@ -21,6 +21,7 @@ const RFPsPost: NextPage<{ rfp?: RFPsTypes }> = ({ rfp }) => {
 
     const social = new Social({
         contractId: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"social.near":"v1.social08.testnet",
+        network: process.env.NEXT_PUBLIC_NETWORK=="mainnet"?"mainnet":"testnet"
     });
 
     useEffect(() => {
@@ -68,7 +69,7 @@ const RFPsPost: NextPage<{ rfp?: RFPsTypes }> = ({ rfp }) => {
         return (
             <Card className="w-full border-aipgf-geyser border-[1px] border-solid box-border">
                 <CardContent className="p-6">
-                    <div className="flex md:flex-row flex-col gap-2 items-end md:items-center justify-between">
+                    <div className="flex md:flex-row flex-col gap-2 items-start md:items-center justify-between">
                         <div className="flex flex-col md:flex-row md:gap-3 gap-1 flex-1">
                             <div className="flex flex-row gap-2 items-center md:items-start">
                                 <AvatarProfile accountId={rfp?.author_id} size={30} />
