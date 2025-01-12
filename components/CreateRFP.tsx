@@ -287,7 +287,6 @@ const CreateRFP = () => {
                                                 <Label htmlFor="cbx1" className="cbx"></Label>
                                                 <Label className="leading-relaxed md:text-sm text-xs">I&#39;ve agree to AIPGF&#39;s <Link target="_blank" href="https://aipgf.com/conduct" style={{color: "unset"}} className="no-underline hover:underline"><strong>Code of Conduct</strong></Link> and commit to honoring it</Label>
                                             </div>
-
                                         </div>
                                     </div>
                                 </div>
@@ -345,7 +344,6 @@ const CreateRFP = () => {
                                             </div>
                                         )}
                                     </div>
-
                                 </div>
                             </div>
                     </div>

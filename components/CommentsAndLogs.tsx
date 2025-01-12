@@ -146,66 +146,66 @@ const CommentsAndLogs = ({snapshotHistory,latestSnapshot,block_height,ts}:{snaps
         return (
             <div style={{ zIndex: 99, background: "white" }} className="md:-ml-14 mt-3 font-aipgf-manrope-semibold-1356">
                 <div className="flex gap-2 flex-1">
-                <div className="hidden md:flex">
-                    <AccountProfile accountId={accountId} size={40} />
-                </div>
-                <div
-                    style={{ border: hightlightComment ? "" : "" }}
-                    className="rounded-lg flex flex-col flex-1 border-aipgf-geyser border-[1px] border-solid box-border p-3"
-                >
-                    <div className="relative bg-white h-5">
-                        <div className="flex items-center gap-2">
-                            <Link
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            style={{color: "unset"}}
-                            className="hover:underline no-underline"
-                            href={`https://bos.potlock.org/?tab=profile&accountId=${accountId}`}
-                            >
-                            <span className="font-bold text-black">{accountId}</span>
-                            </Link>
-                            commented ･{" "}
-                            {timeAgo(ts as number)}
-                        </div>
+                    <div className="hidden md:flex">
+                        <AccountProfile accountId={accountId} size={40} />
                     </div>
-                    <div className="p-2 px-3">
-                        <Markdown
-                            options={{
-                                overrides: {
-                                    a: {
-                                        props: {
-                                            className: "text-green-600 hover:underline",
+                    <div
+                        style={{ border: hightlightComment ? "" : "" }}
+                        className="rounded-lg flex flex-col flex-1 border-aipgf-geyser border-[1px] border-solid box-border p-3"
+                    >
+                        <div className="relative bg-white h-5">
+                            <div className="flex items-center gap-2 md:text-sm text-xs">
+                                <Link
+                                    rel="noopener noreferrer"
+                                    target="_blank"
+                                    style={{color: "unset"}}
+                                    className="hover:underline no-underline"
+                                    href={`https://bos.potlock.org/?tab=profile&accountId=${accountId}`}
+                                >
+                                    <span className="font-bold text-black">{accountId}</span>
+                                </Link>
+                                commented ･{" "}
+                                {timeAgo(ts as number)}
+                            </div>
+                        </div>
+                        <div className="p-2 px-3">
+                            <Markdown
+                                options={{
+                                    overrides: {
+                                        a: {
+                                            props: {
+                                                className: "text-green-600 hover:underline md:text-sm text-xs",
+                                            },
                                         },
                                     },
-                                },
-                            }}
-                        >{comment?.content?.text}</Markdown>
-                    </div>
-                    {/* <div className="p-2 px-3">
-                        <Widget
-                            src={`${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer`}
-                            props={{
-                            text: content.text,
-                            }}
-                        />
-            
-                        <div className="d-flex gap-2 align-items-center mt-4">
-                            <Widget
-                            src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.LikeButton`}
-                            props={{
-                                item: item,
-                                notifyAccountId: accountId,
-                            }}
-                            />
-                            <Widget
-                            src={`${REPL_NEAR}/widget/CopyUrlButton`}
-                            props={{
-                                url: link,
-                            }}
-                            />
+                                }}
+                            >{comment?.content?.text}</Markdown>
                         </div>
-                    </div> */}
-                </div>
+                        {/* <div className="p-2 px-3">
+                            <Widget
+                                src={`${REPL_DEVHUB}/widget/devhub.components.molecule.MarkdownViewer`}
+                                props={{
+                                text: content.text,
+                                }}
+                            />
+                
+                            <div className="d-flex gap-2 align-items-center mt-4">
+                                <Widget
+                                src={`${REPL_DEVHUB}/widget/devhub.entity.proposal.LikeButton`}
+                                props={{
+                                    item: item,
+                                    notifyAccountId: accountId,
+                                }}
+                                />
+                                <Widget
+                                src={`${REPL_NEAR}/widget/CopyUrlButton`}
+                                props={{
+                                    url: link,
+                                }}
+                                />
+                            </div>
+                        </div> */}
+                    </div>
                 </div>
             </div>
         );

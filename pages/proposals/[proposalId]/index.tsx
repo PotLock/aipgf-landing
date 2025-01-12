@@ -360,7 +360,7 @@ const ProposalPage = () => {
     return (
         <div className="min-h-screen bg-background">
             <NavBar />
-            <main className="w-full max-w-[1700px] mx-auto relative bg-background overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] md:px-[5rem]">
+            <main className="w-full max-w-[1700px] mx-auto relative bg-background overflow-hidden gap-[4.093rem] leading-[normal] tracking-[normal] sm:gap-[1rem] mq825:gap-[2.063rem] px-[16px] md:px-[5rem]">
                 {proposal && (
                 <div className="space-y-6">
                     {/* Header Card */}
@@ -395,11 +395,11 @@ const ProposalPage = () => {
                                     </small>
                                 </button>
                                 
-                                <h1 className="text-3xl font-bold tracking-tight mb-2">
+                                <h1 className="md:text-3xl text-xl font-bold tracking-tight mb-2">
                                     {proposal?.name}
                                 </h1>
                                 
-                                <p className="text-sm text-muted-foreground">
+                                <p className="md:text-sm text-xs text-muted-foreground">
                                     <Link 
                                         href={`https://bos.potlock.org/?tab=profile&accountId=${author}`}
                                         className="hover:underline no-underline text-black font-semibold"
@@ -411,7 +411,7 @@ const ProposalPage = () => {
                             </div>
                             {
                                 accountId == author && (
-                                    <Link href={`/proposals/edit/${proposalId}`} className="text-white no-underline hover:no-underline text-sm bg-gray-100 hover:bg-gray-200/75 border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full cursor-pointer w-20">
+                                    <Link href={`/proposals/edit/${proposalId}`} className="text-white no-underline hover:no-underline md:text-sm text-xs bg-gray-100 hover:bg-gray-200/75 border-aipgf-geyser border-[1px] border-solid box-border md:p-3 p-2 text-center rounded-full cursor-pointer w-20">
                                         <span>Edit</span>
                                     </Link>
                                 )
@@ -419,23 +419,21 @@ const ProposalPage = () => {
                         </CardContent>
                     </Card>
 
-                    {/* Main Content */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Left Column - Main Content */}
                         <div className="flex flex-col gap-4 md:col-span-2 space-y-6">
                             <div className="flex flex-row gap-2 border-b-[2px] border-aipgf-geyser border-solid box-border pb-4">
-                                <div className="h-14 w-14">
-                                    <AvatarProfile accountId={author as string} size={40} style="hidden md:block" />
+                                <div className="h-14 w-14 hidden md:block">
+                                    <AvatarProfile accountId={author as string} size={40} />
                                 </div>
                                 <div className="w-full space-y-6">
                                     <Card className="border-[1px] border-solid border-aipgf-geyser rounded-lg">
                                         <CardHeader className="bg-gray-100 bg-opacity-10 rounded-t-lg px-6 py-2">
                                             <CardTitle className="flex flex-row justify-between">
                                                 <div className="flex flex-row gap-2 items-center">
-                                                    <p className="text-sm">
+                                                    <p className="md:text-sm text-xs">
                                                         <Link target="_blank" href={`https://bos.potlock.org/?tab=profile&accountId=${author}`} className="hover:underline font-semibold no-underline capitalize" style={{color: "unset"}}>{sliceAddress(author as string)}</Link> <span className="font-normal">created RFP</span>
                                                     </p>
-                                                    <p className="text-xs text-gray-500">{timeAgo(proposal?.timestamp)}</p>
+                                                    <p className="md:text-xs text-xs text-gray-500">{timeAgo(proposal?.timestamp)}</p>
                                                 </div>
                                                 <div className="flex flex-row gap-5 items-center">
                                                     <span className="text-sm text-gray-500 bg-transparent outline-none p-3 py-1 pt-1 border-[1px] border-aipgf-geyser border-solid box-border rounded-lg">Author</span>
@@ -447,8 +445,8 @@ const ProposalPage = () => {
                                         </CardHeader>
                                         <CardContent className="pt-6">
                                             {/* Categories */}
-                                            <div className="space-y-4 mb-6">
-                                                <h2 className="text-sm font-semibold border-b-[1px] border-aipgf-geyser border-solid box-border pb-2">
+                                            <div className="md:space-y-4 space-y-2 md:mb-6 mb-2">
+                                                <h2 className="md:text-sm text-xs font-semibold border-b-[1px] border-aipgf-geyser border-solid box-border pb-2">
                                                     PROPOSAL CATEGORY
                                                 </h2>
                                                 <TagProposal 
@@ -458,22 +456,33 @@ const ProposalPage = () => {
                                             </div>
 
                                             {/* Summary */}
-                                            <div className="space-y-4 mb-6">
-                                                <h2 className="text-sm font-semibold pb-2 border-b-[1px] border-aipgf-geyser border-solid box-border">
+                                            <div className="md:space-y-4 space-y-2 md:mb-6 mb-2">
+                                                <h2 className="md:text-sm text-xs font-semibold pb-2 border-b-[1px] border-aipgf-geyser border-solid box-border">
                                                     SUMMARY
                                                 </h2>
-                                                <p className="text-sm text-muted-foreground">
+                                                <p className="md:text-sm text-xs text-muted-foreground">
                                                     {proposal?.summary}
                                                 </p>
                                             </div>
 
                                             {/* Description */}
-                                            <div className="space-y-4 mb-6">
-                                                <h2 className="text-sm font-semibold pb-2 border-b-[1px] border-aipgf-geyser border-solid box-border">
+                                            <div className="md:space-y-4 space-y-2 md:mb-6 mb-2">
+                                                <h2 className="md:text-sm text-xs font-semibold pb-2 border-b-[1px] border-aipgf-geyser border-solid box-border">
                                                     DESCRIPTION
                                                 </h2>
                                                 <div className="prose max-w-none">
-                                                    <Markdown>
+                                                    <Markdown
+                                                        options={{
+                                                            overrides: {
+                                                                p: {
+                                                                    component: 'p',
+                                                                    props: {
+                                                                        className: 'md:text-sm text-xs text-muted-foreground',
+                                                                    },
+                                                                },
+                                                            },
+                                                        }}
+                                                    >
                                                     {proposal?.description}
                                                     </Markdown>
                                                 </div>
@@ -508,7 +517,9 @@ const ProposalPage = () => {
                             <div className="flex flex-col gap-4">
                                 {/* Reply Comment Section */}
                                 <div className="flex flex-row gap-3 w-full items-start relative border-b-[2px] border-aipgf-geyser border-solid box-border pb-4">
-                                    <AvatarProfile accountId={author as string} size={40} />
+                                    <div className="hidden md:block">
+                                        <AvatarProfile accountId={author as string} size={40} />
+                                    </div>
                                     <div className="w-full flex flex-col gap-2">
                                         <span className="font-semibold text-lg">Reply</span>
                                         <TiptapEditor
@@ -522,11 +533,11 @@ const ProposalPage = () => {
 
                                 {/* Submit Proposal Section */}
                                 <div className="border-[1px] border-solid border-aipgf-geyser rounded-lg bg-[#0969DA1A] bg-opacity-10">
-                                    <div className="px-8 ml-5">
+                                    <div className="md:px-8 px-4 md:ml-5 ">
                                         <div className="flex items-center justify-between">
-                                            <h3 className="text-lg font-semibold max-w-[400px]">Want to respond to this RFP? <span className="font-normal">This RFP is accepting submissions.</span></h3>
+                                            <h3 className="md:text-lg text-sm font-semibold max-w-[400px]">Want to respond to this RFP? <span className="font-normal">This RFP is accepting submissions.</span></h3>
                                             <Button 
-                                                className="bg-blue-500 hover:bg-blue-600 text-white flex flex-row gap-2 items-center px-4 py-5 rounded-xl"
+                                                className="bg-blue-500 hover:bg-blue-600 text-white flex flex-row gap-2 items-center px-4 py-5 rounded-xl md:text-sm text-xs"
                                                 onClick={() => router.push(`/proposals/create?rfpId=${proposalId}`)}
                                             >
                                                 <Plus color="white" className="w-4 h-4" /> Submit Proposal
@@ -538,7 +549,7 @@ const ProposalPage = () => {
                         </div>
 
                         {/* Right Column - Sidebar */}
-                        <div className="px-4 md:w-96 md:min-w-96 rounded-lg shadow-sm space-y-4">
+                        <div className="md:px-4 md:w-96 md:min-w-96 rounded-lg shadow-sm space-y-4 md:pb-0 pb-10">
                             <div className="border-b-[1px] border-aipgf-geyser border-solid box-border pb-4">
                                 <h2 className="text-lg font-semibold">Author</h2>
                                 <div className="flex items-center space-x-2 mt-1">

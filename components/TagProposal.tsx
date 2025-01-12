@@ -29,7 +29,7 @@ const TagProposal: FC<TagProposalProps> = ({ label, onSelect, labels }) => {
     <div className="w-full">
       <DropdownMenu>
         <DropdownMenuTrigger 
-          className="w-full flex items-center justify-between p-4 rounded-xl border-[1px] border-aipgf-geyser border-solid hover:border-aipgf-geyser transition-colors bg-white"
+          className="w-full flex items-center justify-between md:p-4 p-2 px-3 md:px-0 rounded-xl border-[1px] border-aipgf-geyser border-solid hover:border-aipgf-geyser transition-colors bg-white"
         >
           <div className="flex items-center gap-3">
             {IconComponent && (
@@ -41,8 +41,8 @@ const TagProposal: FC<TagProposalProps> = ({ label, onSelect, labels }) => {
               />
             )}
             <div className="flex flex-col text-start gap-0.5">
-              <span className="text-[15px] font-medium text-[#111827]">{label}</span>
-              <span className="text-[13px] text-[#6B7280] leading-tight">
+              <span className="md:text-[15px] text-[13px] font-medium text-[#111827]">{label}</span>
+              <span className="md:text-[13px] text-[11px] text-[#6B7280] leading-tight">
                 {labelIcons[label]?.description}
               </span>
             </div>

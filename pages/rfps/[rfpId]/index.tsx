@@ -194,15 +194,15 @@ const RFPsDetail: NextPage = () => {
                             <div className="flex flex-col-reverse md:flex-row gap-4 w-full justify-between mt-12">
                                 <div className="flex flex-col gap-4 md:col-span-2 space-y-6 w-full">
                                     <div className="flex flex-row gap-2 border-b-[2px] border-aipgf-geyser border-solid box-border pb-4">
-                                        <div className="h-14 w-14">
-                                        <AvatarProfile accountId={authorId as string} size={40} style="hidden md:block" />
-                                    </div>
+                                        <div className="h-14 w-14 md:block hidden">
+                                            <AvatarProfile accountId={authorId as string} size={40} />
+                                        </div>
                                     <div className="w-full space-y-6">
                                         <Card className="border-[1px] border-solid border-aipgf-geyser rounded-lg">
                                             <CardHeader className="bg-gray-100 bg-opacity-10 rounded-t-lg px-6 py-2">
                                                 <CardTitle className="flex flex-row justify-between">
                                                     <div className="flex flex-row gap-2 items-center">
-                                                        <p className="text-sm">
+                                                        <p className="md:text-sm text-xs">
                                                             <Link target="_blank" href={`https://bos.potlock.org/?tab=profile&accountId=${authorId}`} className="hover:underline font-semibold no-underline capitalize" style={{color: "unset"}}>{sliceAddress(authorId as string)}</Link> <span className="font-normal">created RFP</span>
                                                         </p>
                                                         <p className="text-xs text-gray-500">{timeAgo(rfp?.timestamp)}</p>
@@ -232,7 +232,7 @@ const RFPsDetail: NextPage = () => {
                                                     <h2 className="text-sm font-semibold pb-2 border-b-[1px] border-aipgf-geyser border-solid box-border">
                                                         SUMMARY
                                                     </h2>
-                                                    <p className="text-sm text-muted-foreground">
+                                                    <p className="md:text-sm text-xs text-muted-foreground">
                                                         {rfp?.summary}
                                                     </p>
                                                 </div>
@@ -243,7 +243,16 @@ const RFPsDetail: NextPage = () => {
                                                         DESCRIPTION
                                                     </h2>
                                                     <div className="prose max-w-none">
-                                                        <Markdown>
+                                                        <Markdown options={{
+                                                            overrides: {
+                                                                p: {
+                                                                    component: 'p',
+                                                                    props: {
+                                                                        className: 'md:text-sm text-xs text-muted-foreground',
+                                                                    },
+                                                                },
+                                                            },
+                                                        }}>
                                                         {rfp?.description}
                                                         </Markdown>
                                                     </div>
@@ -289,7 +298,9 @@ const RFPsDetail: NextPage = () => {
                                     <div className="flex flex-col gap-4">
                                         {/* Reply Comment Section */}
                                         <div className="flex flex-row gap-3 w-full items-start relative border-b-[2px] border-aipgf-geyser border-solid box-border pb-4">
-                                            <AvatarProfile accountId={authorId as string} size={40} />
+                                            <div className="md:block hidden">
+                                                <AvatarProfile accountId={authorId as string} size={40} />
+                                            </div>
                                             <div className="w-full flex flex-col gap-2">
                                                 <span className="font-semibold text-lg">Reply</span>
                                                 <TiptapEditor
@@ -307,10 +318,10 @@ const RFPsDetail: NextPage = () => {
 
                                         {/* Submit Proposal Section */}
                                         <div className="border-[1px] border-solid border-aipgf-geyser rounded-lg bg-[#0969DA1A] bg-opacity-10">
-                                            <div className="px-8 ml-5">
+                                            <div className="md:px-8 px-4 md:ml-5">
                                                 <div className="flex items-center justify-between">
-                                                    <h3 className="text-lg font-semibold max-w-[400px]">Want to respond to this RFP? <span className="font-normal">This RFP is accepting submissions.</span></h3>
-                                                    <Button asChild variant="default" className="bg-blue-500 hover:bg-blue-600/75 border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full cursor-pointer w-40">
+                                                    <h3 className="md:text-lg text-sm font-semibold max-w-[400px]">Want to respond to this RFP? <span className="font-normal">This RFP is accepting submissions.</span></h3>
+                                                    <Button asChild variant="default" className="bg-blue-500 hover:bg-blue-600/75 border-aipgf-geyser border-[1px] border-solid box-border p-3 text-center rounded-full cursor-pointer w-40 md:text-sm text-xs">
                                                         <Link href="/proposals/create-proposal" className="no-underline flex flex-row gap-2 items-center">
                                                             <Plus color="white" className="w-4 h-4" />
                                                             Submit Proposal
@@ -322,7 +333,7 @@ const RFPsDetail: NextPage = () => {
                                     </div>
                                 </div>
 
-                                <div className="px-4 md:w-96 md:min-w-96 rounded-lg shadow-sm">
+                                <div className="md:px-4 md:w-96 md:min-w-96 rounded-lg shadow-sm md:pb-0 pb-10">
                                     <div className="border-b-[1px] border-aipgf-geyser border-solid box-border pb-4">
                                         <h2 className="text-lg font-semibold">Submission Deadline</h2>
                                         <span className="font-bold">{readableDate(Number(rfp?.submission_deadline)/1000000)}</span>

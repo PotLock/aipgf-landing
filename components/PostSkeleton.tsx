@@ -8,7 +8,7 @@ const ProposalPostSkeleton: NextPage = () => {
           key={index}
           className="w-full border-aipgf-geyser border-[1px] border-solid box-border md:h-52 rounded-lg shadow-sm p-3 md:p-5 bg-white"
         >
-          <div className="flex md:flex-row flex-col gap-3 items-end md:items-center justify-between">
+          <div className="flex md:flex-row flex-col gap-3 items-start md:items-center justify-between">
             <div className="flex flex-col md:flex-row md:gap-3 gap-1">
               <div className="flex flex-row gap-2 items-center md:items-start">
                 {/* Avatar skeleton */}
