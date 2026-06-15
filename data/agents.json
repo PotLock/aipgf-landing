@@ -7,7 +7,8 @@
     "tags": ["NEAR", "On-Chain", "Open-Source", "Team Built", "Live"],
     "github": "https://github.com/PotLock/potlock-agent-mintbase",
     "team": "Potlock",
-    "order": 1
+    "order": 1,
+    "deprecated": true
   },
   {
     "name": "Eligibility Check Agent",
@@ -27,7 +28,8 @@
     "github": "",
     "tags": ["NEAR", "On-Chain", "Chatbot", "Open-Source", "Team Built"],
     "team": "Potlock",
-    "order": 3
+    "order": 3,
+    "deprecated": true
   },
   {
       "name": "Budgetoor",
@@ -67,7 +69,8 @@
       "tags": ["EVM", "On-Chain", "Open-Source", "Live"],
       "github": "https://github.com/agentcoinorg/fundpublicgoods",
       "team": "AgentCoin",
-      "order": 6
+      "order": 6,
+      "deprecated": true
     },
     {
       "name": "Checker",
@@ -77,7 +80,8 @@
       "github": "https://github.com/gitcoinco/gitcoin-checker",
       "tags": ["EVM", "On-Chain", "Open-Source", "Live"],
       "team": "Gitcoin",
-      "order": 7
+      "order": 7,
+      "deprecated": true
     },
     {
       "name": "AI Delegate",
@@ -107,6 +111,7 @@
       "url": "https://t.me/@x23ai_bot",
       "tags": ["EVM", "On-Chain", "Live"],
       "team": "x23.ai",
-      "order": 9
+      "order": 9,
+      "deprecated": true
     }
 ]

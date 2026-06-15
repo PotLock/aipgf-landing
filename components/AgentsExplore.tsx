@@ -10,6 +10,7 @@ export interface AgentData {
   team: string;
   order: number;
   github?: string;
+  deprecated?: boolean;
 }
 
 export interface AgentsExploreProps {
@@ -33,6 +34,7 @@ const AgentsExplore: NextPage<AgentsExploreProps> = ({ agents, className = "" })
               description={data.description}
               tags={data.tags}
               github={data.github}
+              deprecated={data.deprecated}
             />
           ))}
         </div>

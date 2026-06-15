@@ -6,6 +6,8 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Script from "next/script";
 
 import "./global.css";
+import ClientOnlyComponent from "../components/ClientOnlyComponent";
+import DeprecationNotice from "../components/deprecation-notice";
 
 export default function MyApp(props: AppProps) {
   const { Component, pageProps } = props;
@@ -47,6 +49,9 @@ export default function MyApp(props: AppProps) {
       <ThemeProvider theme={muiTheme}>
         {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
         <CssBaseline />
+        <ClientOnlyComponent>
+          <DeprecationNotice />
+        </ClientOnlyComponent>
         <Component {...pageProps} />
       </ThemeProvider>
     </Fragment>
