@@ -29,13 +29,13 @@ const logos: LogoInfo[] = [
     src: "/viaprizegraytransparent.png",
     alt: "Viaprize Logo",
     href: "https://viaprize.org",
-    visible: true,
+    visible: false,
   },
   {
     src: "/lottopgf.svg",
     alt: "LottoPGF Logo",
     href: "https://lottopgf.org",
-    visible: true,
+    visible: false,
   },
   {
     src: "/white-logo56effa5f-1@2x.png",
