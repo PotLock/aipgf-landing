@@ -15,17 +15,20 @@ interface CardData {
   customIcon?: boolean;
 }
 
+const POTLOCK_URL = "https://potlock.org";
+const POTLOCK_X_URL = "https://x.com/potlock_";
+
 const cardData: CardData[] = [
   {
     title: "Funding Innovation Community",
-    buttonText: "Join",
-    buttonLink: "https://t.me/+uG4R0N5SuP03MWEx",
+    buttonText: "Follow",
+    buttonLink: POTLOCK_X_URL,
     iconSrc: "/InnovativeIcon.svg",
   },
   {
     title: "Proactive Grants Program",
     buttonText: "Get Funded",
-    buttonLink: "https://forum.aipgf.com",
+    buttonLink: POTLOCK_URL,
     iconSrc: "/GrantsProgram.svg",
     customIcon: true,
   },
@@ -36,11 +39,10 @@ const cardData: CardData[] = [
     iconSrc: "/FundingAGI.svg",
   },
   {
-    title: "Grant Agent Portal + Playground",
+    title: "Create Your Own Open Funding Stack",
     buttonText: "Explore",
-    buttonLink: "https://aipgf.com",
+    buttonLink: POTLOCK_URL,
     iconSrc: "/GrantAgentPortal.svg",
-    soon: true,
   },
 ];
 
@@ -48,7 +50,7 @@ const HeroFundingCards: NextPage<HeroFundingCardsType> = ({
   className = "",
 }) => {
   const onButtonClick = useCallback((link: string) => {
-    window.open(link);
+    window.open(link, "_blank", "noopener,noreferrer");
   }, []);
 
   return (

@@ -41,28 +41,11 @@ aipgf-landing/
 │   └── ...
 ├── public/
 │   └── ...
-├── lib/
-│   └── ...
-├── .env.example
 ├── .gitignore
 ├── package.json
 ├── tsconfig.json
 └── README.md
 ```
-
-## Adding Your Own API Keys
-
-1. Go to [OpenAI](https://platform.openai.com/account/api-keys).
-2. Create a new key.
-3. Create an `.env` file by making a copy of `.env.example`.
-4. Add the OpenAI key to the `.env` file.
-
-To get a Telegram API key:
-1. Open Telegram and search for the [BotFather](https://t.me/BotFather) bot.
-2. Start a chat with BotFather and send the command "/newbot".
-3. Follow the prompts to create a new bot.
-4. Once created, BotFather will provide you with an API token.
-5. Copy this token and add it to your `.env` file as `NEXT_PUBLIC_TELEGRAM_BOT`.
 
 ## Contributing Guidelines
 
@@ -77,13 +60,9 @@ Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before contributing.
 
 ## Resources
 
-- [AI-PGF Explained](https://aipgf.com/explained)
-- [AI-PGF Twitter](https://x.com/ai_pgf)
-- [AI-PGF Forum](https://forum.aipgf.com/)
-- [AI-PGF BOS Repository](https://github.com/potlock/aipgf-bos)
-- [AI-PGF Contract](https://github.com/potlock/aipgf)
-- [AI-PGF Telegram](https://aipgf.com/telegram)
-- [AI-PGF Eligibility Agent](https://github.com/PotLock/AI-PGF-telegram-bot) and [Bot](https://t.me/aipgfbot)
+- [POTLOCK](https://potlock.org)
+- [POTLOCK on X](https://x.com/potlock_)
+- [AI-PGF BOS Repository](https://github.com/potlock/aipgf-bos) (archived)
 
 ## License
 

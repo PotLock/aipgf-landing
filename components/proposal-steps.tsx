@@ -101,8 +101,13 @@ const ProposalSteps: NextPage<ProposalStepsType> = ({
               </span>
             </a>
             <span>
-              . Make sure to join the community telegram to get feedback
+              . Follow{" "}
+              <a className="text-[inherit]" href="https://x.com/potlock_" target="_blank" rel="noopener noreferrer">
+                <span className="[text-decoration:underline]">@potlock_</span>
+              </a>{" "}
+              on X for POTLOCK updates.
             </span>
+            {/* . Make sure to join the community telegram to get feedback */}
           </div>
         </div>
       </div>

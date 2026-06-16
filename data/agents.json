@@ -10,16 +10,17 @@
     "order": 1,
     "deprecated": true
   },
-  {
-    "name": "Eligibility Check Agent",
-    "icon": "ProjectRecommend.svg",
-    "description": "Telegram bot that verifies project eligibility for funding for the AI-PGF Program.",
-    "url": "https://t.me/aipgfbot",
-    "tags": ["Open-Source", "Team Built", "Live"],
-    "github": "https://github.com/PotLock/AI-PGF-telegram-bot",
-    "team": "Potlock",
-    "order": 2
-  },
+    {
+      "name": "Eligibility Check Agent",
+      "icon": "ProjectRecommend.svg",
+      "description": "Telegram bot that verified project eligibility for the AI-PGF Program (deprecated).",
+      "url": "https://t.me/aipgfbot",
+      "tags": ["Open-Source", "Team Built", "Live"],
+      "github": "https://github.com/PotLock/AI-PGF-telegram-bot",
+      "team": "Potlock",
+      "order": 2,
+      "deprecated": true
+    },
   {
     "name": "Funding AI",
     "icon": "money-withdrawal-svgrepo-com.svg",

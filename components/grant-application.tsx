@@ -21,15 +21,25 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
         <div className="relative text-[1rem] leading-[1.5rem] inline-block max-w-full font-aipgf-manrope-semibold-1356">
           <span>{` Look at existing ideas that we are funding `}</span>
           <h2 className="m-0 self-stretch relative text-[1.25rem] leading-[1.875rem] font-normal font-aipgf-manrope-semibold-1356 sm:text-[1rem] sm:leading-[1.5rem]">
-            {`Browse the RFPs, and `}
+            {`Browse archived ideas on `}
             <a
               className="text-[inherit]"
               href="https://potlock.notion.site/Ai-PGF-Ideas-19544cbfa45949c082811e3bff206455"
               target="_blank"
+              rel="noopener noreferrer"
             >
-              <span className="[text-decoration:underline]">ideas</span>
-            </a>{" "}
-            list .
+              <span className="[text-decoration:underline]">Potlock Notion</span>
+            </a>
+            {`. AI-PGF grant funding has moved to `}
+            <a
+              className="text-[inherit]"
+              href="https://potlock.org"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="[text-decoration:underline]">potlock.org</span>
+            </a>
+            .
           </h2>
         </div>
       ),
@@ -50,8 +60,18 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
             </span>
           </a>
           <span>
-            . Make sure to join the community telegram to get feedback
+            . Follow{" "}
+            <a
+              className="text-[inherit]"
+              href="https://x.com/potlock_"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="[text-decoration:underline]">@potlock_</span>
+            </a>{" "}
+            on X for POTLOCK updates.
           </span>
+          {/* . Make sure to join the community telegram to get feedback */}
         </div>
       ),
     },
@@ -60,8 +80,31 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
       title: "Get Feedback",
       description: (
         <div className="relative text-[1rem] leading-[1.5rem] font-aipgf-manrope-semibold-1356">
-          <span>{`Draft your proposal with this `}</span>
+          <span>{`Get feedback from the POTLOCK community on `}</span>
           <a
+            className="text-[inherit]"
+            href="https://x.com/potlock_"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>
+              <span className="[text-decoration:underline]">X</span>
+            </span>
+          </a>
+          <span>
+            {" "}
+            or{" "}
+            <a
+              className="text-[inherit]"
+              href="https://youtube.com/@potlock"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span className="[text-decoration:underline]">YouTube</span>
+            </a>
+            .
+          </span>
+          {/* <a
             className="text-[inherit]"
             href={"https://t.me/+uG4R0N5SuP03MWEx"}
             target="_blank"
@@ -72,7 +115,7 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
           </a>
           <span>
             . Make sure to join the community telegram to get feedback
-          </span>
+          </span> */}
         </div>
       ),
     },
@@ -82,9 +125,19 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
       description: (
         <div className="relative text-[1rem] leading-[1.5rem] inline-block max-w-full font-aipgf-manrope-semibold-1356">
           <span>
-            {`Create an on chain profile on NEAR and submit your proposal through the AI-PGF `}
+            {`Create an on chain profile on NEAR and explore funding through `}
           </span>
           <a
+            className="text-[inherit]"
+            href="https://potlock.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>
+              <span className="[text-decoration:underline]">POTLOCK</span>
+            </span>
+          </a>
+          {/* <a
             className="text-[inherit]"
             href="https://forum.aipgf.com"
             target="_blank"
@@ -92,8 +145,8 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
             <span>
               <span className="[text-decoration:underline]">Forum</span>
             </span>
-          </a>
-          <span>. Wait for feedback if revisions are needed.</span>
+          </a> */}
+          <span>. The AI-PGF forum is no longer active.</span>
         </div>
       ),
     },
@@ -102,7 +155,20 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
       title: "KYC & Payouts",
       description: (
         <div className="relative text-[1rem] leading-[1.5rem] inline-block max-w-full font-aipgf-manrope-semibold-1356">
+          <span>
+            Grant payouts and KYC for AI-PGF are deprecated. Visit{" "}
+          </span>
           <a
+            className="text-[inherit]"
+            href="https://potlock.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>
+              <span className="[text-decoration:underline]">potlock.org</span>
+            </span>
+          </a>
+          {/* <a
             className="text-[inherit]"
             href="https://aipgf.com/kyc"
             target="_blank"
@@ -110,12 +176,8 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
             <span>
               <span className="[text-decoration:underline]">KYC</span>
             </span>
-          </a>
-          <span>
-            {" "}
-            and get paid half you payment upfront and the other half upon
-            completion. Report your milestone on same submission
-          </span>
+          </a> */}
+          <span> for current open funding tools.</span>
         </div>
       ),
     },
@@ -133,12 +195,12 @@ const GrantApplication: NextPage<GrantApplicationType> = ({
                 Apply for Grant
               </h1>
               <h3 className="m-0 w-[41.938rem] relative text-[1.125rem] font-normal font-[inherit] text-aipgf-shark inline-block shrink-0 max-w-full">
-                Building at the intersection of funding, Web3, and AI? Apply for
-                a grant through our on-chain portal to build open source today!
+                AI-PGF grants are deprecated. Get funding or launch your own
+                open funding stack through POTLOCK.
               </h3>
-              <Link target="_blank" href={"https://potlock.notion.site/a246c8d932ff46f69b49dcd4144e1188?v=6110401a3e1e49a1a59fb3b359e07a4e&pvs=74"}>
+              <Link target="_blank" href="https://potlock.org" rel="noopener noreferrer">
                 <Button1
-                  button="Apply Now"
+                  button="Visit Potlock"
                   propHeight="4.25rem"
                   propWidth="9.75rem"
                   buttonFlex="unset"

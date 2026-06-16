@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import ClientSideLink from "./ClientSideLink";
 
 export type buildcta = {
   className?: string;
@@ -35,12 +34,22 @@ const Container1: NextPage<buildcta> = ({ className = "" }) => {
             Still have questions?
           </h1>
           <h3 className="m-0 self-stretch relative text-[1.125rem] leading-[1.75rem] font-normal font-[inherit] text-transparent !bg-clip-text [background:linear-gradient(#f6f8fa,_#f6f8fa),_linear-gradient(#f6f8fa,_#f6f8fa),_#f6f8fa] [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-            Can’t find the answer you’re looking for? Join our Telegram Chat
+            Can&apos;t find the answer you&apos;re looking for? Follow POTLOCK on{" "}
+            <a href="https://x.com/potlock_" target="_blank" rel="noopener noreferrer" className="underline text-aipgf-white">
+              X
+            </a>{" "}
+            or{" "}
+            <a href="https://youtube.com/@potlock" target="_blank" rel="noopener noreferrer" className="underline text-aipgf-white">
+              YouTube
+            </a>
+            .
           </h3>
         </div>
         <div className="w-[48rem] h-[2.75rem] flex flex-row items-start justify-center py-[0rem] px-[1.25rem] box-border max-w-full">
-          <ClientSideLink
-            href="https://t.me/+uG4R0N5SuP03MWEx"
+          <a
+            href="https://potlock.org"
+            target="_blank"
+            rel="noopener noreferrer"
             className="self-stretch w-[8.438rem] cursor-pointer hover:opacity-50 transition-all ease-in-out duration-400 inline-flex items-center justify-center"
             style={{
               textTransform: "none",
@@ -57,15 +66,8 @@ const Container1: NextPage<buildcta> = ({ className = "" }) => {
               textDecoration: "none",
             }}
           >
-            <img
-              width="20px"
-              height="20px"
-              src="/TelegramLogo.svg"
-              style={{ marginRight: '0.5rem' }}
-              alt="Telegram Logo"
-            />
-            Join Now
-          </ClientSideLink>
+            Visit Potlock
+          </a>
         </div>
       </div>
     </div>

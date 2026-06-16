@@ -25,15 +25,15 @@ const NavBar: NextPage<NavBarType> = ({ className = "" }) => {
           </div>
         </div>
         <nav className="m-0 w-[21.938rem] flex flex-row items-start justify-start gap-[1.312rem] max-w-full text-left text-[0.963rem] text-communityintercomcom-black-pearl font-aipgf-manrope-semibold-1356 sm:hidden">
-          <a
+          {/* <a
             target="_blank"
             href="https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=proposals"
             className="[text-decoration:none] cursor-pointer relative leading-[2rem] text-[inherit] inline-block min-w-[4.438rem]"
           >
             Proposals
-          </a>
+          </a> */}
           <nav className="m-0 flex-1 flex flex-row items-start justify-between gap-[1.25rem] text-left text-[0.963rem] text-communityintercomcom-black-pearl font-aipgf-manrope-semibold-1356">
-            <div className="flex flex-col items-start justify-start py-[0rem] pl-[0rem] pr-[0.25rem]">
+            {/* <div className="flex flex-col items-start justify-start py-[0rem] pl-[0rem] pr-[0.25rem]">
               <a
                 href="https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=rfps"
                 target="_blank"
@@ -41,7 +41,7 @@ const NavBar: NextPage<NavBarType> = ({ className = "" }) => {
               >
                 RFPs
               </a>
-            </div>
+            </div> */}
             <a
               href="/explore"
               // target="_blank"

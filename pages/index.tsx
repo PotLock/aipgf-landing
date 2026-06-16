@@ -4,7 +4,7 @@ import FrameComponent1 from "../components/frame-component1";
 import CompanyLogo from "../components/company-logo";
 import HeroFundingCards from "../components/HeroFundingCards";
 import FeatureCards from "../components/feature-cards";
-import HeroProposals from "../components/HeroProposals";
+// import HeroProposals from "../components/HeroProposals";
 import GrantApplication from "../components/grant-application";
 import AgentsExplore from "../components/AgentsExplore";
 import HeroFAQs from "../components/HeroFAQs";
@@ -29,9 +29,17 @@ const Homepage: NextPage = () => {
               </h1>
               <div className="w-[40.313rem] flex flex-col items-start justify-start pt-[0.062rem] px-[0rem] pb-[0rem] box-border max-w-full text-[1.125rem]">
                 <h3 className="m-0 self-stretch relative text-inherit font-normal font-[inherit]">
-                  we're redefining grant funding by leveraging AI to streamline
-                  workflows, reduce overhead, and ensure promising projects
-                  receive timely support.
+                  AI-PGF was a proactive grants program for AI-powered public goods
+                  funding. The program is deprecated — visit{" "}
+                  <a
+                    href="https://potlock.org"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-inherit underline"
+                  >
+                    potlock.org
+                  </a>{" "}
+                  for the open funding stack.
                 </h3>
               </div>
             </div>
@@ -39,7 +47,7 @@ const Homepage: NextPage = () => {
           <HeroFundingCards />
           {/* <FeatureCards /> */}
         </section>
-        <HeroProposals />
+        {/* <HeroProposals /> */}
         <GrantApplication />
         <FundingAgents/>
         <HeroFAQs />

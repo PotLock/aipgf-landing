@@ -33,15 +33,15 @@ const Container1: NextPage<buildcta> = ({ className = "" }) => {
         </div>
         <div className="w-[48rem] flex flex-col items-start justify-start gap-[0.5rem] max-w-full">
           <h1 className="m-0 self-stretch relative text-inherit leading-[1.875rem] font-bold font-[inherit] sm:text-[1.188rem] sm:leading-[1.5rem]">
-            Build today
+            Open funding with POTLOCK
           </h1>
           <h3 className="m-0 self-stretch relative text-[1.125rem] leading-[1.75rem] font-normal font-[inherit] text-transparent !bg-clip-text [background:linear-gradient(#f6f8fa,_#f6f8fa),_linear-gradient(#f6f8fa,_#f6f8fa),_#f6f8fa] [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-            Want to build out your own AI-PGF agent? Get support from our ecosystemt today!
+            Create your own open funding stack or get funding through POTLOCK.
           </h3>
         </div>
         <div className="w-[48rem] h-[2.75rem] flex flex-row items-start justify-center py-[0rem] px-[1.25rem] box-border max-w-full">
           <a
-            href="https://t.me/+uG4R0N5SuP03MWEx"
+            href="https://potlock.org"
             target="_blank"
             rel="noopener noreferrer"
             className="self-stretch w-[8.438rem] cursor-pointer hover:opacity-50 transition-all ease-in-out duration-400 inline-flex items-center justify-center"
@@ -57,17 +57,10 @@ const Container1: NextPage<buildcta> = ({ className = "" }) => {
               display: "inline-flex",
               alignItems: "center",
               justifyContent: "center",
-              textDecoration: "none", // Remove underline
+              textDecoration: "none",
             }}
           >
-            <img
-              width="20px"
-              height="20px"
-              src="/TelegramLogo.svg"
-              style={{ marginRight: '0.5rem' }}
-              alt="Telegram Logo"
-            />
-            Build
+            Visit Potlock
           </a>
         </div>
       </div>

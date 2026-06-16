@@ -8,7 +8,7 @@ export type FeatureCardsType = {
 
 const FeatureCards: NextPage<FeatureCardsType> = ({ className = "" }) => {
   const onButtonClick = useCallback(() => {
-    window.open("https://forum.aipgf.com");
+    window.open("https://potlock.org", "_blank", "noopener,noreferrer");
   }, []);
 
   const onButtonContainerClick = useCallback(() => {

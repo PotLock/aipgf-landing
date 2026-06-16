@@ -12,22 +12,22 @@
     },
     {
       "source": "/forum",
-      "destination": "https://gov.aipgf.com",
+      "destination": "https://potlock.org",
       "permanent": true
     },
     {
       "source": "/gov",
-      "destination": "https://gov.aipgf.com",
+      "destination": "https://potlock.org",
       "permanent": true
     },
     {
       "source": "/proposals",
-      "destination": "https://gov.aipgf.com/bos.forum.potlock.near/widget/app?page=proposals",
+      "destination": "https://potlock.org",
       "permanent": true
     },
     {
       "source": "/rfps",
-      "destination": "https://gov.aipgf.com/bos.forum.potlock.near/widget/app?page=rfps",
+      "destination": "https://potlock.org",
       "permanent": true
     },
     {
@@ -218,12 +218,12 @@
     },
     {
       "source": "/telegram",
-      "destination": "https://t.me/+DxtNHuN0mL5jN2Jh",
+      "destination": "https://x.com/potlock_",
       "permanent": true
     },
     {
       "source": "/potlock-telegram",
-      "destination": "https://t.me/+kZVNdJw7BHFkOTcx",
+      "destination": "https://x.com/potlock_",
       "permanent": true
     },
     {
@@ -238,7 +238,7 @@
     },
     {
       "source": "/copygiving-rfp",
-      "destination": "https://forum.aipgf.com/bos.forum.potlock.near/widget/app?page=rfp&id=0",
+      "destination": "https://potlock.org",
       "permanent": true
     },
     {
@@ -273,7 +273,7 @@
     },
     {
       "source": "/tgbot",
-      "destination": "https://t.me/aipgfbot",
+      "destination": "https://x.com/potlock_",
       "permanent": true
     },
     {

@@ -36,7 +36,7 @@ const HeroFAQs: NextPage<HeroFAQsType> = ({ className = "" }) => {
     {
       title: "Where can I get feedback for my proposal?",
       description:
-        "Join our community forum to share your proposal and receive constructive feedback from our team and fellow builders. This is a great opportunity to refine your idea and increase its chances of being funded. We reccomend doing this before posting on chain",
+        "AI-PGF proposals are no longer accepted. Visit potlock.org for current open funding tools and community resources.",
     },
     {
       title: "Where can I get ideas to build?",
